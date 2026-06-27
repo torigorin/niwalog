@@ -61,14 +61,14 @@
 
   /* state card (flat / unified layout) */
   .state-card{margin-bottom:14px; border-radius:var(--r); padding:16px 18px 14px; color:#fff; position:relative; overflow:hidden;}
-  .state-card .ch-phase-badge{position:absolute; top:14px; right:14px; font-size:10.5px; font-weight:700; background:rgba(255,255,255,.22); border-radius:999px; padding:3px 10px; letter-spacing:.03em;}
+  .state-card .ch-phase-badge{font-size:10.5px; font-weight:700; background:transparent; border:1.5px solid rgba(255,255,255,.65); border-radius:999px; padding:3px 10px; letter-spacing:.03em; align-self:center; white-space:nowrap; flex-shrink:0; order:-1; margin-right:6px;}
   .state-card .ch-phase{display:none;}
-  .state-card .ch-name{font-size:26px; font-weight:800; line-height:1.1; display:flex; align-items:baseline; gap:8px; flex-wrap:wrap;}
+  .state-card .ch-name{font-size:26px; font-weight:800; line-height:1.1; display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; padding-right:58px;}
   .state-card .ch-age{font-size:15px; font-weight:600; opacity:.9;}
   .state-card .sex-badge{font-size:14px; font-weight:700; opacity:.8; flex-shrink:0;}
   .state-card .ch-weight{font-size:12px; font-weight:600; opacity:.78; margin-top:4px;}
   .state-card .ch-weight strong{font-weight:800; opacity:1;}
-  .state-card .ch-div{height:1px; background:rgba(255,255,255,.22); margin:10px 0 9px;}
+  .state-card .ch-div{height:1px; background:rgba(255,255,255,.22); margin:13px 0 10px;}
   .state-card .stagrow{display:flex; flex-wrap:wrap; gap:7px;}
   .state-card .stag{display:inline-flex; align-items:center; gap:5px; background:rgba(255,255,255,.18); border-radius:var(--r-pill); padding:5px 11px;}
   .state-card .stag .sl{font-size:11px; font-weight:600; opacity:.80;}
@@ -80,10 +80,14 @@
   .state-card .scap.ghost{background:rgba(255,255,255,.10); color:rgba(255,255,255,.72); border:1.5px solid rgba(255,255,255,.22);}
   .state-card .scap.done{background:rgba(255,255,255,.95); color:var(--ink); font-weight:700; border:none; box-shadow:0 2px 8px rgba(0,0,0,.10);}
   .state-card .meta{display:none;}
+  .card-pet-photo{position:absolute; top:13px; right:14px; width:46px; height:46px; border-radius:50%; overflow:hidden; border:2.5px solid rgba(255,255,255,.55); background:rgba(255,255,255,.18); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .card-pet-photo img{width:100%; height:100%; object-fit:cover; display:block;}
+  .card-pet-photo .ph-ic{font-size:22px; opacity:.6;}
   .state-card .ph .sc-av{width:20px; height:20px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; background-size:cover; background-position:center; margin-right:4px; vertical-align:middle;}
   .state-card .scap:active{transform:scale(.97);}
   .state-card .scap.egg{display:flex; flex-direction:row; align-items:center; justify-content:center; gap:6px; padding:11px 6px;}
-  .scap-egg{width:13px; height:16px; border:2px solid var(--rust); background:transparent; border-radius:50% 50% 50% 50%/60% 60% 40% 40%;}
+  .scap-egg{width:13px; height:16px; border:2px solid rgba(255,255,255,.8); background:transparent; border-radius:50% 50% 50% 50%/60% 60% 40% 40%;}
+  .state-card .scap.done .scap-egg{border-color:#fff;}
   .scap-house{width:16px; height:15px; position:relative; display:inline-block;}
   .scap-house::before{content:""; position:absolute; bottom:0; left:0; right:0; height:9px; border:2px solid currentColor; border-radius:2px 2px 0 0;}
   .scap-house::after{content:""; position:absolute; top:0; left:-2px; right:-2px; height:0; border-left:10px solid transparent; border-right:10px solid transparent; border-bottom:8px solid currentColor;}
@@ -97,24 +101,28 @@
   .cal-head .mlabel{font-size:18px; font-weight:700; padding:4px 10px; border-radius:10px;}
   .cal-head .mlabel:active{background:var(--bg2);}
   .cal-head .mlabel .caret{font-size:12px; color:var(--ink-soft); margin-left:4px;}
+  .chev-l,.chev-r{display:inline-block;width:8px;height:8px;border:2px solid currentColor;border-top:none;border-right:none;}
+  .chev-l{transform:rotate(45deg);margin-right:-2px;}
+  .chev-r{transform:rotate(-135deg);margin-left:-2px;}
+  .chev-d{display:inline-block;width:7px;height:7px;border:1.5px solid currentColor;border-top:none;border-right:none;transform:rotate(-45deg);vertical-align:middle;margin-top:-3px;}
   .nav-btn{width:40px; height:40px; border-radius:50%; display:grid; place-items:center; font-size:20px; background:var(--card); box-shadow:var(--shadow); color:var(--ink-soft);}
   .grid{display:grid; grid-template-columns:repeat(7,1fr); gap:0; row-gap:3px;}
   .wd{text-align:center; font-size:11px; font-weight:700; color:var(--ink-soft); padding:2px 0;}
   .wd.sun{color:var(--rose);} .wd.sat{color:var(--teal);}
   .cell{position:relative; aspect-ratio:1/1.18; border-radius:2px; background:var(--card); margin-right:2px;
-    box-shadow:0 1px 2px rgba(110,90,60,.05); display:flex; flex-direction:column; align-items:center; padding-top:5px; overflow:hidden; transition:transform .07s;}
+    display:flex; flex-direction:column; align-items:center; padding-top:5px; transition:transform .07s;}
   .cell:active{transform:scale(.94);}
   .cell.out{background:transparent; box-shadow:none;}
   .cell .dn{font-size:13px; font-weight:700; line-height:1; z-index:2;}
-  .cell.today .dn{background:var(--amber); color:#fff; width:21px; height:21px; border-radius:50%; display:grid; place-items:center;}
   .cell.sun .dn{color:var(--rose);} .cell.sat .dn{color:var(--teal);}
+  .cell.today .dn{background:var(--amber); color:#fff; width:21px; height:21px; border-radius:50%; display:grid; place-items:center;}
   .cell .dots{display:flex; flex-wrap:wrap; gap:3px; justify-content:center; align-items:center; z-index:2; padding:0 3px;}
   .cell .dots.r1{margin-top:3px;} .cell .dots.r2{margin-top:2px;}
   .m-egg{width:8px; height:10px; border:1.7px solid var(--amber); background:transparent; border-radius:50% 50% 50% 50%/60% 60% 40% 40%;}
   .m-heart{color:var(--rose); font-size:11px; line-height:1;}
   .m-health{width:8px; height:8px; border-radius:2px; background:var(--plum);}
   .m-weight{width:7px; height:7px; border-radius:50%; background:#D4A936;}
-  .cell .pen{position:absolute; right:2px; top:2px; font-size:9px; z-index:3; opacity:.85;}
+  .cell .pen{position:absolute; right:2px; top:2px; z-index:3; opacity:.85; width:10px; height:10px; background:var(--ink-soft); -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z' fill='black'/%3E%3C/svg%3E") center/contain no-repeat; mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z' fill='black'/%3E%3C/svg%3E") center/contain no-repeat;}
   .periodbar{position:absolute; left:0; right:0; height:5px; z-index:1;}
   .broodbar{bottom:5px; background:var(--rust);}
   .moltbar{bottom:12px; background:var(--teal);}
@@ -161,7 +169,7 @@
     background:var(--amber); color:#fff; font-weight:800; box-shadow:var(--shadow-lg);
     display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; padding:0;}
   .fab:active{transform:scale(.94);} .fab .ic{font-size:18px; line-height:1;}
-  .fab .ft{font-size:8.5px; font-weight:800; line-height:1.05; text-align:center;}
+  .fab .ft{font-size:8.5px; font-weight:800; line-height:1.45; text-align:center;}
 
   /* weight */
   .seg{display:flex; gap:4px; background:var(--bg2); padding:4px; border-radius:999px; margin:0 0 12px;}
@@ -172,6 +180,7 @@
   .stat .v{font-size:18px; font-weight:800; line-height:1.1; word-break:break-all;} .stat .v .u{font-size:10px; color:var(--ink-soft); font-weight:600;}
   .stat .k{font-size:10px; font-weight:600; color:var(--ink-soft); margin-top:3px; letter-spacing:.02em;}
   .stat .v.up{color:var(--teal);} .stat .v.down{color:var(--danger);}
+  .stat .v.small-stat{font-size:13px;}
   svg.chart{display:block; width:100%; height:170px;}
   .clegend{display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:8px; justify-content:center;}
   .clegend .li{display:flex; align-items:center; gap:5px; font-size:12px; font-weight:700;}
@@ -202,16 +211,18 @@
   .sumitem{background:var(--bg2); border-radius:var(--r-sm); padding:10px 12px;}
   .sumitem.wide{grid-column:1/3;}
   .sumitem .k{font-size:11px; font-weight:700; color:var(--ink-soft);}
-  .sumitem .v{font-size:17px; font-weight:800; margin-top:2px;} .sumitem .v small{font-size:12px; color:var(--ink-soft); font-weight:700;}
+  .sumitem .v{font-size:17px; font-weight:800; margin-top:2px;} .sumitem .v small{font-size:12px; color:var(--ink-soft); font-weight:700;} .sumitem .v .no-data{font-size:13px; font-weight:500; color:var(--ink-faint);}
   .brood-history{margin-top:10px;}
   .bh-title{font-size:12px; font-weight:600; color:var(--ink-faint); margin-bottom:5px; letter-spacing:.04em;}
   .bh-row{display:flex; align-items:center; gap:10px; padding:5px 0; border-bottom:1px solid var(--line-soft);}
   .bh-row:last-child{border-bottom:none;}
   .cycle-history{margin-top:12px;}
-  .cy-title{font-size:12px; font-weight:700; color:var(--ink-faint); margin-bottom:7px; letter-spacing:.04em;}
+  .cy-title{font-size:13px; font-weight:800; color:var(--ink); margin-bottom:8px; margin-top:4px; letter-spacing:.04em; padding-left:9px; border-left:3px solid var(--amber);}
   .cy-summary{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px;}
   .cy-chip{background:var(--bg2); border-radius:999px; padding:4px 11px; font-size:12px; font-weight:700; color:var(--ink-soft);}
   .cy-chip.cy-soon{background:var(--amber-soft); color:var(--rust);}
+  .cy-chip.cy-next{background:var(--amber-soft); color:var(--rust); font-weight:800; font-size:13px; padding:5px 14px; display:block; margin-top:4px;}
+  .cy-count{font-size:12px; font-weight:700; color:var(--rust); flex-shrink:0; min-width:42px; text-align:right;}
   .cy-row{display:flex; align-items:center; gap:6px; padding:6px 0; border-bottom:1px solid var(--line-soft); font-size:13px;}
   .cy-row:last-child{border-bottom:none;}
   .cy-idx{width:36px; font-size:11px; font-weight:600; color:var(--ink-faint); flex-shrink:0;}
@@ -222,11 +233,27 @@
   .bh-days{font-size:12px; font-weight:700; background:var(--amber-soft); color:var(--rust); border-radius:999px; padding:3px 9px;}
   .prevclutch{margin-top:10px; background:var(--bg2); border-radius:var(--r-sm); padding:9px 12px; font-size:12.5px; font-weight:700; color:var(--ink-soft);}
   .prevclutch b{color:var(--rust); font-size:14px;}
-  .pc-days{background:var(--bg2); color:var(--ink); border-radius:999px; padding:2px 10px; font-size:12px; font-weight:700; margin-left:4px;}
+  .pc-days{background:var(--rust); color:#fff; border-radius:999px; padding:2px 10px; font-size:12px; font-weight:700; margin-left:4px;}
   .pc-range{font-size:12px; color:var(--ink-soft);}
   .sexbadge{font-size:11px; font-weight:700; background:var(--bg2); color:var(--ink-soft); border-radius:999px; padding:2px 9px; vertical-align:middle;}
   .healthtags{display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;}
   .htag{font-size:12px; font-weight:700; background:#EEE9F5; color:#6B5896; border-radius:999px; padding:4px 10px;}
+  /* lightbox */
+  #photoLb{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.88);align-items:center;justify-content:center;}
+  #photoLb img{max-width:96vw;max-height:88vh;border-radius:8px;object-fit:contain;}
+  #photoLb .lb-close{position:absolute;top:20px;right:20px;color:#fff;font-size:30px;line-height:1;opacity:.8;}
+
+  /* diary timeline */
+  .diary-tl{margin-top:14px; border-top:1px solid var(--line-soft); padding-top:10px;}
+  .dt-row{display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px solid var(--line-soft);}
+  .dt-row:last-child{border-bottom:none;}
+  .dt-thumb{width:54px; height:54px; border-radius:10px; background:var(--bg2); flex-shrink:0; overflow:hidden; display:flex; align-items:center; justify-content:center; font-size:22px;}
+  .dt-thumb img{width:100%; height:100%; object-fit:cover; display:block;}
+  .dt-info{flex:1; min-width:0;}
+  .dt-date{font-size:12px; font-weight:700; color:var(--ink-soft); display:block; margin-bottom:3px;}
+  .dt-memo{font-size:13px; color:var(--ink); display:block; line-height:1.5; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;}
+  .diary-tl-title{font-size:12px; font-weight:700; color:var(--ink-soft); margin-bottom:8px; letter-spacing:.04em;}
+
   .acc{margin-top:10px; border-top:1px solid var(--line-soft);}
   .acc-h{display:flex; align-items:center; justify-content:space-between; padding:11px 2px 4px; font-size:13px; font-weight:700; color:var(--ink-soft);}
   .acc-h .ar{transition:transform .2s;} .acc.open .acc-h .ar{transform:rotate(180deg);}
@@ -235,6 +262,32 @@
   .memo-it:last-child{border-bottom:none;}
   .memo-it .md{flex:0 0 56px; font-weight:700; color:var(--ink-soft); font-size:12px;}
   .memo-it .mh{font-size:12px;}
+
+  /* clinic */
+  .field-section-lbl{font-size:14px; font-weight:700; color:var(--ink); margin-bottom:6px; display:block;}
+  .clinic-section{margin-top:18px; background:var(--bg2); border-radius:var(--r-sm); padding:12px 14px; margin-bottom:12px;}
+  .clinic-toggle{display:flex; align-items:center; justify-content:space-between; width:100%; background:none; border:none; padding:0; font-size:14px; font-weight:700; color:var(--ink); cursor:pointer; text-align:left;}
+  .clinic-toggle .ct-lbl{display:flex; align-items:center; gap:6px;}
+  .clinic-toggle .ct-ar{transition:transform .2s; font-size:11px;}
+  .clinic-toggle.open .ct-ar{transform:rotate(180deg);}
+  .clinic-body{display:none; margin-top:10px;}
+  .clinic-body.open{display:block;}
+  .clinic-field{margin-bottom:10px;}
+  .clinic-field label{display:block; font-size:12px; font-weight:700; color:var(--ink-soft); margin-bottom:4px;}
+  .clinic-field input, .clinic-field textarea{width:100%; border:1.5px solid var(--line); border-radius:var(--r-sm); background:var(--card); padding:9px 12px; font-size:14px; font-weight:600; box-shadow:var(--shadow); box-sizing:border-box;}
+  .clinic-field input::placeholder, .clinic-field textarea::placeholder{color:var(--ink-faint); font-weight:500; opacity:.75; font-size:13px;}
+  .clinic-field textarea{resize:none; min-height:56px; line-height:1.5;}
+  .clinic-badge{display:inline-block; background:var(--rust); color:#fff; border-radius:999px; font-size:10px; font-weight:700; padding:1px 7px; margin-left:6px; vertical-align:middle;}
+
+  /* backup list rows */
+  .bk-card{padding:0; overflow:hidden;}
+  .bk-row{display:flex; align-items:center; gap:14px; width:100%; padding:14px 16px; background:none; border:none; text-align:left; cursor:pointer; -webkit-tap-highlight-color:transparent;}
+  .bk-row:active{background:var(--bg2);}
+  .bk-ic{width:34px; height:34px; border-radius:50%; background:var(--bg2); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:16px;}
+  .bk-info{flex:1;}
+  .bk-title{font-size:14px; font-weight:700; color:var(--ink);}
+  .bk-sub{font-size:11.5px; color:var(--ink-soft); margin-top:2px; line-height:1.4;}
+  .bk-div{height:1px; background:var(--line-soft); margin:0 16px;}
 
   .btn{display:block; width:100%; padding:13px; border-radius:var(--r-sm); font-weight:800; font-size:14px; text-align:center;}
   .btn.primary{background:var(--amber); color:#fff; box-shadow:var(--shadow);}
@@ -288,12 +341,12 @@
   .daypop input[type=date]{width:100%; border:1.5px solid var(--line); border-radius:10px; padding:9px 12px;}
 
   .field{margin-bottom:14px;}
-  .field>label{display:block; font-size:12px; font-weight:700; color:var(--ink-soft); margin-bottom:6px; letter-spacing:.03em;}
+  .field>label{display:block; font-size:12px; font-weight:700; color:var(--ink-soft); margin-top:10px; margin-bottom:6px; letter-spacing:.03em;}
   .inwrap{display:flex; align-items:center; background:var(--card); border:1.5px solid var(--line); border-radius:var(--r-sm); padding:0 14px; box-shadow:var(--shadow);}
   .inwrap input{flex:1; border:none; background:transparent; padding:13px 0; font-weight:700; min-width:0;}
   .inwrap .u{font-size:13px; color:var(--ink-soft); font-weight:700;}
   textarea.memo{width:100%; border:1.5px solid var(--line); border-radius:var(--r-sm); background:var(--card); padding:12px 14px; resize:none; min-height:70px; font-weight:600; box-shadow:var(--shadow); line-height:1.55;}
-  textarea.memo::placeholder{color:var(--ink-faint); font-weight:500; opacity:.7;}
+  textarea.memo::placeholder{color:var(--ink-faint); font-weight:500; opacity:.7; font-size:13px; line-height:1.7;}
   .inwrap input::placeholder,.foodbox input::placeholder{color:var(--ink-faint); opacity:.6;}
 
   .mark-toggles{display:grid; grid-template-columns:repeat(3,1fr); gap:8px;}
@@ -305,14 +358,26 @@
   .mt.on.molt{border-color:var(--teal); background:#E5F0F2;}
   .mt.on.brood{border-color:var(--rust); background:#FBEEDF;}
   .mt.on.health{border-color:var(--plum); background:#EEE9F5;}
+  .mt-egg-icon{display:inline-block;width:17px;height:21px;border:2.5px solid var(--ink-faint);border-radius:50% 50% 50% 50%/60% 60% 40% 40%;}
+  .mt.on.egg .mt-egg-icon{border-color:var(--amber);}
+  .mt-heart-icon{display:inline-block;font-size:20px;line-height:1;color:var(--ink-faint);vertical-align:middle;}
+  .mt.on.estrus .mt-heart-icon{color:var(--rose);}
   .brood-row{display:flex; gap:10px;}
   .brood-btn{flex:1; padding:13px 0; border-radius:var(--r-pill); font-weight:800; font-size:15px; border:1.5px solid var(--line); background:var(--card); color:var(--ink);}
   .brood-btn.disabled{opacity:.4; color:var(--ink-faint);}
+  .brood-btn.active{background:var(--rust); color:#fff; border-color:var(--rust);}
   .brood-btn:not(.disabled):active{transform:scale(.97); background:var(--amber-soft); border-color:var(--amber);}
   .brood-status{font-size:12px; font-weight:700; color:var(--ink-soft); text-align:center; margin-top:8px;}
   .brood-adjust{display:block; width:100%; margin-top:8px; padding:9px; border-radius:10px; background:var(--bg2); font-size:12px; font-weight:700; color:var(--rust);}
+  .day-tabs{display:flex; background:var(--bg2); border-radius:12px; padding:3px; margin:10px 14px 0; gap:2px;}
+  .day-tab{flex:1; border:none; background:none; padding:8px 2px; border-radius:9px; font-size:11px; font-weight:700; color:var(--ink-soft); cursor:pointer; line-height:1.2; transition:background .15s,color .15s;}
+  .day-tab.active{background:var(--card); color:var(--ink); box-shadow:0 1px 4px rgba(0,0,0,.12);}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block; padding-top:10px;}
   .brood-list-row{display:flex; align-items:center; gap:10px; padding:11px 2px; border-bottom:1px solid var(--line-soft);}
   .brood-list-row:last-child{border-bottom:none;} .brood-list-row > div:first-child{flex:1;}
+  .last-egg-days{font-size:18px; font-weight:800; color:#fff;}
+  .last-egg-date{font-size:12px; color:rgba(255,255,255,.75);}
   .egg-counter{display:flex; align-items:center; gap:14px; background:var(--amber-soft); border-radius:var(--r-sm); padding:10px 16px; margin-top:10px;}
   .egg-counter .lab{flex:1; font-weight:700; font-size:13px; color:#9A6E1E;}
   .stepper{display:flex; align-items:center; gap:14px;}
@@ -333,11 +398,17 @@
   .snackmemo-wrap{border-top:1px solid var(--line-soft); padding:10px 14px;}
   .fb-snackmemo{width:100%; border:1.5px solid var(--line); border-radius:10px; padding:9px 12px; background:#fff;}
 
-  .health-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:7px;}
+  .health-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:6px;}
+  .mt.health{display:flex; flex-direction:row; align-items:center; gap:10px; padding:10px 12px;}
+  .mt.health .e{font-size:20px; line-height:1; flex-shrink:0;}
+  .mt.health .l{font-size:13px; font-weight:600; color:var(--ink); text-align:left; line-height:1.2; flex:1;}
+  .hc-chk{width:18px; height:18px; border:1.5px solid var(--line); border-radius:5px; flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:all .15s;}
+  .mt.health.on .hc-chk{background:var(--plum); border-color:var(--plum); color:#fff; font-size:12px; font-weight:800;}
+  .mt.health.on .l{color:var(--rust);}
   .chiprow{display:grid; grid-template-columns:repeat(4,1fr); gap:7px;}
-  .chip{display:flex; flex-direction:column; align-items:center; gap:3px; padding:9px 2px 7px; border-radius:var(--r-sm); border:1.5px solid var(--line); background:var(--card); box-shadow:var(--shadow);}
+  .chip{display:flex; flex-direction:column; align-items:center; gap:3px; padding:9px 2px 7px; border-radius:var(--r-sm); border:1.5px solid var(--line); background:var(--card); box-shadow:var(--shadow); opacity:.45; transition:opacity .15s;}
   .chip .ce{font-size:19px; line-height:1;} .chip .cl{font-size:10.5px; font-weight:700; color:var(--ink-soft);}
-  .chip.on{border-color:var(--amber); background:var(--amber-soft);} .chip.on .cl{color:var(--rust);}
+  .chip.on{border-color:var(--amber); background:var(--amber-soft); opacity:1;} .chip.on .cl{color:var(--rust);}
   .chip:active{transform:scale(.95);}
   .chiprow.sub2{grid-template-columns:repeat(2,1fr);}
   .chip.mini{flex-direction:row; padding:9px 8px;} .chip.mini .cl{font-size:12px;}
@@ -386,9 +457,9 @@
     <div id="stateCard"></div>
     <div class="card">
       <div class="cal-head">
-        <button class="nav-btn" id="prevM" aria-label="前の月">‹</button>
+        <button class="nav-btn" id="prevM" aria-label="前の月"><span class="chev-l"></span></button>
         <button class="mlabel" id="mLabel"></button>
-        <button class="nav-btn" id="nextM" aria-label="次の月">›</button>
+        <button class="nav-btn" id="nextM" aria-label="次の月"><span class="chev-r"></span></button>
       </div>
       <div class="grid" id="wdRow"></div>
       <div class="grid" id="calGrid" style="margin-top:3px;"></div>
@@ -400,7 +471,7 @@
       <div class="li"><span class="lg-bar molt"></span>換羽</div>
       <div class="li"><span class="m-health"></span>体調</div>
       <div class="li"><span class="m-weight" style="display:inline-block"></span>体重/食事</div>
-      <div class="li"><span style="font-size:12px">&#9999;&#65039;</span>メモ</div>
+      <div class="li"><span style="display:inline-block;width:12px;height:12px;background:var(--ink-soft);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z' fill='black'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z' fill='black'/%3E%3C/svg%3E") center/contain no-repeat;vertical-align:middle;"></span>メモ</div>
     </div>
   </section>
 
@@ -409,7 +480,7 @@
     <div id="weightSingle">
       <div class="card">
         <div class="stat-row" id="wStats"></div>
-        <svg class="chart" id="wChart" preserveAspectRatio="none"></svg>
+        <div id="wChartWrap" style="overflow-x:auto;-webkit-overflow-scrolling:touch;"><svg class="chart" id="wChart" preserveAspectRatio="none"></svg></div>
         <div class="seg" id="wSeg" style="margin:12px 0 0;">
           <button data-range="14" class="on">2週間</button><button data-range="30">1か月</button>
           <button data-range="90">3か月</button><button data-range="365">1年</button>
@@ -420,7 +491,7 @@
     </div>
     <div id="weightMulti" hidden>
       <div class="card">
-        <svg class="chart" id="mChart" preserveAspectRatio="none"></svg>
+        <div id="mChartWrap" style="overflow-x:auto;-webkit-overflow-scrolling:touch;"><svg class="chart" id="mChart" preserveAspectRatio="none"></svg></div>
         <div class="clegend" id="mLegend"></div>
         <div class="seg" id="mSeg" style="margin:12px 0 0;">
           <button data-range="14" class="on">2週間</button><button data-range="30">1か月</button>
@@ -433,9 +504,8 @@
   </section>
 
   <section class="view" id="view-summary" hidden>
-    <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">
-    <div class="seg" id="sumSeg" style="flex:1"><button data-range="30" class="on">30日</button><button data-range="90">90日</button><button data-range="180">半年</button><button data-range="365">1年</button></div>
-    <button class="btn ghost" id="sumAllBtn" style="padding:7px 14px;font-size:13px;flex-shrink:0;">全員</button></div>
+    <div class="seg" id="sumSeg"><button data-range="30" class="on">30日</button><button data-range="90">90日</button><button data-range="180">半年</button><button data-range="365">1年</button></div>
+    <div id="sumPeriodNote" style="font-size:11px;color:var(--ink-faint);text-align:right;margin:4px 2px 4px;"></div>
     <div id="sumBody"></div>
     <button class="btn primary" id="copySum" style="margin-top:14px;">通院メモをコピー</button>
     <p class="faint" style="font-size:11px; text-align:center; margin-top:10px; line-height:1.6;">
@@ -443,31 +513,59 @@
   </section>
 
   <section class="view" id="view-settings" hidden>
+    <div class="section-t">にわとりの管理</div>
+    <div class="card" id="petList"></div>
+    <button class="btn ghost" id="addPet2" style="margin-top:10px;">＋ とりを追加</button>
     <div class="section-t">カスタム項目</div>
     <div class="card">
       <p class="muted" style="font-size:13px;margin:0 0 10px;line-height:1.6;">「ケージ掃除」「投薬」など、好きな項目を追加できます。全羽の日別記録に表示されます。</p>
       <button class="btn ghost" id="openCustomStamps">カスタム項目を管理</button>
     </div>
-    <div class="section-t">にわとりの管理</div>
-    <div class="card" id="petList"></div>
-    <button class="btn ghost" id="addPet2" style="margin-top:10px;">＋ とりを追加</button>
 
-    <div class="section-t">記録の書き出し・バックアップ</div>
-    <div class="card">
-      <p class="muted" style="font-size:13px; margin:0 0 12px; line-height:1.65;">
-        記録はこの端末の中だけに保存されます。機種変更や万一に備えて、ときどき書き出して「ファイル」アプリに保管してください。
-        <br><b>JSON</b>＝まるごと保存（あとで読み込んで復元できます）。<b>CSV</b>＝Numbers/Excelで開ける表。
-        <br><span class="faint">※写真はバックアップに含まれません。元の写真は「写真」アプリにも残してください。</span></p>
-      <button class="btn primary" id="backupBoth">💾 まとめて保存（JSON＋CSV）</button>
-      <div class="btnrow" style="margin-top:8px;">
-        <button class="btn ghost" id="exportJson">JSONだけ</button>
-        <button class="btn ghost" id="exportCsv">CSVだけ</button>
-      </div>
-      <button class="btn ghost" id="importBtn" style="margin-top:8px;">JSONを読み込む（復元）</button>
-      <button class="btn ghost" id="importCsvBtn" style="margin-top:8px;">CSVを読み込む（追加・上書き）</button>
-      <input type="file" id="importFile" accept="application/json,.json" hidden>
-      <input type="file" id="importCsvFile" accept="text/csv,.csv" hidden>
+    <div class="section-t">記録のバックアップ</div>
+    <div class="card bk-card">
+      <button class="bk-row" id="backupBoth">
+        <div class="bk-ic">💾</div>
+        <div class="bk-info">
+          <div class="bk-title">書き出す（バックアップ）</div>
+          <div class="bk-sub">JSON＋CSV。写真も含めるか選べます</div>
+        </div>
+        <span class="chev-r"></span>
+      </button>
+      <div class="bk-div"></div>
+      <button class="bk-row" id="importBtn">
+        <div class="bk-ic">📥</div>
+        <div class="bk-info">
+          <div class="bk-title">読み込む（復元）</div>
+          <div class="bk-sub">JSONバックアップから記録を復元します</div>
+        </div>
+        <span class="chev-r"></span>
+      </button>
     </div>
+    <div class="card bk-card" style="margin-top:8px;">
+      <button class="bk-row" id="exportJson">
+        <div class="bk-ic" style="font-size:13px;font-weight:800;color:var(--ink-soft);">JSON</div>
+        <div class="bk-info"><div class="bk-title">JSONだけ書き出す</div></div>
+        <span class="chev-r"></span>
+      </button>
+      <div class="bk-div"></div>
+      <button class="bk-row" id="exportCsv">
+        <div class="bk-ic" style="font-size:13px;font-weight:800;color:var(--ink-soft);">CSV</div>
+        <div class="bk-info"><div class="bk-title">CSVだけ書き出す</div></div>
+        <span class="chev-r"></span>
+      </button>
+      <div class="bk-div"></div>
+      <button class="bk-row" id="importCsvBtn">
+        <div class="bk-ic">📊</div>
+        <div class="bk-info">
+          <div class="bk-title">CSVを読み込む</div>
+          <div class="bk-sub">既存データに追加・上書きします</div>
+        </div>
+        <span class="chev-r"></span>
+      </button>
+    </div>
+    <input type="file" id="importFile" accept="application/json,.json" hidden>
+    <input type="file" id="importCsvFile" accept="text/csv,.csv" hidden>
 
     <div class="section-t">写真とデータについて</div>
     <div class="card">
@@ -485,7 +583,7 @@
     <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.0</p>
   </section>
 
-  <button class="fab" id="fab"><span class="ic">✏️</span><span class="ft">きょうの<br>記録</span></button>
+  <button class="fab" id="fab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 1px;"><path d="M17 3a2.83 2.83 0 0 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg><span class="ft">きょうの<br>記録</span></button>
 
   <nav class="tabs" id="tabs">
     <button data-tab="cal" class="on"><span class="ic">📅</span><span class="tl">カレンダー</span></button>
@@ -497,9 +595,9 @@
 
 <div class="scrim" id="scrim"></div>
 <div class="sheet" id="sheet"><div class="grab"></div><div id="sheetBody"></div>
-  <button class="sheet-fab" id="sheetFab" aria-label="保存">✓</button>
-  <div class="mini-saved" id="miniSaved">保存しました</div>
 </div>
+<button class="sheet-fab" id="sheetFab" aria-label="保存">✓</button>
+<div class="mini-saved" id="miniSaved">保存しました</div>
 <div class="toast" id="toast"></div>
 <div class="confirm-scrim" id="confirmScrim">
   <div class="confirm-box">
@@ -510,7 +608,7 @@
     </div>
   </div>
 </div>
-<div id="bannerBackup" style="display:none;position:fixed;left:calc(max(0px,(100vw - 430px)/2));z-index:34;max-width:300px;margin:0;padding:0 0 8px 12px;bottom:calc(var(--tab-h) + env(safe-area-inset-bottom) + 80px);">
+<div id="bannerBackup" style="display:none;position:fixed;left:calc(max(0px,(100vw - 430px)/2));z-index:34;max-width:300px;margin:0;padding:0 0 8px 12px;bottom:calc(var(--tab-h) + env(safe-area-inset-bottom) + 22px);">
   <div style="background:rgba(66,39,30,.92);color:#fff;border-radius:999px;padding:8px 8px 8px 14px;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow);">
     <span style="font-size:15px;flex:0 0 auto">💾</span>
     <div style="flex:1;min-width:0;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">バックアップはお早めに</div>
@@ -518,7 +616,7 @@
     <button id="bannerBackupClose" aria-label="閉じる" style="flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.16);color:rgba(255,255,255,.85);font-size:15px;line-height:1;display:grid;place-items:center;">&#xD7;</button>
   </div>
 </div>
-<div id="bannerInstall" style="display:none;position:fixed;left:0;right:0;z-index:34;max-width:430px;margin:0 auto;padding:0 12px 8px;bottom:calc(var(--tab-h) + env(safe-area-inset-bottom) + 80px);">
+<div id="bannerInstall" style="display:none;position:fixed;left:0;right:0;z-index:34;max-width:430px;margin:0 auto;padding:0 12px 8px;bottom:calc(var(--tab-h) + env(safe-area-inset-bottom) + 22px);">
   <div style="background:rgba(66,39,30,.92);color:#fff;border-radius:var(--r);padding:12px 14px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);">
     <span style="font-size:20px;flex:0 0 auto">📲</span>
     <div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:800;line-height:1.4">ホーム画面に追加すると安心</div><div style="font-size:11px;opacity:.75;margin-top:2px;line-height:1.4">共有ボタン →「ホーム画面に追加」でデータが消えにくくなります</div></div>
@@ -545,6 +643,14 @@ function openIDB(){ return new Promise(function(res){ try{
 function idbPut(k,blob){ return new Promise(function(res){ if(!idb)return res(false); try{var tx=idb.transaction("photos","readwrite"); tx.objectStore("photos").put(blob,k); tx.oncomplete=function(){res(true);}; tx.onerror=function(){res(false);};}catch(e){res(false);} }); }
 function idbGet(k){ return new Promise(function(res){ if(!idb)return res(null); try{var tx=idb.transaction("photos","readonly"); var r=tx.objectStore("photos").get(k); r.onsuccess=function(){res(r.result||null);}; r.onerror=function(){res(null);};}catch(e){res(null);} }); }
 function idbDel(k){ return new Promise(function(res){ if(!idb)return res(false); try{var tx=idb.transaction("photos","readwrite"); tx.objectStore("photos").delete(k); tx.oncomplete=function(){res(true);}; tx.onerror=function(){res(false);};}catch(e){res(false);} }); }
+function idbGetAll(){ return new Promise(function(res){ if(!idb)return res({}); try{
+  var tx=idb.transaction("photos","readonly"); var st=tx.objectStore("photos");
+  var keys=[]; var kr=st.getAllKeys(); kr.onsuccess=function(){ keys=kr.result; };
+  var vals=[]; var vr=st.getAll(); vr.onsuccess=function(){ vals=vr.result; };
+  tx.oncomplete=function(){ var o={}; keys.forEach(function(k,i){o[k]=vals[i];}); res(o); };
+  tx.onerror=function(){ res({}); };
+}catch(e){ res({}); } }); }
+function blobToBase64(blob){ return new Promise(function(res){ if(!blob)return res(null); var r=new FileReader(); r.onload=function(){ res(r.result); }; r.readAsDataURL(blob); }); }
 
 /* ===== constants ===== */
 var WD=["日","月","火","水","木","金","土"];
@@ -582,6 +688,86 @@ function fmtMd(s){var p=s.split("-");return (+p[1])+"/"+(+p[2]);}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
 function $(id){return document.getElementById(id);}
 function el(t,c,h){var x=document.createElement(t); if(c)x.className=c; if(h!=null)x.innerHTML=h; return x;}
+function openPhotoLb(src){ var lb=$("photoLb"); $("photoLbImg").src=src; lb.style.display="flex"; }
+function openVetShareSheet(p,cutoff){
+  var body=$('sheetBody'); body.innerHTML='';
+  $('sheetTitle').textContent='獣医共有';
+  var female=isFemale(p);
+  // 期間選択
+  var periodSel=el('div','field'); periodSel.style.cssText='display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;';
+  var periods=[{l:'直近7日',d:7},{l:'直近14日',d:14},{l:'直近30日',d:30}];
+  var selDays=7;
+  function buildSummaryText(days){
+    var co=ymd(new Date(Date.now()-days*86400000));
+    var recs=Object.keys(S.records).filter(function(k){return k.startsWith(p.id+'|')&&k.slice(p.id.length+1)>=co;});
+    var weights=[]; var eggs=0; var memoLines=[]; var healthCnt={}; var clinicLines=[];
+    recs.forEach(function(k){ var date=k.slice(p.id.length+1); var r=S.records[k];
+      if(r.weight)weights.push(+r.weight);
+      if(r.egg)eggs+=r.egg;
+      if(r.memo)memoLines.push(fmtMd(date)+': '+r.memo);
+      if(r.health)HEALTH.forEach(function(h){if(r.health[h.k])healthCnt[h.l]=(healthCnt[h.l]||0)+1;});
+      if(r.clinic){
+        var cl=r.clinic;
+        var parts=[fmtMd(date)];
+        if(cl.symptom)parts.push('症状: '+cl.symptom);
+        if(cl.diagnosis)parts.push('診断: '+cl.diagnosis);
+        if(cl.treatment)parts.push('処置: '+cl.treatment);
+        if(cl.med)parts.push('おくすり: '+cl.med);
+        if(cl.hospital)parts.push('病院: '+cl.hospital);
+        clinicLines.push(parts.join(' / '));
+      }
+    });
+    var latestW=weights.length?weights[weights.length-1]:null;
+    var minW=weights.length?Math.min.apply(null,weights):null;
+    var maxW=weights.length?Math.max.apply(null,weights):null;
+    var healthTxt=Object.keys(healthCnt).map(function(k){return k+' '+healthCnt[k]+'日';}).join('、')||'なし';
+    var lines=[];
+    lines.push('【受診前要約（直近'+days+'日）】');
+    lines.push('対象: '+p.name+(female?' (♀)':p.sex==='male'?' (♂)':''));
+    lines.push('期間: '+fmtMd(co)+'〜'+fmtMd(todayStr()));
+    lines.push('');
+    lines.push('体重: '+(latestW!=null?latestW+'g（期間内 '+minW+'〜'+maxW+'g）':'記録なし'));
+    if(female)lines.push('産卵: '+eggs+'個');
+    lines.push('体調サイン: '+healthTxt);
+    if(clinicLines.length){
+      lines.push('');
+      lines.push('【病院・通院記録】');
+      clinicLines.forEach(function(l){lines.push(l);});
+    }
+    if(memoLines.length){
+      lines.push('');
+      lines.push('【メモ】');
+      memoLines.forEach(function(l){lines.push(l);});
+    }
+    lines.push('');
+    lines.push('※本要約は診断ではなく受診時の情報整理です。');
+    return lines.join('\n');
+  }
+  // UI構築
+  var pchips=el('div','chiprow'); pchips.style.marginBottom='12px';
+  periods.forEach(function(per){
+    var b=el('button','chip'+(per.d===selDays?' on':'')); b.innerHTML='<span class="cl">'+per.l+'</span>';
+    b.onclick=function(){ selDays=per.d; Array.prototype.forEach.call(pchips.children,function(x){x.className='chip'+(x===b?' on':'');}); txta.value=buildSummaryText(selDays); };
+    pchips.appendChild(b);
+  });
+  body.appendChild(pchips);
+  var txta=el('textarea'); txta.style.cssText='width:100%;height:260px;font-size:13px;line-height:1.7;padding:12px;border:1.5px solid var(--line);border-radius:var(--r-sm);background:var(--bg2);color:var(--ink);resize:none;';
+  txta.value=buildSummaryText(selDays);
+  body.appendChild(txta);
+  var act=el('div','sheet-actions');
+  var copyBtn=el('button','btn ghost','要約をコピー');
+  copyBtn.onclick=function(){ navigator.clipboard.writeText(txta.value).then(function(){toast('コピーしました');}).catch(function(){txta.select();document.execCommand('copy');toast('コピーしました');});};
+  var printBtn=el('button','btn primary','印刷 / PDFを保存');
+  printBtn.style.marginTop='8px';
+  printBtn.onclick=function(){
+    var w=window.open('','_blank','width=480,height=700');
+    w.document.write('<html><head><meta charset=utf-8><title>受診前要約 - '+escapeHtml(p.name)+'</title><style>body{font-family:sans-serif;font-size:14px;line-height:1.8;padding:24px 32px;white-space:pre-wrap;}@media print{button{display:none;}}</style></head><body>'+escapeHtml(txta.value)+'<br><br><button onclick=window.print()>印刷する</button></body></html>');
+    w.document.close();
+  };
+  act.appendChild(copyBtn); act.appendChild(printBtn); body.appendChild(act);
+  openSheet();
+}
+
 function escapeHtml(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
 
 /* ===== state ===== */
@@ -589,7 +775,7 @@ var S=loadState();
 function defPet(name,emoji,color){return {id:uid(),name:name,emoji:emoji,color:color,sex:"female",birth:"",welcome:"",broodDays:21,clutchGap:3,showHatch:false,order:Date.now(),photo:false};}
 if(!S){
   S={pets:[defPet("1羽目","🐓",COLORS[0])],activePet:null,records:{},broods:[],molts:[]};
-  S.activePet=S.pets[0].id; persist();
+  S.activePet=S.pets[0].id; S._firstVisit=true; persist();
 }
 // migrations / safety
 if(!S.broods)S.broods=[];
@@ -616,7 +802,9 @@ function isEmptyRec(r){ if(!r)return true;
   if(r.weight||r.egg||r.estrus||r.memo||r.photo)return false;
   if(r.appetite||r.poopC||r.poopF||r.behavior)return false;
   if(r.customs&&Object.keys(r.customs).some(function(k){return r.customs[k];}))return false;
-  if(foodTotal(r)>0)return false; if(anyHealth(r))return false; return true; }
+  if(foodTotal(r)>0)return false; if(anyHealth(r))return false;
+  if(r.clinic&&(r.clinic.symptoms||r.clinic.diagnosis||r.clinic.treatment||r.clinic.medicine||r.clinic.hospital||r.clinic.photo))return false;
+  return true; }
 function cleanRec(p,d){var k=recKey(p,d); if(isEmptyRec(S.records[k])){ delete S.records[k]; idbDel(k); } }
 function activePet(){return S.pets.filter(function(p){return p.id===S.activePet;})[0]||null;}
 function petById(id){return S.pets.filter(function(p){return p.id===id;})[0]||null;}
@@ -643,12 +831,15 @@ function cleanupBroods(){
       if(b.end && b.end<b.start){ var t=b.end; b.end=b.start; b.start=t; } // 逆転修正
       if(!merged.length){ merged.push(b); return; }
       var last=merged[merged.length-1];
-      var lastEnd=last.end?last.end:todayStr();
-      if(b.start<=lastEnd){ // 重なり/入れ子 → 統合
-        if(!last.end || !b.end || b.end>last.end) last.end=b.end?(b.end>lastEnd?b.end:last.end):null;
+      var lastEnd=last.end||null;
+      if(lastEnd && b.start<=lastEnd){ // 実際の重なり → 統合
+        if(!b.end||b.end>lastEnd) last.end=b.end||null;
         if(!b.end) last.end=null;
         last.eggCount=Math.max(last.eggCount||0,b.eggCount||0);
-      } else merged.push(b);
+      } else if(!lastEnd){ // 進行中の後に別の期間 → 前日で自動終了して保持
+        last.end=addDays(b.start,-1);
+        merged.push(b);
+      } else { merged.push(b); }
     });
     // 未終了(end=null)は最新の1件だけ許可。それ以前のnullは今日で閉じる
     var openIdx=-1;
@@ -663,8 +854,8 @@ function moltCovering(petId,date){ for(var i=0;i<S.molts.length;i++){var b=S.mol
 function dayInMolt(petId,date){ return !!moltCovering(petId,date); }
 function cleanupMolts(){ var byPet={}; S.molts.forEach(function(b){ if(!b||!b.petId||!b.start)return; (byPet[b.petId]=byPet[b.petId]||[]).push(b); });
   var result=[]; Object.keys(byPet).forEach(function(pid){ var arr=byPet[pid].slice().sort(function(a,b){return a.start<b.start?-1:a.start>b.start?1:0;}); var merged=[];
-    arr.forEach(function(b){ if(b.end && b.end<b.start){var t=b.end;b.end=b.start;b.start=t;} if(!merged.length){merged.push(b);return;} var last=merged[merged.length-1]; var lastEnd=last.end?last.end:todayStr();
-      if(b.start<=lastEnd){ if(!last.end||!b.end||b.end>last.end)last.end=b.end?(b.end>lastEnd?b.end:last.end):null; if(!b.end)last.end=null; } else merged.push(b); });
+    arr.forEach(function(b){ if(b.end && b.end<b.start){var t=b.end;b.end=b.start;b.start=t;} if(!merged.length){merged.push(b);return;} var last=merged[merged.length-1]; var lastEnd=last.end||null;
+      if(lastEnd && b.start<=lastEnd){ if(!b.end||b.end>lastEnd)last.end=b.end||null; if(!b.end)last.end=null; } else if(!lastEnd){ last.end=addDays(b.start,-1); merged.push(b); } else merged.push(b); });
     var openIdx=-1; for(var i=0;i<merged.length;i++){ if(!merged[i].end){ if(openIdx>=0)merged[openIdx].end=todayStr(); openIdx=i; } }
     merged.forEach(function(b){result.push(b);}); }); S.molts=result; }
 function migrateMoltFlags(){ // 日次の record.molt を期間へ変換
@@ -722,11 +913,12 @@ function getStateInfo(pet){ var b=activeBrood(pet.id);
 /* ===== toast ===== */
 var _tt; function toast(m){var t=$("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(_tt); _tt=setTimeout(function(){t.classList.remove("show");},1700);}
 var _confirmCb=null;
+var _confirmNoCb=null;
 function confirmAsk(msg,onYes,opt){ opt=opt||{}; $("confirmMsg").textContent=msg;
   $("confirmYes").textContent=opt.yes||"OK"; $("confirmNo").textContent=opt.no||"キャンセル";
-  $("confirmYes").className="confirm-yes"+(opt.safe?" safe":""); _confirmCb=onYes; $("confirmScrim").classList.add("show"); }
-$("confirmYes").onclick=function(){ $("confirmScrim").classList.remove("show"); var cb=_confirmCb; _confirmCb=null; if(cb)cb(); };
-$("confirmNo").onclick=function(){ $("confirmScrim").classList.remove("show"); _confirmCb=null; };
+  $("confirmYes").className="confirm-yes"+(opt.safe?" safe":""); _confirmCb=onYes; _confirmNoCb=opt.onNo||null; $("confirmScrim").classList.add("show"); }
+$("confirmYes").onclick=function(){ $("confirmScrim").classList.remove("show"); var cb=_confirmCb; _confirmCb=null; _confirmNoCb=null; if(cb)cb(); };
+$("confirmNo").onclick=function(){ $("confirmScrim").classList.remove("show"); var cb=_confirmNoCb; _confirmCb=null; _confirmNoCb=null; if(cb)cb(); };
 $("confirmScrim").onclick=function(e){ if(e.target===$("confirmScrim")){ $("confirmScrim").classList.remove("show"); _confirmCb=null; } };
 
 /* ===== pet bar ===== */
@@ -781,9 +973,14 @@ function eggBtnHtml(label){ return '<span class="scap-egg"></span><span>'+label+
 function startBroodTodayCard(p){ if(activeBrood(p.id)){toast("すでに抱卵中です");return;} S.broods.push({id:uid(),petId:p.id,start:todayStr(),end:null,eggCount:0}); cleanupBroods(); persist(); renderAll(); toast("抱卵をはじめました（今日から）"); }
 function cardHeader(p,phase){ // 共通ヘッダー: 右上フェーズバッジ + 名前・性別・年齢・平均体重
   var a=ageText(p)||""; var w=avgWeight(p.id,30); var si=sexIcon(p);
-  return '<div class="ch-phase-badge">'+phase+'</div>'+
-    '<div class="ch-name">'+escapeHtml(p.name)+si+(a?'<span class="ch-age">'+a+'</span>':'')+'</div>'+
+  return '<div class="ch-name">'+(phase?'<span class="ch-phase-badge">'+phase+'</span>':'')+escapeHtml(p.name)+si+(a?'<span class="ch-age">'+a+'</span>':'')+'</div>'+
     (w?'<div class="ch-weight">体重：平均 <strong>'+fmtW(w)+'g</strong></div>':'');
+}
+function attachPetPhoto(p,card){
+  var ph=el("div","card-pet-photo");
+  ph.innerHTML='<span class="ph-ic">🐓</span>';
+  if(p.photo){ idbGet("pet|"+p.id).then(function(b){ if(!b)return; var img2=document.createElement("img"); img2.src=URL.createObjectURL(b); ph.innerHTML=""; ph.appendChild(img2); }); }
+  card.appendChild(ph);
 }
 function renderStateCard(){ var host=$("stateCard"); host.innerHTML=""; var p=activePet(); if(!p)return;
   var female=isFemale(p);
@@ -795,6 +992,7 @@ function renderStateCard(){ var host=$("stateCard"); host.innerHTML=""; var p=ac
   if(!female){ renderMaleCard(host,p); return; }
   var s=getStateInfo(p); var card=el("div","state-card");
   function tag(label,val){ return '<span class="stag"><span class="sl">'+label+'</span><span class="sv">'+val+'</span></span>'; }
+  function bigTag(label,n,unit){ return '<span class="stag"><span class="sl">'+label+'</span><span class="sv"><span style="font-size:18px;line-height:1">'+n+'</span><span style="font-size:11px;opacity:.75"> '+unit+'</span></span></span>'; }
   if(s.phase==="抱卵期"){ var b=s.brood;
     card.style.background="var(--phase-brood)";
     var remainTxt=s.remain>=0?"約"+s.remain+"日":"目安超過 "+(-s.remain)+"日";
@@ -805,34 +1003,34 @@ function renderStateCard(){ var host=$("stateCard"); host.innerHTML=""; var p=ac
     var endb=el("button","scap"); endb.appendChild(svgBtnContent("house","抱卵が終わった")); endb.onclick=function(){ endBroodToday(p); };
     var editb=el("button","scap ghost"); editb.appendChild(svgBtnContent("calendar","抱卵日を調整")); editb.onclick=function(){ openBroodEditSheet(b.id); };
     arow.appendChild(endb); arow.appendChild(editb); card.appendChild(arow);
-    host.appendChild(card);
+    attachPetPhoto(p,card); host.appendChild(card);
   } else if(s.phase==="産卵期"){ var c=s.clutch; var thisMonth=eggsInMonth(p.id,calY,calM);
     card.style.background="var(--phase-lay)";
     var sinceTxt=c.daysSince===0?"今日":c.daysSince+"日前";
     card.innerHTML=cardHeader(p,'産卵期')+
       '<div class="ch-div"></div>'+
-      '<div class="stagrow">'+tag("今期",c.count+"個")+tag("今月",thisMonth+"個")+tag("最後の産卵",fmtMd(c.last)+"（"+sinceTxt+"）")+'</div>';
-    var pr=predictNextLay(p); if(pr){ var pl=el("div","predict"); pl.innerHTML='次の産卵の目安 '+fmtMd(pr.lo)+'〜'+fmtMd(pr.hi)+'ごろ <span class="omake">（目安）</span>'; card.appendChild(pl); }
+      '<div class="stagrow">'+bigTag("今期",c.count,"個")+bigTag("今月",thisMonth,"個")+tag("最後の産卵",'<span class="last-egg-days">'+sinceTxt+'</span> <span class="last-egg-date">（'+fmtMd(c.last)+'）</span>')+'</div>';
+    var pr=predictNextLay(p); if(pr){ var today0=todayStr(); var isTodayPr=(today0>=pr.lo&&today0<=pr.hi); var pl=el("div","predict"); pl.innerHTML='次の産卵 '+fmtMd(pr.lo)+'〜'+fmtMd(pr.hi)+'<span class="omake"> ごろ</span>'+(isTodayPr?' <span style="background:rgba(255,255,255,.9);color:var(--rust);border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700;letter-spacing:.08em;">Today</span>':''); card.appendChild(pl); }
     var todR2=getRec(p.id,todayStr())||{};
     var arow2=el("div","state-actions");
     var eggb=el("button","scap egg"+(todR2.egg?" done":"")); eggb.innerHTML='<span class="scap-egg"></span><span>'+(todR2.egg?"産卵した ✓":"産卵した")+"</span>"; eggb.onclick=function(){ quickToggleToday(p,"egg"); };
-    var brb=el("button","scap ghost"); brb.appendChild(svgBtnContent("nest","抱卵がはじまった")); brb.onclick=function(){ startBroodTodayCard(p); };
+    var brb=el("button","scap ghost"); brb.appendChild(svgBtnContent("house","抱卵がはじまった")); brb.onclick=function(){ startBroodTodayCard(p); };
     arow2.appendChild(eggb); arow2.appendChild(brb); card.appendChild(arow2);
-    host.appendChild(card);
+    attachPetPhoto(p,card); host.appendChild(card);
   } else {
     card.style.background="var(--phase-rest)";
     var c2=s.clutch;
     card.innerHTML=cardHeader(p,'休産期')+
       '<div class="ch-div"></div>'+
-      '<div class="stagrow">'+(c2?tag("最後の産卵",fmtMd(c2.last)+"（"+(c2.daysSince===0?"今日":c2.daysSince+"日前")+"）"):'<span class="stag"><span class="sv">まだ産卵の記録なし</span></span>')+'</div>';
-    var pr2=predictNextLay(p); if(pr2){ var pl2=el("div","predict"); pl2.innerHTML='次の産卵の目安 '+fmtMd(pr2.lo)+'〜'+fmtMd(pr2.hi)+'ごろ <span class="omake">（目安）</span>'; card.appendChild(pl2); }
+      '<div class="stagrow">'+(c2?tag("最後の産卵",'<span class="last-egg-days">'+(c2.daysSince===0?"今日":c2.daysSince+"日前")+"</span> <span class=\"last-egg-date\">"+fmtMd(c2.last)+"</span>"):'<span class="stag"><span class="sv">まだ産卵の記録なし</span></span>')+'</div>';
+    var pr2=predictNextLay(p); if(pr2){ var today0b=todayStr(); var isTodayPr2=(today0b>=pr2.lo&&today0b<=pr2.hi); var pl2=el("div","predict"); pl2.innerHTML='次の産卵 '+fmtMd(pr2.lo)+'〜'+fmtMd(pr2.hi)+'<span class="omake"> ごろ</span>'+(isTodayPr2?' <span style="background:rgba(255,255,255,.9);color:var(--rust);border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700;letter-spacing:.08em;">Today</span>':''); card.appendChild(pl2); }
     var mpr2=predictMoltCycle(p.id); if(mpr2&&mpr2.daysUntil>0&&mpr2.daysUntil<60){ var mpl2=el("div","predict"); mpl2.innerHTML='換羽の目安 約'+mpr2.daysUntil+'日後（'+fmtMd(mpr2.nextStart)+'ごろ）<span class="omake">（目安）</span>'; card.appendChild(mpl2); }
     var todR3=getRec(p.id,todayStr())||{};
     var arow3=el("div","state-actions");
     var estb=el("button","scap"+(todR3.estrus?" done":"")); estb.appendChild(svgBtnContent("heart",todR3.estrus?"発情サインあり ✓":"発情サインがあった")); estb.onclick=function(){ quickToggleToday(p,"estrus"); };
     var eggb3=el("button","scap egg"+(todR3.egg?" done":"")); eggb3.innerHTML='<span class="scap-egg"></span><span>'+(todR3.egg?"産卵した ✓":"産卵した")+"</span>"; eggb3.onclick=function(){ quickToggleToday(p,"egg"); };
     arow3.appendChild(estb); arow3.appendChild(eggb3); card.appendChild(arow3);
-    host.appendChild(card);
+    attachPetPhoto(p,card); host.appendChild(card);
   }
 }
 function renderMoltCard(host,p,molt){
@@ -845,25 +1043,25 @@ function renderMoltCard(host,p,molt){
   var endb=el("button","scap"); endb.appendChild(svgBtnContent("feather","換羽が終わった")); endb.onclick=function(){ molt.end=todayStr(); if(molt.end<molt.start)molt.end=molt.start; cleanupMolts(); persist(); renderAll(); toast("換羽をおわりにしました"); };
   var editb=el("button","scap ghost"); editb.appendChild(svgBtnContent("calendar","換羽日を調整")); editb.onclick=function(){ openMoltEditSheet(molt.id); };
   arow.appendChild(endb); arow.appendChild(editb); card.appendChild(arow);
-  host.appendChild(card);
+  attachPetPhoto(p,card); host.appendChild(card);
 }
 function renderMaleCard(host,p){
   var card=el("div","state-card male"); card.style.background="var(--phase-rest)";
   var moltPred=predictMoltCycle(p.id);
-  card.innerHTML=cardHeader(p,'記録をつけましょう')+
+  card.innerHTML=cardHeader(p,'')+
     '<div class="ch-div"></div>'+
     (moltPred&&moltPred.daysUntil>0&&moltPred.daysUntil<60?'<div class="predict">換羽の目安 約'+moltPred.daysUntil+'日後（'+fmtMd(moltPred.nextStart)+'ごろ）<span class="omake">（目安）</span></div>':'');
   var arow=el("div","state-actions");
   var startb=el("button","scap"); startb.appendChild(svgBtnContent("feather","換羽がはじまった")); startb.onclick=function(){ S.molts.push({id:uid(),petId:p.id,start:todayStr(),end:null}); cleanupMolts(); persist(); renderAll(); toast("換羽をはじめました"); }; arow.appendChild(startb);
   var mb=el("button","scap ghost"); mb.appendChild(svgBtnContent("calendar","換羽日を調整")); mb.onclick=function(){ openMoltListSheet(p); }; arow.appendChild(mb);
-  card.appendChild(arow); host.appendChild(card);
+  card.appendChild(arow); attachPetPhoto(p,card); host.appendChild(card);
 }
 
 /* ===== calendar ===== */
 function periodBar(petId,date,coverFn,cls){ if(!coverFn(petId,date))return null;
   var prev=coverFn(petId,addDays(date,-1)), next=coverFn(petId,addDays(date,1));
   var bar=el("div",cls+(prev?" lp":"")+(next?" rp":"")); return bar; }
-function renderCalendar(){ $("mLabel").innerHTML=calY+"年 "+(calM+1)+"月 <span class=\"caret\">▼</span>";
+function renderCalendar(){ $("mLabel").innerHTML=calY+"年 "+(calM+1)+"月 <span class=\"caret\"><span class=\"chev-d\"></span></span>";
   var wd=$("wdRow"); wd.innerHTML=""; WD.forEach(function(d,i){wd.appendChild(el("div","wd"+(i===0?" sun":i===6?" sat":""),d));});
   var grid=$("calGrid"); grid.innerHTML="";
   var startDow=new Date(calY,calM,1).getDay(), dim=new Date(calY,calM+1,0).getDate();
@@ -886,7 +1084,7 @@ function renderCalendar(){ $("mLabel").innerHTML=calY+"年 "+(calM+1)+"月 <span
         if(row1.childNodes.length)cell.appendChild(row1);
         // 2行目: 体調
         if(anyHealth(r)){ var row2=el("div","dots r2"); row2.appendChild(el("span","m-health")); cell.appendChild(row2); }
-        if(r.memo)cell.appendChild(el("div","pen","\u270F\uFE0F"));
+        if(r.memo)cell.appendChild(el("div","pen"));
       }
     }
     (function(ds){cell.onclick=function(){openDaySheet(ds);};})(date);
@@ -899,6 +1097,28 @@ function renderQuick(){ /* quickカードは廃止（FAB＋状態カードに集
 
 /* ===== sheet base ===== */
 function openSheet(){$("scrim").classList.add("show"); $("sheet").classList.add("show"); $("sheet").scrollTop=0; $("sheetFab").classList.remove("show");}
+function showWelcomeSheet(){
+  var body=$("sheetBody"); body.innerHTML="";
+  var div=el("div"); div.style.cssText="text-align:center;padding:40px 24px 16px;";
+  div.innerHTML='<div style="width:80px;height:80px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">'+
+    '<svg viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+
+    '<ellipse cx="22" cy="32" rx="14" ry="11"/>'+
+    '<circle cx="33" cy="17" r="7"/>'+
+    '<path d="M38 16l5 2-5 2"/>'+
+    '<path d="M29 10q3-5 5 0"/>'+
+    '<path d="M8 29q-5-3-2 6"/>'+
+    '</svg>'+
+    '</div>'+
+    '<h2 style="margin:0 0 10px;font-size:22px;">はじめましょう</h2>'+
+    '<p style="color:var(--ink-soft);font-size:14px;line-height:1.7;margin:0;">まず最初に、<br>あなたのにわとりを1羽登録しましょう。</p>';
+  body.appendChild(div);
+  var act=el("div","sheet-actions"); act.style.paddingTop="8px";
+  var regBtn=el("button","btn primary","とりを登録する");
+  regBtn.onclick=function(){ closeSheet(); setTimeout(function(){ openPetSheet(S.pets[0].id); },300); };
+  var laterBtn=el("button","btn ghost","あとで設定する"); laterBtn.style.marginTop="8px";
+  laterBtn.onclick=closeSheet;
+  act.appendChild(regBtn); act.appendChild(laterBtn); body.appendChild(act); openSheet();
+}
 function closeSheet(){$("scrim").classList.remove("show"); $("sheet").classList.remove("show"); $("sheetFab").classList.remove("show");}
 $("scrim").onclick=closeSheet;
 var _msT;
@@ -909,7 +1129,7 @@ $("sheetFab").onclick=function(){ saveDaySheet(); };
 
 /* ===== day sheet ===== */
 var daySheet={p:null,date:null,local:null};
-function snapLocal(L){ return JSON.stringify({egg:L.egg||0,estrus:!!L.estrus,weight:L.weight,food:L.food,health:L.health,combDetail:L.combDetail||"",appetite:L.appetite||"",poopC:L.poopC||"",poopF:L.poopF||"",behavior:L.behavior||"",memo:(L.memo||"").trim()}); }
+function snapLocal(L){ return JSON.stringify({egg:L.egg||0,estrus:!!L.estrus,weight:L.weight,food:L.food,health:L.health,combDetail:L.combDetail||"",appetite:L.appetite||"",poopC:L.poopC||"",poopF:L.poopF||"",behavior:L.behavior||"",memo:(L.memo||"").trim(),clinic:L.clinic}); }
 function commitDay(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local; if(!p||!L)return;
   var rec=ensureRec(p.id,date);
   rec.egg=L.egg||0; rec.estrus=L.estrus;
@@ -920,6 +1140,7 @@ function commitDay(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local; if(!
   rec.appetite=L.appetite||""; rec.poopC=L.poopC||""; rec.poopF=L.poopF||""; rec.behavior=L.behavior||"";
   rec.customs=(function(){var o={}; (S.customStamps||[]).forEach(function(cs){if(L.customs&&L.customs[cs.id])o[cs.id]=true;}); return o;})();
   rec.memo=(L.memo||"").trim();
+  if(L.clinic&&(L.clinic.symptoms||L.clinic.diagnosis||L.clinic.treatment||L.clinic.medicine||L.clinic.hospital)){ rec.clinic={symptoms:(L.clinic.symptoms||"").trim(),diagnosis:(L.clinic.diagnosis||"").trim(),treatment:(L.clinic.treatment||"").trim(),medicine:(L.clinic.medicine||"").trim(),hospital:(L.clinic.hospital||"").trim(),photo:rec.clinic?!!rec.clinic.photo:false}; } else if(!L.clinic||(!L.clinic.photo)){ delete rec.clinic; }
   cleanRec(p.id,date); persist();
 }
 function openDaySheet(date){ var p=activePet(); if(!p){toast("先にとりを追加してね"); return;}
@@ -931,14 +1152,17 @@ function openDaySheet(date){ var p=activePet(); if(!p){toast("先にとりを追
     health:(function(){var o={}; if(r.health)HEALTH.forEach(function(h){if(r.health[h.k])o[h.k]=true;}); return o;})(),
     combDetail:r.combDetail||"",
     appetite:r.appetite||"",poopC:r.poopC||"",poopF:r.poopF||"",behavior:r.behavior||"",
-    memo:r.memo||"" };
+    memo:r.memo||"",
+    clinic:{symptoms:r.clinic&&r.clinic.symptoms||"",diagnosis:r.clinic&&r.clinic.diagnosis||"",treatment:r.clinic&&r.clinic.treatment||"",medicine:r.clinic&&r.clinic.medicine||"",hospital:r.clinic&&r.clinic.hospital||""} };
   buildDaySheet(); openSheet(); $("sheetFab").classList.add("show"); daySheet._snap=snapLocal(daySheet.local);
 }
 function buildDaySheet(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local;
   var body=$("sheetBody"); body.innerHTML=""; var dd=parseYmd(date);
   // day nav
   var nav=el("div","daynav");
-  var prev=el("button","arr","‹"), lab=el("button","dlabel",(date===todayStr()?"きょう ":"")+(dd.getMonth()+1)+"/"+dd.getDate()+"（"+WD[dd.getDay()]+"）"), next=el("button","arr","›");
+  var prev=el("button","arr",""), lab=el("button","dlabel",(date===todayStr()?"<span style=\"font-size:11px;display:block;color:var(--ink-soft);font-weight:600;\">きょう</span>":"")+(dd.getMonth()+1)+"/"+dd.getDate()+"（"+WD[dd.getDay()]+"）"), next=el("button","arr","");
+  prev.innerHTML='<span class="chev-l"></span>';
+  next.innerHTML='<span class="chev-r"></span>';
   prev.onclick=function(){ var sn=daySheet._snap; commitDay(); if(sn && sn!==snapLocal(daySheet.local))miniSaved(); openDaySheet0(addDays(date,-1)); };
   next.onclick=function(){ var sn=daySheet._snap; commitDay(); if(sn && sn!==snapLocal(daySheet.local))miniSaved(); openDaySheet0(addDays(date,1)); };
   var pop=el("div","daypop"); pop.onclick=function(e){e.stopPropagation();};
@@ -948,36 +1172,59 @@ function buildDaySheet(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local;
   pop.querySelectorAll(".qs button").forEach(function(btn){ btn.onclick=function(){ var x=+btn.dataset.x; var nd=x===0?todayStr():addDays(todayStr(),x); commitDay(); openDaySheet0(nd); }; });
   di.onchange=function(){ commitDay(); openDaySheet0(di.value); };
   nav.appendChild(prev); nav.appendChild(lab); nav.appendChild(next); nav.appendChild(pop); body.appendChild(nav);
-  body.appendChild(el("div",null,'<div class="sub" style="text-align:center;margin-top:-4px">'+p.emoji+' '+escapeHtml(p.name)+' の記録</div>'));
+  body.appendChild(el("div",null,'<div class="sub" style="text-align:center;margin-top:-4px">'+escapeHtml(p.name)+' の記録</div>'));
 
   var female=isFemale(p);
 
-  // できごと（産卵・発情サイン）: メスのみ。トグル
+  // タブバー
+  var TABS=[{id:"today",label:"できごと"},{id:"health",label:"体 調"},{id:"food",label:"食 事"},{id:"diary",label:"メ モ"}];
+  if(!daySheet._tab) daySheet._tab="today";
+  var tabBar=el("div","day-tabs");
+  var panels={};
+  TABS.forEach(function(t){
+    var btn=el("button","day-tab"+(daySheet._tab===t.id?" active":""),t.label); btn.dataset.tid=t.id;
+    btn.onclick=function(){ daySheet._tab=t.id; Array.prototype.forEach.call(tabBar.children,function(x){ x.className="day-tab"+(x.dataset.tid===t.id?" active":""); }); Object.keys(panels).forEach(function(k){ panels[k].className="tab-panel"+(k===t.id?" active":""); }); };
+    tabBar.appendChild(btn);
+  });
+  body.appendChild(tabBar);
+  TABS.forEach(function(t){ var p2=el("div","tab-panel"+(daySheet._tab===t.id?" active":"")); panels[t.id]=p2; body.appendChild(p2); });
+
+  function appendTo(tabId, node){ panels[tabId].appendChild(node); }
+
+  // ===== きょうタブ =====
   var marksList=MARKS.filter(function(m){ return female; });
   if(marksList.length){
     var fl=el("div","field"); fl.appendChild(el("label",null,"きょうのできごと"));
     var mt=el("div","mark-toggles");
     marksList.forEach(function(m){ var on=m.key==="egg"?L.egg>0:L[m.key]; var b=el("button","mt "+m.key+(on?" on":"")); b.dataset.k=m.key;
-      b.innerHTML='<span class="e">'+m.e+'</span><span class="l">'+m.jp+'</span>';
+      var iconHtml=(m.key==="egg"?'<span class="mt-egg-icon"></span>':m.key==="estrus"?'<span class="mt-heart-icon">♥</span>':'<span class="e">'+m.e+'</span>');
+      b.innerHTML=iconHtml+'<span class="l">'+m.jp+'</span>';
       b.onclick=function(){ if(m.key==="egg")L.egg=L.egg>0?0:1; else L[m.key]=!L[m.key]; b.className="mt "+m.key+((m.key==="egg"?L.egg>0:L[m.key])?" on":""); }; mt.appendChild(b); });
-    fl.appendChild(mt); body.appendChild(fl);
+    fl.appendChild(mt); appendTo("today",fl);
   }
 
-  // 期間ブロック（抱卵=メスのみ / 換羽=両方）。開始/終了・入れ子防止・過去管理
   function periodBlock(opts){
     var arr=S[opts.arrName];
     var cover=null, ongoing=null;
     for(var i=0;i<arr.length;i++){ var b=arr[i]; if(b.petId!==p.id)continue; var en=b.end?b.end:todayStr(); if(date>=b.start&&date<=en)cover=b; if(!b.end)ongoing=b; }
-    var bf=el("div","field"); bf.appendChild(el("label",null,opts.label));
+    var bf=el("div","field");
+    var fhd=el("div"); fhd.style.cssText="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;";
+    var lbl=el("label"); lbl.style.cssText="margin:0;display:inline-flex;align-items:center;gap:5px;";
+    var lblIc=svgIcon(opts.icon); lblIc.setAttribute("width","13"); lblIc.setAttribute("height","13"); lblIc.style.opacity=".8";
+    lbl.appendChild(lblIc); lbl.appendChild(document.createTextNode(opts.word));
+    var listLnk=el("button"); listLnk.textContent="期間一覧 ✏"; listLnk.style.cssText="font-size:12px;font-weight:700;color:var(--ink-soft);padding:0;";
+    listLnk.onclick=function(){commitDay(); opts.openList(p, true);};
+    fhd.appendChild(lbl); fhd.appendChild(listLnk); bf.appendChild(fhd);
     var brow=el("div","brood-row");
     var startBtn=el("button","brood-btn start"), endBtn=el("button","brood-btn end");
     startBtn.textContent="開始"; endBtn.textContent="終了";
     var statusEl=el("div","brood-status");
-    if(cover){ var bday=diffDays(cover.start,date)+1; statusEl.textContent=opts.word+"中（"+fmtMd(cover.start)+"から "+bday+"日目）"; }
-    else if(ongoing){ statusEl.textContent="別の日から"+opts.word+"中です（"+fmtMd(ongoing.start)+"〜）"; }
-    else statusEl.textContent="この日は"+opts.word+"していません";
+    if(cover){ var bday=diffDays(cover.start,date)+1; statusEl.textContent=opts.word+"中（"+bday+"日目）"; }
+    else if(ongoing){ statusEl.textContent="別の日から"+opts.word+"中（"+fmtMd(ongoing.start)+"〜）"; }
+    else statusEl.textContent="";
     var canStart=!cover && !ongoing, canEnd=!!cover;
     if(!canStart)startBtn.classList.add("disabled"); if(!canEnd)endBtn.classList.add("disabled");
+    if(canEnd)endBtn.classList.add("active");
     startBtn.onclick=function(){ if(!canStart){ toast(ongoing?"すでに"+opts.word+"中です（先に終了してね）":"この日はすでに"+opts.word+"に含まれています"); return; }
       var rec={id:uid(),petId:p.id,start:date,end:null}; if(opts.arrName==="broods"){var c=clutchInfo(p); rec.eggCount=0;}
       arr.push(rec); opts.cleanup(); persist(); buildDaySheet(); renderCalendar(); renderStateCard(); toast(fmtMd(date)+"から"+opts.word+"をはじめました"); };
@@ -985,81 +1232,86 @@ function buildDaySheet(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local;
       cover.end=date; if(cover.end<cover.start)cover.end=cover.start; opts.cleanup(); persist(); buildDaySheet(); renderCalendar(); renderStateCard(); toast(fmtMd(date)+"で"+opts.word+"をおわりにしました"); };
     brow.appendChild(startBtn); brow.appendChild(endBtn);
     bf.appendChild(brow); bf.appendChild(statusEl);
-    var manage=el("button","brood-adjust",opts.word+"の記録を管理（過去の追加・編集）"); manage.onclick=function(){ commitDay(); opts.openList(p); }; bf.appendChild(manage);
-    body.appendChild(bf);
+    var manage=el("button","brood-adjust",opts.word+"の記録を管理"); manage.onclick=function(){ commitDay(); opts.openList(p, true); }; bf.appendChild(manage);
+    appendTo("today",bf);
   }
-  if(female) periodBlock({arrName:"broods",label:"🐣 抱卵",word:"抱卵",cleanup:cleanupBroods,openList:openBroodListSheet});
-  periodBlock({arrName:"molts",label:"🪶 換羽",word:"換羽",cleanup:cleanupMolts,openList:openMoltListSheet});
+  if(female) periodBlock({arrName:"broods",word:"抱卵",icon:"house",cleanup:cleanupBroods,openList:openBroodListSheet});
+  periodBlock({arrName:"molts",word:"換羽",icon:"feather",cleanup:cleanupMolts,openList:openMoltListSheet});
 
-  // weight
-  var wf=el("div","field"); wf.appendChild(el("label",null,"体重"));
-  var ww=el("div","inwrap"); var wi=el("input"); wi.type="number"; wi.inputMode="decimal"; wi.step="0.1"; wi.placeholder="例) 1450.0"; wi.value=L.weight; wi.oninput=function(){L.weight=wi.value;}; ww.appendChild(wi); ww.appendChild(el("span","u","g")); wf.appendChild(ww); body.appendChild(wf);
-
-  // 主食ブロック
-  var fdf=el("div","field"); fdf.appendChild(el("label",null,"🍚 ごはん（主食）"));
-  var fb=el("div","foodbox");
-  var tot=el("div","total"); var ti=el("input"); ti.type="number"; ti.inputMode="decimal"; ti.placeholder="合計を直接入力"; ti.value=L.food.t;
-  tot.appendChild(ti); tot.appendChild(el("span","u","g")); var tg=el("button","toggle","朝昼夕に分ける ▾"); tot.appendChild(tg); fb.appendChild(tot);
-  var br=el("div","foodbreak");
-  FOODS.forEach(function(f){ var it=el("div","fb-item"); it.innerHTML='<span class="e">'+f.e+'</span><span class="fl">'+f.l+'</span>';
-    var inp=el("input"); inp.type="number"; inp.inputMode="decimal"; inp.placeholder="0"; inp.value=L.food[f.k]; inp.dataset.k=f.k;
-    inp.oninput=function(){ L.food[f.k]=inp.value; recalcFood(); }; it.appendChild(inp); it.appendChild(el("span","u","g")); br.appendChild(it); });
-  fb.appendChild(br);
-  var anyBreak=(+L.food.m||0)+(+L.food.n||0)+(+L.food.e2||0)>0;
-  if(anyBreak){br.classList.add("open"); tg.textContent="とじる ▴";}
-  tg.onclick=function(){ br.classList.toggle("open"); tg.textContent=br.classList.contains("open")?"とじる ▴":"朝昼夕に分ける ▾"; };
-  ti.oninput=function(){ L.food.t=ti.value; };
-  function recalcFood(){ var s=(+L.food.m||0)+(+L.food.n||0)+(+L.food.e2||0); if(s>0){L.food.t=s; ti.value=s;} }
-  fdf.appendChild(fb); body.appendChild(fdf);
-
-  // おやつブロック（別枠・任意）
-  var snf=el("div","field"); snf.appendChild(el("label",null,"🍎 おやつ"));
-  var snbox=el("div","foodbox");
-  var sntot=el("div","total"); var sni=el("input"); sni.type="number"; sni.inputMode="decimal"; sni.placeholder="量"; sni.value=L.food.s; sni.oninput=function(){L.food.s=sni.value;};
-  sntot.appendChild(sni); sntot.appendChild(el("span","u","g")); snbox.appendChild(sntot);
-  var sm=el("input","fb-snackmemo"); sm.type="text"; sm.placeholder="おやつの内容（例: 小松菜・粟穂）"; sm.value=L.food.sm; sm.oninput=function(){L.food.sm=sm.value;};
-  var smwrap=el("div","snackmemo-wrap"); smwrap.appendChild(sm); snbox.appendChild(smwrap);
-  snf.appendChild(snbox); body.appendChild(snf);
-
-  // health marks（性別で出し分け・補足文言なし）
+  // ===== 体調タブ =====
   var hf=el("div","field"); hf.appendChild(el("label",null,"体調マーク"));
   var hg=el("div","health-grid");
   var combSubWrap=null;
   function renderCombSub(){ if(!combSubWrap)return; combSubWrap.style.display=L.health.comb?"grid":"none";
     Array.prototype.forEach.call(combSubWrap.children,function(x,i){ x.className="chip mini"+(L.combDetail===COMB_SUB[i].v?" on":""); }); }
   HEALTH.filter(function(h){ return female || !h.femaleOnly; }).forEach(function(h){ var on=L.health[h.k]; var b=el("button","mt health"+(on?" on":"")); b.dataset.k=h.k;
-    b.innerHTML='<span class="e">'+h.e+'</span><span class="l">'+h.l+'</span>';
-    b.onclick=function(){ if(L.health[h.k])delete L.health[h.k]; else L.health[h.k]=true; b.className="mt health"+(L.health[h.k]?" on":"");
+    b.innerHTML='<span class="e">'+h.e+'</span><span class="l">'+h.l+'</span><span class="hc-chk">'+(on?'✓':'')+'</span>';
+    b.onclick=function(){ if(L.health[h.k])delete L.health[h.k]; else L.health[h.k]=true; b.className="mt health"+(L.health[h.k]?" on":""); var chk=b.querySelector(".hc-chk"); if(chk)chk.textContent=L.health[h.k]?"✓":"";
       if(h.k==="comb"){ if(!L.health.comb)L.combDetail=""; renderCombSub(); } }; hg.appendChild(b); });
   hf.appendChild(hg);
-  // とさか不調のサブ選択（黒っぽい/白っぽい）
   combSubWrap=el("div","chiprow sub2"); combSubWrap.style.marginTop="8px"; combSubWrap.style.display="none";
   COMB_SUB.forEach(function(o){ var b=el("button","chip mini"); b.innerHTML='<span class="cl">とさかが '+o.l+'</span>';
     b.onclick=function(){ L.combDetail=(L.combDetail===o.v)?"":o.v; renderCombSub(); }; combSubWrap.appendChild(b); });
-  hf.appendChild(combSubWrap); body.appendChild(hf); renderCombSub();
+  hf.appendChild(combSubWrap); appendTo("health",hf); renderCombSub();
 
-  // optional select chips（補足文言なし）
-  function chipRow(labelText, options, curKey){
+  function chipRow(labelText, options, curKey, tabId){
     var f=el("div","field"); f.appendChild(el("label",null,labelText));
     var row=el("div","chiprow");
     options.forEach(function(o){ var on=L[curKey]===o.v; var b=el("button","chip"+(on?" on":""));
       b.innerHTML='<span class="ce">'+o.e+'</span><span class="cl">'+o.l+'</span>';
       b.onclick=function(){ L[curKey]=(L[curKey]===o.v)?"":o.v; Array.prototype.forEach.call(row.children,function(x,i){ x.className="chip"+(L[curKey]===options[i].v?" on":""); }); };
       row.appendChild(b); });
-    f.appendChild(row); body.appendChild(f);
+    f.appendChild(row); appendTo(tabId,f);
   }
-  chipRow("🍽 食欲", APPETITE, "appetite");
-  chipRow("💩 うんちの状態", POOP_COLOR, "poopC");
-  chipRow("💩 うんちのかたさ", POOP_FORM, "poopF");
-  chipRow("🐔 きょうの様子", BEHAVIOR, "behavior");
+  chipRow("🍽 食欲", APPETITE, "appetite", "health");
+  chipRow("💩 うんちの状態", POOP_COLOR, "poopC", "health");
+  chipRow("💩 うんちのかたさ", POOP_FORM, "poopF", "health");
+  chipRow("🐔 きょうの様子", BEHAVIOR, "behavior", "health");
+  if(S.customStamps&&S.customStamps.length){
+    var csf=el("div","field"); csf.appendChild(el("label",null,"カスタム"));
+    var csrow2=el("div","chiprow"); (S.customStamps||[]).forEach(function(cs){
+      var on=L.customs&&L.customs[cs.id]; var b=el("button","chip"+(on?" on":""));
+      b.innerHTML='<span class="ce">'+cs.emoji+'</span><span class="cl">'+escapeHtml(cs.label)+'</span>';
+      b.onclick=function(){ L.customs=L.customs||{}; L.customs[cs.id]=!L.customs[cs.id];
+        b.className="chip"+(L.customs[cs.id]?" on":""); }; csrow2.appendChild(b); });
+    csf.appendChild(csrow2); appendTo("health",csf); }
+  { var cmb=el("button","btn ghost"); cmb.textContent="カスタム項目を管理"; cmb.style.cssText="margin-top:8px;font-size:13px;padding:10px 14px;"; cmb.onclick=function(){openCustomStampsSheet();}; appendTo("health",cmb); }
 
-  // photo
-  var pf=el("div","field"); pf.appendChild(el("label",null,"写真"));
+  // ===== 食事タブ =====
+  var wf=el("div","field"); wf.appendChild(el("label",null,"体重"));
+  var ww=el("div","inwrap"); var wi=el("input"); wi.type="number"; wi.inputMode="decimal"; wi.step="0.1"; wi.placeholder="例) 1450.0"; wi.value=L.weight; wi.oninput=function(){L.weight=wi.value;}; wi.onblur=function(){ var v=parseFloat(wi.value); if(!isNaN(v)&&wi.value!==''){wi.value=v.toFixed(1); L.weight=wi.value;} }; ww.appendChild(wi); ww.appendChild(el("span","u","g")); wf.appendChild(ww); appendTo("food",wf);
+
+  var fdf=el("div","field"); fdf.appendChild(el("label",null,"🍚 ごはん（主食）"));
+  var fb=el("div","foodbox");
+  var tot=el("div","total"); var ti=el("input"); ti.type="number"; ti.inputMode="decimal"; ti.placeholder="合計を直接入力"; ti.value=L.food.t;
+  tot.appendChild(ti); tot.appendChild(el("span","u","g")); var tg=el("button","toggle"); tg.innerHTML='朝昼夕に分ける <span class="ar"><span class="chev-d"></span></span>'; tot.appendChild(tg); fb.appendChild(tot);
+  var br=el("div","foodbreak");
+  FOODS.forEach(function(f){ var it=el("div","fb-item"); it.innerHTML='<span class="e">'+f.e+'</span><span class="fl">'+f.l+'</span>';
+    var inp=el("input"); inp.type="number"; inp.inputMode="decimal"; inp.placeholder="0"; inp.value=L.food[f.k]; inp.dataset.k=f.k;
+    inp.oninput=function(){ L.food[f.k]=inp.value; recalcFood(); }; it.appendChild(inp); it.appendChild(el("span","u","g")); br.appendChild(it); });
+  fb.appendChild(br);
+  var anyBreak=(+L.food.m||0)+(+L.food.n||0)+(+L.food.e2||0)>0;
+  if(anyBreak){br.classList.add("open"); tg.querySelector(".ar").classList.add("open");}
+  tg.onclick=function(){ br.classList.toggle("open"); tg.querySelector(".ar").classList.toggle("open"); };
+  ti.oninput=function(){ L.food.t=ti.value; };
+  function recalcFood(){ var s=(+L.food.m||0)+(+L.food.n||0)+(+L.food.e2||0); if(s>0){L.food.t=s; ti.value=s;} }
+  fdf.appendChild(fb); appendTo("food",fdf);
+
+  var snf=el("div","field"); snf.appendChild(el("label",null,"🍎 おやつ"));
+  var snbox=el("div","foodbox");
+  var sntot=el("div","total"); var sni=el("input"); sni.type="number"; sni.inputMode="decimal"; sni.placeholder="量"; sni.value=L.food.s; sni.oninput=function(){L.food.s=sni.value;};
+  sntot.appendChild(sni); sntot.appendChild(el("span","u","g")); snbox.appendChild(sntot);
+  var sm=el("input","fb-snackmemo"); sm.type="text"; sm.placeholder="おやつの内容（例: 小松菜・粟穂）"; sm.value=L.food.sm; sm.oninput=function(){L.food.sm=sm.value;};
+  var smwrap=el("div","snackmemo-wrap"); smwrap.appendChild(sm); snbox.appendChild(smwrap);
+  snf.appendChild(snbox); appendTo("food",snf);
+
+  // ===== 日記タブ =====
+  var pf=el("div","field"); pf.appendChild(el("label","field-section-lbl","写真"));
   var prow=el("div","photo-row"); var thumbHost=el("div"); prow.appendChild(thumbHost);
   var pbtns=el("div","photo-btns");
   var selBtn=el("button","btn ghost","写真を選ぶ"); var fileIn=el("input"); fileIn.type="file"; fileIn.accept="image/*"; fileIn.hidden=true;
   var delBtn=el("button","link-danger","写真を削除"); delBtn.style.display="none";
-  pbtns.appendChild(selBtn); pbtns.appendChild(fileIn); prow.appendChild(pbtns); pf.appendChild(prow); pf.appendChild(delBtn); body.appendChild(pf);
+  pbtns.appendChild(selBtn); pbtns.appendChild(fileIn); prow.appendChild(pbtns); pf.appendChild(prow); pf.appendChild(delBtn); appendTo("diary",pf);
   function showThumb(blob){ thumbHost.innerHTML=""; if(blob){ var img=el("img","photo-thumb"); img.src=URL.createObjectURL(blob); thumbHost.appendChild(img); delBtn.style.display="block"; selBtn.textContent="写真を変える"; }
     else { thumbHost.innerHTML='<div class="photo-empty">📷</div>'; delBtn.style.display="none"; selBtn.textContent="写真を選ぶ"; } }
   idbGet(recKey(p.id,date)).then(function(b){ showThumb(b); });
@@ -1068,18 +1320,49 @@ function buildDaySheet(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local;
       idbPut(recKey(p.id,date),blob).then(function(ok){ if(ok){ var rec=ensureRec(p.id,date); rec.photo=true; persist(); showThumb(blob); toast("写真を保存しました"); } else toast("写真を保存できませんでした"); }); }); };
   delBtn.onclick=function(){ idbDel(recKey(p.id,date)).then(function(){ var rec=getRec(p.id,date); if(rec){rec.photo=false; cleanRec(p.id,date); persist();} showThumb(null); toast("写真を削除しました"); }); };
 
-  // memo
-  // カスタムスタンプ（設定で追加したもの）
-  if(S.customStamps&&S.customStamps.length){
-    var csf=el("div","field"); csf.appendChild(el("label",null,"カスタム"));
-    var csrow2=el("div","chiprow"); (S.customStamps||[]).forEach(function(cs){
-      var on=L.customs&&L.customs[cs.id]; var b=el("button","chip"+(on?" on":""));
-      b.innerHTML='<span class="ce">'+cs.emoji+'</span><span class="cl">'+escapeHtml(cs.label)+'</span>';
-      b.onclick=function(){ L.customs=L.customs||{}; L.customs[cs.id]=!L.customs[cs.id];
-        b.className="chip"+(L.customs[cs.id]?" on":""); }; csrow2.appendChild(b); });
-    csf.appendChild(csrow2); body.appendChild(csf); }
-  var mf=el("div","field"); mf.appendChild(el("label",null,"📝 メモ・日記"));
-  var ta=el("textarea","memo"); ta.placeholder=MEMO_PH; ta.value=L.memo; ta.oninput=function(){L.memo=ta.value;}; mf.appendChild(ta); body.appendChild(mf);
+  var mf=el("div","field"); mf.appendChild(el("label","field-section-lbl","📝 メモ・日記"));
+  var ta=el("textarea","memo"); ta.placeholder=MEMO_PH; ta.value=L.memo; ta.oninput=function(){L.memo=ta.value;}; mf.appendChild(ta); appendTo("diary",mf);
+
+  // 病院・通院セクション
+  (function(){
+    var cl=L.clinic||{}; var hasCl=cl.symptoms||cl.diagnosis||cl.treatment||cl.medicine||cl.hospital;
+    var sec=el("div","clinic-section");
+    var tog=el("button","clinic-toggle"+(hasCl?" open":""));
+    var badge=hasCl?'<span class="clinic-badge">記録あり</span>':'';
+    tog.innerHTML='<span class="ct-lbl">🏥 病院・通院'+badge+'</span><span class="ct-ar"><span class="chev-d"></span></span>';
+    var bod=el("div","clinic-body"+(hasCl?" open":""));
+    tog.onclick=function(){ tog.classList.toggle("open"); bod.classList.toggle("open"); };
+    function clinicField(lbl,key,isTA,ph){
+      var f=el("div","clinic-field"); f.appendChild(el("label",null,lbl));
+      var inp=isTA?el("textarea"):el("input"); inp.value=cl[key]||""; inp.placeholder=ph||lbl;
+      inp.oninput=function(){L.clinic[key]=inp.value;};
+      f.appendChild(inp); bod.appendChild(f); return inp;
+    }
+    clinicField("症状",     "symptoms", true,  "例）元気がない、食欲低下、くちばし周りに異常");
+    clinicField("診断",     "diagnosis",true,  "例）腸炎の疑い、卵管炎、要経過観察");
+    clinicField("処置",     "treatment",true,  "例）点滴、投薬、レントゲン撮影");
+    clinicField("おくすり", "medicine", false, "例）バイトリル 0.5ml、朝・夕");
+    clinicField("病院名",   "hospital", false, "例）〇〇動物クリニック");
+
+    // 病院写真
+    var cpf=el("div","clinic-field"); cpf.appendChild(el("label",null,"写真"));
+    var cprow=el("div","photo-row"); var cThumbHost=el("div"); cprow.appendChild(cThumbHost);
+    var cpbtns=el("div","photo-btns");
+    var cSelBtn=el("button","btn ghost","写真を選ぶ"); var cFileIn=el("input"); cFileIn.type="file"; cFileIn.accept="image/*"; cFileIn.hidden=true;
+    var cDelBtn=el("button","link-danger","写真を削除"); cDelBtn.style.display="none";
+    cpbtns.appendChild(cSelBtn); cpbtns.appendChild(cFileIn); cprow.appendChild(cpbtns); cpf.appendChild(cprow); cpf.appendChild(cDelBtn);
+    bod.appendChild(cpf);
+    var clinicPhotoKey="clinic|"+p.id+"|"+date;
+    function showCThumb(blob){ cThumbHost.innerHTML=""; if(blob){ var img2=el("img","photo-thumb"); img2.src=URL.createObjectURL(blob); cThumbHost.appendChild(img2); cDelBtn.style.display="block"; cSelBtn.textContent="写真を変える"; } else { cThumbHost.innerHTML='<div class="photo-empty">📷</div>'; cDelBtn.style.display="none"; cSelBtn.textContent="写真を選ぶ"; } }
+    idbGet(clinicPhotoKey).then(function(b){ showCThumb(b); });
+    cSelBtn.onclick=function(){ cFileIn.click(); };
+    cFileIn.onchange=function(){ var f2=cFileIn.files[0]; if(!f2)return; resizeImage(f2,1000,0.82).then(function(blob){ if(!blob){toast("この端末では写真を保存できません"); return;}
+      idbPut(clinicPhotoKey,blob).then(function(ok){ if(ok){ var rec2=ensureRec(p.id,date); if(!rec2.clinic)rec2.clinic={}; rec2.clinic.photo=true; persist(); showCThumb(blob); toast("写真を保存しました"); } else toast("写真を保存できませんでした"); }); }); };
+    cDelBtn.onclick=function(){ idbDel(clinicPhotoKey).then(function(){ var rec3=getRec(p.id,date); if(rec3&&rec3.clinic){rec3.clinic.photo=false;} showCThumb(null); toast("写真を削除しました"); }); };
+
+    sec.appendChild(tog); sec.appendChild(bod);
+    appendTo("diary",sec);
+  })();
 
   // actions
   var act=el("div","sheet-actions");
@@ -1096,7 +1379,7 @@ function buildDaySheet(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local;
       S.pets.filter(function(pp){return pp.id!==daySheet.p.id;}).forEach(function(pp){
         var row=el("div","brood-list-row"); var chk={v:false};
         var cb2=el("input"); cb2.type="checkbox"; cb2.style.cssText="width:20px;height:20px;cursor:pointer;flex-shrink:0;";
-        var lbl=el("label"); lbl.style.cssText="display:flex;align-items:center;gap:10px;flex:1;cursor:pointer;font-weight:700;font-size:14px;"; lbl.appendChild(cb2); lbl.appendChild(document.createTextNode(pp.emoji+" "+pp.name));
+        var lbl=el("label"); lbl.style.cssText="display:flex;align-items:center;gap:10px;flex:1;cursor:pointer;font-weight:700;font-size:14px;"; lbl.appendChild(cb2); lbl.appendChild(document.createTextNode(pp.name));
         row.appendChild(lbl); wrap.appendChild(row); row._pet=pp; row._chk=cb2; });
       cb.appendChild(wrap);
       var act2=el("div","sheet-actions");
@@ -1113,7 +1396,7 @@ function buildDaySheet(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local;
             cleanRec(pp.id,daySheet.date); copied++; } });
         persist(); closeSheet(); renderAll(); toast(copied+"羽にコピーしました"); };
       act2.appendChild(doBtn);
-      var cancel=el("button","btn ghost","キャンセル"); cancel.onclick=closeSheet; act2.appendChild(cancel);
+      var cancel=el("button","btn ghost","キャンセル"); cancel.onclick=function(){buildDaySheet();}; act2.appendChild(cancel);
       cb.appendChild(act2); };
     act.appendChild(copyBtn); }
   if(getRec(p.id,date)){ var del=el("button","link-danger","この日の記録を消す");
@@ -1148,7 +1431,7 @@ function openPetSheet(petId){ var editing=!!petId;
   bdf.appendChild(el("div","faint","わからない時はだいたいでOK（年齢の目安に使います）")); bdf.querySelector(".faint").style.cssText="font-size:11px;margin-top:6px;line-height:1.5;"; body.appendChild(bdf);
   var wdf=el("div","field"); wdf.appendChild(el("label",null,"お迎えした日（任意）"));
   var wdw=el("div","inwrap"); var wdi=el("input"); wdi.type="date"; wdi.value=L.welcome; wdi.style.cssText="flex:1;border:none;background:transparent;padding:13px 0;font-weight:700;"; wdi.oninput=function(){L.welcome=wdi.value;}; wdw.appendChild(wdi); wdf.appendChild(wdw);
-  wdf.appendChild(el("div","faint","誕生日と違う場合に。「うちの子になってから◯日」として表示できます")); wdf.querySelector(".faint").style.cssText="font-size:11px;margin-top:6px;line-height:1.5;"; body.appendChild(wdf);
+  body.appendChild(wdf);
   // プロフィール写真（任意）
   var pf=el("div","field"); pf.appendChild(el("label",null,"プロフィール写真（任意）"));
   var prow=el("div","photo-row"); var thumbHost=el("div"); prow.appendChild(thumbHost);
@@ -1197,7 +1480,7 @@ function openPetSheet(petId){ var editing=!!petId;
 
 /* ===== year/month picker ===== */
 function openYmPicker(){ var body=$("sheetBody"); body.innerHTML="";
-  body.appendChild(el("div",null,'<h2>年・月をえらぶ</h2><div class="sub">過去や先の月へ一気に移動できます</div>'));
+  body.appendChild(el("div",null,'<h2>年・月をえらぶ</h2>'));
   var wrap=el("div","yearmonth"); var ys=el("select"), ms=el("select"); var now=new Date().getFullYear();
   for(var y=now-12;y<=now+1;y++){var o=el("option",null,y+"年"); o.value=y; if(y===calY)o.selected=true; ys.appendChild(o);}
   for(var m=0;m<12;m++){var o2=el("option",null,(m+1)+"月"); o2.value=m; if(m===calM)o2.selected=true; ms.appendChild(o2);}
@@ -1209,7 +1492,7 @@ function openYmPicker(){ var body=$("sheetBody"); body.innerHTML="";
 }
 
 /* ===== brood edit sheet ===== */
-function openMoltListSheet(p){
+function openMoltListSheet(p, fromDay){
   var body=$("sheetBody"); body.innerHTML="";
   body.appendChild(el("div",null,'<h2>🪶 換羽の記録</h2><div class="sub">'+escapeHtml(p.name)+' のこれまでの換羽期間</div>'));
   var list=S.molts.filter(function(b){return b.petId===p.id;}).sort(function(a,b){return a.start<b.start?1:-1;});
@@ -1224,7 +1507,7 @@ function openMoltListSheet(p){
   var addb=el("button","btn primary","過去の換羽を追加");
   addb.onclick=function(){ var nb={id:uid(),petId:p.id,start:addDays(todayStr(),-14),end:addDays(todayStr(),-1)}; S.molts.push(nb); persist(); openMoltEditSheet(nb.id); };
   act.appendChild(addb);
-  var back=el("button","btn ghost","とじる"); back.onclick=closeSheet; act.appendChild(back);
+  var back=el("button","btn ghost",fromDay?"< 戻る":"とじる"); back.onclick=fromDay?function(){buildDaySheet();}:closeSheet; act.appendChild(back);
   body.appendChild(act); openSheet();
 }
 function openMoltEditSheet(moltId){
@@ -1249,15 +1532,21 @@ function openMoltEditSheet(moltId){
   act.appendChild(del);
   body.appendChild(act); openSheet();
 }
-function openBroodListSheet(p){
+function openBroodListSheet(p, fromDay){
   var body=$("sheetBody"); body.innerHTML="";
   body.appendChild(el("div",null,'<h2>🐣 抱卵の記録</h2><div class="sub">'+escapeHtml(p.name)+' のこれまでの抱卵期間</div>'));
   var list=S.broods.filter(function(b){return b.petId===p.id;}).sort(function(a,b){return a.start<b.start?1:-1;});
   if(!list.length){ body.appendChild(el("div","empty",'<div class="e">🐣</div><p>まだ抱卵の記録はありません</p>')); }
   else { var wrap=el("div","card"); wrap.style.padding="4px 14px";
+    var lastYr="";
     list.forEach(function(b){ var row=el("div","brood-list-row");
+      var yr=b.start.split("-")[0];
+      if(yr!==lastYr){ lastYr=yr; var yhd=el("div"); yhd.style.cssText="font-size:11px;font-weight:700;color:var(--ink-faint);letter-spacing:.05em;padding:10px 0 4px;border-top:"+(wrap.childNodes.length?"1px solid var(--line-soft)":"none")+";"; yhd.textContent=yr+"年"; wrap.appendChild(yhd); }
       var days=(b.end?diffDays(b.start,b.end):diffDays(b.start,todayStr()))+1;
-      var info=el("div"); info.innerHTML='<div style="font-weight:800;font-size:14px">'+fmtMd(b.start)+' 〜 '+(b.end?fmtMd(b.end):'<span style="color:var(--rust)">継続中</span>')+'</div><div class="faint" style="font-size:12px">'+days+'日'+(b.eggCount?' ・ 卵'+b.eggCount+'個':'')+'</div>';
+      var ongoing=!b.end;
+      var eggBadge=b.eggCount?'<span style="background:var(--amber-soft);color:var(--rust);border-radius:999px;padding:2px 9px;font-size:12px;font-weight:700;margin-left:6px;">🥚 '+b.eggCount+'個</span>':'';
+      var ongoingBadge=ongoing?'<span style="background:var(--rust);color:#fff;border-radius:999px;padding:2px 9px;font-size:11px;font-weight:700;margin-right:6px;">進行中</span>':'';
+      var info=el("div"); info.innerHTML=ongoingBadge+'<span style="font-weight:800;font-size:14px">'+fmtMd(b.start)+' 〜 '+(b.end?fmtMd(b.end):'<span style="color:var(--rust)">継続中</span>')+'</span>'+'<div style="margin-top:2px"><span style="font-size:13px;font-weight:700;color:var(--ink-soft)">'+days+'日</span>'+eggBadge+'</div>';
       var edit=el("button","edit","編集"); edit.onclick=function(){ openBroodEditSheet(b.id); };
       row.appendChild(info); row.appendChild(edit); wrap.appendChild(row); });
     body.appendChild(wrap); }
@@ -1265,7 +1554,7 @@ function openBroodListSheet(p){
   var addb=el("button","btn primary","過去の抱卵を追加");
   addb.onclick=function(){ var nb={id:uid(),petId:p.id,start:addDays(todayStr(),-21),end:addDays(todayStr(),-1),eggCount:0}; S.broods.push(nb); persist(); openBroodEditSheet(nb.id); };
   act.appendChild(addb);
-  var back=el("button","btn ghost","とじる"); back.onclick=closeSheet; act.appendChild(back);
+  var back=el("button","btn ghost",fromDay?"< 戻る":"とじる"); back.onclick=fromDay?function(){buildDaySheet();}:closeSheet; act.appendChild(back);
   body.appendChild(act); openSheet();
 }
 function openBroodEditSheet(broodId){
@@ -1320,8 +1609,9 @@ function renderWeight(){ var sb=$("wMode").querySelector('button[data-m="single"
   stats.appendChild(stat(avg!=null?'<span class="snum">'+avg+'</span><span class="u">g</span>':"—","平均"));
   var cv=change==null?"—":((change>0?"+":"")+(Math.round(change*10)/10)+'<span class="u">g</span>');
   stats.appendChild(stat(cv,"期間の増減",change==null?"":(change>0?"up":change<0?"down":"")));
-  stats.appendChild(stat(mn2!=null?mn2+'<span class="u">g</span>'+"–"+mx2+'<span class="u">g</span>':"—","最小〜最大"));
-  drawChart(chart,data.map(function(x){return {date:x.date,w:x.w};}),p.color);
+  stats.appendChild(stat(mn2!=null?mn2+'<span class="u">g</span>'+"–"+mx2+'<span class="u">g</span>':"—","最小〜最大","small-stat"));
+  var wWrap=$("wChartWrap"); var chartW=0; if(wWrap&&wRange>=90&&data.length>10){ chartW=Math.max(wWrap.clientWidth||350,data.length*14); chart.style.width=chartW+"px"; } else if(wWrap){ chart.style.width=""; }
+  drawChart(chart,data.map(function(x){return {date:x.date,w:x.w};}),p.color,chartW||0);
   // list
   list.innerHTML=""; var allRec=[]; Object.keys(S.records).forEach(function(k){if(k.indexOf(p.id+"|")===0){var d2=k.split("|")[1]; if(d2>=cutoff)allRec.push({date:d2,r:S.records[k]});}});
   allRec.sort(function(a,b){return a.date>b.date?-1:1;});
@@ -1340,7 +1630,7 @@ function renderWeight(){ var sb=$("wMode").querySelector('button[data-m="single"
 }
 function fmtW(v){ var r=Math.round(v*10)/10; return r===Math.round(r)?Math.round(r)+"":r+""; }
 function niceTick(mn,mx,n){ var raw=(mx-mn)/n; var mag=Math.pow(10,Math.floor(Math.log10(raw))); var step=raw/mag; var nice=step<1.5?1:step<3?2:step<7?5:10; return nice*mag; }
-function drawChart(svg,data,color){ svg.innerHTML=""; var W=svg.clientWidth||390,H=180,padL=42,padR=8,padT=12,padB=24;
+function drawChart(svg,data,color,forceW){ svg.innerHTML=""; var W=forceW||svg.clientWidth||390,H=180,padL=42,padR=8,padT=12,padB=24;
   svg.setAttribute("viewBox","0 0 "+W+" "+H); var NS="http://www.w3.org/2000/svg";
   if(!data.length){ var t=document.createElementNS(NS,"text"); t.setAttribute("x",W/2); t.setAttribute("y",H/2); t.setAttribute("text-anchor","middle"); t.setAttribute("fill","#B6AB99"); t.setAttribute("font-size","13"); t.setAttribute("font-weight","700"); t.textContent="この期間の体重記録がありません"; svg.appendChild(t); return; }
   var ws=data.map(function(d){return d.w;}), rawMn=Math.min.apply(null,ws), rawMx=Math.max.apply(null,ws);
@@ -1368,21 +1658,22 @@ function drawChart(svg,data,color){ svg.innerHTML=""; var W=svg.clientWidth||390
   var ttline=document.createElementNS(NS,"line"); ttline.setAttribute("stroke","rgba(150,80,40,.35)"); ttline.setAttribute("stroke-width","1"); ttline.setAttribute("stroke-dasharray","3,2"); tooltip.appendChild(ttline);
   var ttt1=document.createElementNS(NS,"text"); ttt1.setAttribute("fill","#fff"); ttt1.setAttribute("font-size","10"); ttt1.setAttribute("font-weight","600"); tooltip.appendChild(ttt1);
   var ttt2=document.createElementNS(NS,"text"); ttt2.setAttribute("fill","#fff"); ttt2.setAttribute("font-size","13"); ttt2.setAttribute("font-weight","800"); tooltip.appendChild(ttt2);
-  svg.appendChild(tooltip);
   data.forEach(function(d,i){
     var c=document.createElementNS(NS,"circle"); c.setAttribute("cx",X(i)); c.setAttribute("cy",Y(d.w)); c.setAttribute("r",n>40?2:3.2); c.setAttribute("fill","#fff"); c.setAttribute("stroke",color); c.setAttribute("stroke-width","2"); svg.appendChild(c);
     var hit=document.createElementNS(NS,"circle"); hit.setAttribute("cx",X(i)); hit.setAttribute("cy",Y(d.w)); hit.setAttribute("r",n>30?8:12); hit.setAttribute("fill","transparent");
     (function(dd,xi,yi){ hit.addEventListener("click",function(e){e.stopPropagation();
       var dp=dd.date.split("-"); var label1=dp[0]+"年"+parseInt(dp[1])+"月"+parseInt(dp[2])+"日"; var label2=dd.w+"g";
-      var tx=Math.max(28,Math.min(W-28,xi)); var ty=Math.max(35,yi-18);
+      var tx=Math.max(28,Math.min(W-28,xi));
+      var showBelow=yi<55; var bgY=showBelow?yi+4:Math.max(3,yi-38);
       ttt1.textContent=label1; ttt2.textContent=label2;
-      ttt1.setAttribute("x",tx); ttt1.setAttribute("y",ty-10); ttt1.setAttribute("text-anchor","middle");
-      ttt2.setAttribute("x",tx); ttt2.setAttribute("y",ty+6); ttt2.setAttribute("text-anchor","middle");
+      ttt1.setAttribute("x",tx); ttt1.setAttribute("y",bgY+14); ttt1.setAttribute("text-anchor","middle");
+      ttt2.setAttribute("x",tx); ttt2.setAttribute("y",bgY+28); ttt2.setAttribute("text-anchor","middle");
       var bw=Math.max(ttt1.getComputedTextLength?ttt1.getComputedTextLength()+16:90,80);
-      ttbg.setAttribute("x",tx-bw/2); ttbg.setAttribute("y",ty-24); ttbg.setAttribute("width",bw); ttbg.setAttribute("height",36);
-      ttline.setAttribute("x1",xi); ttline.setAttribute("x2",xi); ttline.setAttribute("y1",0); ttline.setAttribute("y2",H-pad.b);
+      ttbg.setAttribute("x",tx-bw/2); ttbg.setAttribute("y",bgY); ttbg.setAttribute("width",bw); ttbg.setAttribute("height",36);
+      ttline.setAttribute("x1",xi); ttline.setAttribute("x2",xi); ttline.setAttribute("y1",0); ttline.setAttribute("y2",H-padB);
       tooltip.setAttribute("display",""); }); })(d,X(i),Y(d.w));
     svg.appendChild(hit); });
+  svg.appendChild(tooltip);
   svg.addEventListener("click",function(e){ if(e.target===svg)tooltip.setAttribute("display","none"); });
   // 最初と最後のラベルを邪魔にならない位置に（軸ラベルがあるので省略可）
 
@@ -1391,7 +1682,8 @@ function drawChart(svg,data,color){ svg.innerHTML=""; var W=svg.clientWidth||390
 /* ===== weight: multi ===== */
 function renderWeightMulti(){ var chart=$("mChart"), leg=$("mLegend"), tbl=$("cmpTable"); var cutoff=ymd(new Date(Date.now()-mRange*86400000));
   var series=S.pets.map(function(p){ return {pet:p, data:petWeights(p.id).filter(function(x){return x.date>=cutoff;})}; });
-  drawChartMulti(chart,series,cutoff,mRange);
+  var mWrap=$("mChartWrap"); var mChartW=0; if(mWrap&&mRange>=90){ mChartW=Math.max(mWrap.clientWidth||380,Math.round(mRange*2.4)); chart.style.width=mChartW+"px"; } else if(mWrap){ chart.style.width=""; }
+  drawChartMulti(chart,series,cutoff,mRange,mChartW||0);
   leg.innerHTML=""; S.pets.forEach(function(p){var li=el("div","li"); li.innerHTML='<span class="sw" style="background:'+p.color+'"></span>'+escapeHtml(p.name); leg.appendChild(li);});
   // comparison table（オス/メスで列を変える）
   tbl.innerHTML="<tr><th>なまえ</th><th>体重<small style='font-size:10px;font-weight:500;'>(最新)</small></th><th>状態</th></tr>";
@@ -1404,7 +1696,7 @@ function renderWeightMulti(){ var chart=$("mChart"), leg=$("mLegend"), tbl=$("cm
     tbl.appendChild(tr); });
 }
 var _multiHighlight=null;
-function drawChartMulti(svg,series,cutoff,range){ svg.innerHTML=""; var W=svg.clientWidth||440,H=190,padL=46,padR=8,padT=14,padB=26; var NS="http://www.w3.org/2000/svg"; svg.setAttribute("viewBox","0 0 "+W+" "+H);
+function drawChartMulti(svg,series,cutoff,range,forceW){ svg.innerHTML=""; var W=forceW||svg.clientWidth||440,H=190,padL=46,padR=8,padT=14,padB=26; var NS="http://www.w3.org/2000/svg"; svg.setAttribute("viewBox","0 0 "+W+" "+H);
   var all=[]; series.forEach(function(s){s.data.forEach(function(d){all.push(d.w);});});
   if(!all.length){var t=document.createElementNS(NS,"text"); t.setAttribute("x",W/2);t.setAttribute("y",H/2);t.setAttribute("text-anchor","middle");t.setAttribute("fill","#B6AB99");t.setAttribute("font-size","13");t.setAttribute("font-weight","700"); t.textContent="この期間の体重記録がありません"; svg.appendChild(t); return;}
   var rawMn=Math.min.apply(null,all),rawMx=Math.max.apply(null,all);
@@ -1414,7 +1706,7 @@ function drawChartMulti(svg,series,cutoff,range){ svg.innerHTML=""; var W=svg.cl
     var gl=document.createElementNS(NS,"line"); gl.setAttribute("x1",padL);gl.setAttribute("x2",W-padR);gl.setAttribute("y1",gy);gl.setAttribute("y2",gy);gl.setAttribute("stroke","#EDE3D3");gl.setAttribute("stroke-width","1"); svg.appendChild(gl);
     var tl=document.createElementNS(NS,"text"); tl.setAttribute("x",padL-5);tl.setAttribute("y",gy+4);tl.setAttribute("text-anchor","end");tl.setAttribute("fill","#B6A896");tl.setAttribute("font-size","10"); tl.textContent=fmtW(tick)+"g"; svg.appendChild(tl); }
   // ハイライト状態のtooltipグループ
-  var mttip=document.createElementNS(NS,"g"); mttip.setAttribute("display","none"); svg.appendChild(mttip);
+  var mttip=document.createElementNS(NS,"g"); mttip.setAttribute("display","none");
   var mttbg=document.createElementNS(NS,"rect"); mttbg.setAttribute("rx","6");mttbg.setAttribute("fill","#42271E");mttbg.setAttribute("opacity","0.92"); mttip.appendChild(mttbg);
   var mttt=document.createElementNS(NS,"text"); mttt.setAttribute("fill","#fff");mttt.setAttribute("font-size","12");mttt.setAttribute("font-weight","700"); mttip.appendChild(mttt);
   series.forEach(function(s,si){ if(!s.data.length)return;
@@ -1430,11 +1722,12 @@ function drawChartMulti(svg,series,cutoff,range){ svg.innerHTML=""; var W=svg.cl
         Array.prototype.forEach.call(svg.querySelectorAll("path"),function(p2){ p2.setAttribute("opacity",(!_multiHighlight||p2.getAttribute("data-pid")===_multiHighlight)?"1":"0.18"); });
         if(_multiHighlight){
           var dp=dd.date.split("-"); var lbl=pet.name+" "+parseInt(dp[1])+"/"+parseInt(dp[2])+" "+fmtW(dd.w)+"g";
-          var tx=Math.max(40,Math.min(W-60,xi)); mttt.setAttribute("x",tx);mttt.setAttribute("y",yi-10);mttt.setAttribute("text-anchor","middle"); mttt.textContent=lbl;
-          mttbg.setAttribute("x",tx-60);mttbg.setAttribute("y",yi-28);mttbg.setAttribute("width","120");mttbg.setAttribute("height","22");
+          var tx=Math.max(40,Math.min(W-60,xi)); var mShowBelow=yi<40; var mBgY=mShowBelow?yi+6:Math.max(4,yi-28); mttt.setAttribute("x",tx);mttt.setAttribute("y",mBgY+16);mttt.setAttribute("text-anchor","middle"); mttt.textContent=lbl;
+          mttbg.setAttribute("x",tx-60);mttbg.setAttribute("y",mBgY);mttbg.setAttribute("width","120");mttbg.setAttribute("height","24");
           mttip.setAttribute("display","");
         } else { mttip.setAttribute("display","none"); } }); })(d,s.pet,X(d.date),Y(d.w));
       svg.appendChild(hit); }); });
+  svg.appendChild(mttip);
   svg.addEventListener("click",function(){_multiHighlight=null; Array.prototype.forEach.call(svg.querySelectorAll("path"),function(p2){p2.setAttribute("opacity","1");}); mttip.setAttribute("display","none"); }); }
 
 /* ===== summary ===== */
@@ -1513,13 +1806,18 @@ function buildSumPetSeg(){ var seg=document.getElementById("sumPetSeg"); if(!seg
     Array.prototype.forEach.call(seg.children,function(x){x.classList.toggle("on",x.dataset.pid===sumFilterPet);}); renderSummary(); }; seg.appendChild(btn); }); }
 function renderSummary(){ buildSumPetSeg(); var host=$("sumBody"); host.innerHTML=""; if(!S.pets.length){host.innerHTML='<div class="empty"><div class="e">🐓</div><p>とりを追加してね</p></div>'; return;}
   var cutoff=ymd(new Date(Date.now()-sumRange*86400000));
+  var note=$("sumPeriodNote"); if(note)note.textContent="（"+fmtMd(cutoff)+"〜）";
   var showPets; if(sumFilterPet==="all") showPets=S.pets; else if(sumFilterPet==="active") showPets=[activePet()].filter(Boolean); else showPets=S.pets.filter(function(p){return p.id===sumFilterPet;});
   showPets.forEach(function(p){ var d=collectSummary(p,cutoff); var female=isFemale(p); var card=el("div","card sumcard"); card.style.marginTop="14px";
     var a=ageText(p);
-    card.innerHTML='<h3>'+escapeHtml(p.name)+(female?'':' <span class="sexbadge">オス</span>')+'</h3><div class="period">'+(a?a+' ・ ':'')+'直近'+(sumRange===365?"1年":sumRange===180?"半年":sumRange+"日")+'（'+fmtMd(cutoff)+'〜）</div>';
+    var sexBadge=(p.sex==="male"?' <span class="sexbadge">♂</span>':p.sex==="female"?' <span class="sexbadge">♀</span>':'');
+    card.innerHTML='<h3>'+escapeHtml(p.name)+sexBadge+'</h3>'+(a?'<div class="period">'+a+'</div>':'');
+    var vetBtn=el("button","btn ghost"); vetBtn.style.cssText="font-size:12px;padding:6px 12px;margin-top:10px;width:auto;display:inline-flex;align-items:center;gap:5px;";
+    vetBtn.innerHTML='🏥 <span>受診前要約を作る</span>'; vetBtn.onclick=(function(pp,co){return function(){openVetShareSheet(pp,co);};})(p,cutoff);
+    card.appendChild(vetBtn);
     var grid=el("div","sumgrid"); function item(k,v,wide){var x=el("div","sumitem"+(wide?" wide":"")); x.innerHTML='<div class="k">'+k+'</div><div class="v">'+v+'</div>'; return x;}
-    grid.appendChild(item("体重（最新）",d.latestW!=null?d.latestW+'<small>g</small>':"—"));
-    grid.appendChild(item("体重の幅",d.minW!=null?d.minW+"–"+d.maxW+'<small>g</small>':"—"));
+    grid.appendChild(item("体重（最新）",d.latestW!=null?d.latestW+'<small>g</small>':"<span class='no-data'>未記録</span>"));
+    grid.appendChild(item("体重の幅",d.minW!=null?d.minW+"–"+d.maxW+'<small>g</small>':"<span class='no-data'>未記録</span>"));
     if(female){
       grid.appendChild(item("総産卵数",d.eggs+'<small>個</small>'));
       var paceItem=item("産卵ペース",'約'+d.pace+'<small>個/年</small> <button class="pace-help" onclick="showPaceHelp(event)">?</button>'); grid.appendChild(paceItem);
@@ -1531,11 +1829,11 @@ function renderSummary(){ buildSumPetSeg(); var host=$("sumBody"); host.innerHTM
     card.appendChild(grid);
     if(female && d.prevClutch){ var pc=el("div","prevclutch"); pc.innerHTML='前回の産卵期：<b>'+d.prevClutch.count+'個</b> <span class="pc-days">'+d.prevClutch.days+'日間</span><span class="pc-range"> （'+fmtMd(d.prevClutch.start)+'〜'+fmtMd(d.prevClutch.end)+'）</span>'; card.appendChild(pc); }
     if(female){ var bs2=S.broods.filter(function(b){return b.petId===p.id && (b.end?b.end:todayStr())>=cutoff;}).slice().sort(function(a,b2){return a.start>b2.start?-1:1;});
-      if(bs2.length){ var bwrap=el("div","brood-history"); var bttl=el("div","bh-title","抱卵"); bwrap.appendChild(bttl);
+      if(bs2.length){ var bcard=el("div","card"); bcard.style.marginTop="8px"; bcard.innerHTML='<div class="cy-title">抱卵の記録</div>';
         bs2.forEach(function(b){ var days=(b.end?diffDays(b.start,b.end):diffDays(b.start,todayStr()))+1;
           var row=el("div","bh-row"); row.innerHTML='<span class="bh-range">'+fmtMd(b.start)+'〜'+(b.end?fmtMd(b.end):'継続中')+'</span><span class="bh-days">'+days+'日間</span>';
-          bwrap.appendChild(row); });
-        card.appendChild(bwrap); } }
+          bcard.appendChild(row); });
+        host.appendChild(bcard); } }
     var hk=Object.keys(d.health); var extraSigns=(d.appLow||d.poopAbn||d.behWeak);
     if(hk.length||extraSigns){ var ht=el("div","healthtags");
       if(d.appLow)ht.appendChild(el("span","htag","🍽 食欲低下 "+d.appLow+"日"));
@@ -1544,28 +1842,57 @@ function renderSummary(){ buildSumPetSeg(); var host=$("sumBody"); host.innerHTM
       HEALTH.forEach(function(h){ if(d.health[h.k])ht.appendChild(el("span","htag",h.e+" "+h.l+" "+d.health[h.k]+"日")); }); card.appendChild(ht); }
     // 換羽周期履歴
     var mc=moltCycleHistory(p.id);
-    if(mc.items.length>=1){ var mh=el("div","cycle-history"); mh.innerHTML='<div class="cy-title">換羽の記録</div>'; 
+    if(mc.items.length>=1){ var mh=el("div","card"); mh.style.marginTop="8px"; mh.innerHTML='<div class="cy-title">換羽の記録</div>';
       var msum=el("div","cy-summary");
       if(mc.avgDays)msum.innerHTML+='<span class="cy-chip">平均 '+mc.avgDays+'日間</span>';
       if(mc.avg)msum.innerHTML+='<span class="cy-chip">周期 約'+mc.avg+'日</span>';
-      if(mc.nextStart&&mc.daysUntil!==null)msum.innerHTML+='<span class="cy-chip '+(mc.daysUntil<=14?"cy-soon":"")+'">次の目安 '+fmtMd(mc.nextStart)+(mc.daysUntil>0?" (あと"+mc.daysUntil+"日)":"ごろ")+'</span>';
+      if(mc.nextStart&&mc.daysUntil!==null)msum.innerHTML+='<span class="cy-chip cy-next">次の目安 '+fmtMd(mc.nextStart)+(mc.daysUntil>0?' (あと'+mc.daysUntil+'日)':'ごろ')+'</span>';
       mh.appendChild(msum);
       mc.items.slice(0,5).forEach(function(m,i){ var row=el("div","cy-row"); row.innerHTML='<span class="cy-idx">'+(i===0?"前回":i+"回前")+'</span><span class="cy-range">'+fmtMd(m.start)+'〜'+fmtMd(m.end)+'</span><span class="cy-days">'+m.days+'日</span>'+(m.interval?'<span class="cy-iv">周期'+m.interval+'日</span>':''); mh.appendChild(row); });
-      card.appendChild(mh); }
+      host.appendChild(mh); }
     // 産卵周期履歴（メスのみ）
     if(female){ var ec=eggCycleHistory(p);
-      if(ec.items.length>=2){ var eh=el("div","cycle-history"); eh.innerHTML='<div class="cy-title">産卵期の記録</div>';
+      if(ec.items.length>=2){ var eh=el("div","card"); eh.style.marginTop="8px"; eh.innerHTML='<div class="cy-title">産卵期の記録</div>';
         var esum=el("div","cy-summary");
         if(ec.avgDays)esum.innerHTML+='<span class="cy-chip">平均 '+ec.avgDays+'日間</span>';
         if(ec.avg)esum.innerHTML+='<span class="cy-chip">周期 約'+ec.avg+'日</span>';
-        if(ec.nextStart&&ec.daysUntil!==null)esum.innerHTML+='<span class="cy-chip '+(ec.daysUntil<=14?"cy-soon":"")+'">次の目安 '+fmtMd(ec.nextStart)+(ec.daysUntil>0?" (あと"+ec.daysUntil+"日)":"ごろ")+'</span>';
+        if(ec.nextStart&&ec.daysUntil!==null)esum.innerHTML+='<span class="cy-chip cy-next">次の目安 '+fmtMd(ec.nextStart)+(ec.daysUntil>0?' (あと'+ec.daysUntil+'日)':'ごろ')+'</span>';
         eh.appendChild(esum);
-        ec.items.slice(0,5).forEach(function(m,i){ var row=el("div","cy-row"); row.innerHTML='<span class="cy-idx">'+(i===0?"前回":i+"回前")+'</span><span class="cy-range">'+fmtMd(m.start)+'〜'+fmtMd(m.end)+'</span><span class="cy-days">'+m.count+'個 '+m.days+'日</span>'+(m.interval?'<span class="cy-iv">周期'+m.interval+'日</span>':''); eh.appendChild(row); });
-        card.appendChild(eh); } }
-    if(d.memos.length){ var acc=el("div","acc"); var ah=el("div","acc-h"); ah.innerHTML='<span>メモ・日記を見る（'+d.memos.length+'件）</span><span class="ar">▾</span>';
-      var ab=el("div","acc-body"); d.memos.forEach(function(m){ var hmk=""; var r=getRec(p.id,m.date); if(r&&r.health)HEALTH.forEach(function(h){if(r.health[h.k])hmk+=h.e;});
-        var it=el("div","memo-it"); it.innerHTML='<span class="md">'+fmtMd(m.date)+'</span><span><span class="mh">'+hmk+'</span> '+escapeHtml(m.memo)+'</span>'; ab.appendChild(it); });
-      ah.onclick=function(){acc.classList.toggle("open");}; acc.appendChild(ah); acc.appendChild(ab); card.appendChild(acc); }
+        ec.items.slice(0,5).forEach(function(m,i){ var row=el("div","cy-row"); row.innerHTML='<span class="cy-idx">'+(i===0?"前回":i+"回前")+'</span><span class="cy-range">'+fmtMd(m.start)+'〜'+fmtMd(m.end)+'</span><span class="cy-count">'+m.count+'個</span><span class="cy-days">'+m.days+'日</span>'+(m.interval?'<span class="cy-iv">周期'+m.interval+'日</span>':''); eh.appendChild(row); });
+        host.appendChild(eh); } }
+    // 写真・日記統合タイムライン（メモ + 写真）
+    (function(){
+      var dItems=Object.keys(S.records).filter(function(k){
+        return k.startsWith(p.id+"|")&&k.slice(p.id.length+1)>=cutoff;
+      }).map(function(k){return {date:k.slice(p.id.length+1),r:S.records[k]};})
+        .filter(function(x){return x.r.photo||x.r.memo;})
+        .sort(function(a,b){return a.date<b.date?1:-1;});
+      if(!dItems.length)return;
+      var dcard=el("div","card acc"); dcard.style.marginTop="8px"; dcard.style.padding="0";
+      var ah=el("div","acc-h"); ah.style.padding="12px 14px";
+      ah.innerHTML='<span>📷 写真・日記を見る（'+dItems.length+'件）</span><span class="ar"><span class="chev-d"></span></span>';
+      var ab=el("div","acc-body"); ab.style.padding="0 14px 10px";
+      dItems.slice(0,20).forEach(function(x){
+        var row=el("div","dt-row");
+        var thumb=el("div","dt-thumb");
+        if(x.r.photo){ thumb.dataset.rkey="rec|"+p.id+"|"+x.date; thumb.textContent="📷"; }
+        row.appendChild(thumb);
+        var info=el("div","dt-info");
+        var hmk=""; if(x.r.health)HEALTH.forEach(function(h){if(x.r.health[h.k])hmk+=h.e;});
+        info.innerHTML='<span class="dt-date">'+fmtMd(x.date)+(hmk?' <span style="font-size:13px">'+hmk+'</span>':'')+'</span>'+(x.r.memo?'<span class="dt-memo">'+escapeHtml(x.r.memo)+'</span>':'');
+        row.appendChild(info); ab.appendChild(row);
+      });
+      ah.onclick=function(){
+        dcard.classList.toggle("open");
+        if(dcard.classList.contains("open")){
+          Array.prototype.forEach.call(ab.querySelectorAll('.dt-thumb[data-rkey]'),function(th){
+            if(th.querySelector('img'))return;
+            idbGet(th.dataset.rkey).then(function(b){ if(!b)return; th.textContent=""; var img3=document.createElement("img"); img3.src=URL.createObjectURL(b); img3.style.cursor="zoom-in"; img3.onclick=function(e){e.stopPropagation();openPhotoLb(img3.src);}; th.appendChild(img3); });
+          });
+        }
+      };
+      dcard.appendChild(ah); dcard.appendChild(ab); host.appendChild(dcard);
+    })();
     host.appendChild(card); });
   Array.prototype.forEach.call(host.querySelectorAll(".help-btn"),function(btn){
     btn.onclick=function(e){ var type=btn.dataset.help;
@@ -1590,6 +1917,10 @@ function buildSummaryText(){ var cutoff=ymd(new Date(Date.now()-sumRange*8640000
     if(signs.length)L.push("気になるサイン："+signs.join("・"));
     var hk=Object.keys(d.health); if(hk.length){var hs=HEALTH.filter(function(h){return d.health[h.k];}).map(function(h){return h.l+d.health[h.k]+"日";}); L.push("体調マーク："+hs.join("・"));}
     if(d.memos.length){L.push("体調メモ："); d.memos.forEach(function(m){L.push("  "+fmtMd(m.date)+" "+m.memo);});}
+    // 病院記録
+    var clinicRecs=[]; Object.keys(S.records).filter(function(k){return k.startsWith(p.id+"|")&&k.slice(p.id.length+1)>=cutoff;}).forEach(function(k){var r=S.records[k]; if(r&&r.clinic&&(r.clinic.symptoms||r.clinic.diagnosis||r.clinic.treatment||r.clinic.medicine||r.clinic.hospital))clinicRecs.push({date:k.slice(p.id.length+1),c:r.clinic});});
+    clinicRecs.sort(function(a,b){return a.date<b.date?1:-1;});
+    if(clinicRecs.length){L.push("病院・通院："); clinicRecs.forEach(function(x){var c=x.c; L.push("  "+fmtMd(x.date)+(c.hospital?" ["+c.hospital+"]":"")+(c.symptoms?" 症状:"+c.symptoms:"")+(c.diagnosis?" 診断:"+c.diagnosis:"")+(c.treatment?" 処置:"+c.treatment:"")+(c.medicine?" 薬:"+c.medicine:"")); }); }
     L.push(""); });
   return L.join("\n"); }
 
@@ -1601,21 +1932,21 @@ function openCustomStampsSheet(){
     var row=el("div","brood-list-row"); row.innerHTML='<span style="font-size:20px">'+cs.emoji+'</span><span style="flex:1;font-size:14px;font-weight:700;margin-left:10px;">'+escapeHtml(cs.label)+'</span>';
     var del=el("button","link-danger","削除"); del.style.cssText="font-size:12px;padding:4px 10px;";
     del.onclick=function(){ S.customStamps.splice(i,1); persist(); renderList(); }; row.appendChild(del); list.appendChild(row); });
-    if(!list.childNodes.length) list.innerHTML='<div class="faint" style="padding:14px;text-align:center;font-size:13px;">まだ追加されていません</div>'; }
+    if(!list.childNodes.length) list.innerHTML='<div style="padding:16px 10px;text-align:center;font-size:13px;color:var(--ink-faint);line-height:1.9;">まだ追加されていません<br><span style="font-size:12px;">💡 例：💊 お薬　☀️ 日光浴　🥬 青菜　🏠 放鳥</span></div>'; }
   renderList(); body.appendChild(list);
   if((S.customStamps||[]).length<10){
     var af=el("div","field"); af.appendChild(el("label",null,"新しい項目を追加"));
-    var arow=el("div","brood-row");
-    var emoIn=el("input"); emoIn.type="text"; emoIn.placeholder="絵文字 (例: 🧹)"; emoIn.style.cssText="width:70px;border:1.5px solid var(--line);border-radius:var(--r-sm);padding:10px;font-size:20px;text-align:center;";
-    var lblIn=el("input"); lblIn.type="text"; lblIn.placeholder="ラベル (例: 掃除)"; lblIn.style.cssText="flex:1;border:1.5px solid var(--line);border-radius:var(--r-sm);padding:10px;font-size:14px;";
-    var addBtn=el("button","btn primary","追加"); addBtn.style.cssText="flex-shrink:0;padding:10px 14px;";
+    var arow=el("div"); arow.style.cssText="display:flex;gap:8px;align-items:stretch;";
+    var emoIn=el("input"); emoIn.type="text"; emoIn.placeholder="😀"; emoIn.style.cssText="width:54px;height:54px;flex-shrink:0;border:1.5px solid var(--line);border-radius:var(--r-sm);font-size:24px;text-align:center;padding:0;background:var(--card);";
+    var lblIn=el("input"); lblIn.type="text"; lblIn.placeholder="ラベル (例: 放鳥)"; lblIn.style.cssText="flex:1;border:1.5px solid var(--line);border-radius:var(--r-sm);padding:10px 14px;font-size:14px;background:var(--card);";
+    var addBtn=el("button","btn primary","追加"); addBtn.style.cssText="margin-top:10px;";
     addBtn.onclick=function(){ var em=(emoIn.value||"").trim(); var lb=(lblIn.value||"").trim();
       if(!em||!lb){toast("絵文字とラベルを入れてね");return;}
       if(!S.customStamps)S.customStamps=[];
       S.customStamps.push({id:"cs"+Date.now(),emoji:em,label:lb});
       persist(); emoIn.value=""; lblIn.value=""; renderList(); toast("追加しました"); };
-    arow.appendChild(emoIn); arow.appendChild(lblIn); arow.appendChild(addBtn);
-    af.appendChild(arow); body.appendChild(af); }
+    arow.appendChild(emoIn); arow.appendChild(lblIn); af.appendChild(arow); af.appendChild(addBtn);
+    body.appendChild(af); }
   var act=el("div","sheet-actions"); var done=el("button","btn ghost","とじる"); done.onclick=closeSheet; act.appendChild(done); body.appendChild(act);
   openSheet(); }
 /* ===== settings ===== */
@@ -1628,8 +1959,8 @@ function renderSettings(){ var pl=$("petList"); pl.innerHTML=""; sortPets();
     var setAge=ageText(p); var setSex={female:"♀",male:"♂",unknown:""}[p.sex||"unknown"];
     var infoLines=[];
     if(setAge||setSex) infoLines.push('<span class="si-age">'+(setSex?setSex+" ":"")+setAge+'</span>');
-    if(p.birth) infoLines.push('<span class="si-sub">誕生日｜'+p.birth.replace(/-/g,"年").replace(/-/,"月")+"日"+'</span>');
-    if(p.welcome) infoLines.push('<span class="si-sub">お迎え｜'+p.welcome.replace(/-/g,"年").replace(/-/,"月")+"日"+'</span>');
+    if(p.birth) infoLines.push('<span class="si-sub">誕生日｜'+p.birth.replace(/(\d{4})-(\d{2})-(\d{2})/,"$1年$2月$3日")+'</span>');
+    if(p.welcome) infoLines.push('<span class="si-sub">お迎え｜'+p.welcome.replace(/(\d{4})-(\d{2})-(\d{2})/,"$1年$2月$3日")+'</span>');
     row.innerHTML='<div class="reorder"><button class="rbtn'+(canUp?"":" off")+'" data-d="-1">▲</button><button class="rbtn'+(canDown?"":" off")+'" data-d="1">▼</button></div>'+
       avHtml+'<div class="info"><div class="nm">'+escapeHtml(p.name)+'</div>'+(infoLines.length?infoLines.join(""):"<span class='si-sub'>設定未入力</span>")+'</div><button class="edit">編集</button>';
     var rbtns=row.querySelectorAll(".reorder .rbtn");
@@ -1654,15 +1985,37 @@ function exportCsv(){ var rows=[CSV_HEAD.slice()];
   var csv="\ufeff"+rows.map(function(row){return row.map(csvCell).join(",");}).join("\r\n");
   download("kokkolog-"+todayStr()+".csv", csv, "text/csv"); toast("CSVを書き出しました"); }
 function importData(file){ var rd=new FileReader(); rd.onload=function(){ try{ var obj=JSON.parse(rd.result); if(!obj.pets||!obj.records){toast("ファイルの形式が違います"); return;}
-    confirmAsk("いまの記録をこのバックアップで置きかえますか？",function(){ S=obj; if(!S.broods)S.broods=[];
+    confirmAsk("いまの記録をこのバックアップで置きかえますか？",function(){ var photos=obj.photos||null; delete obj.photos; S=obj; if(!S.broods)S.broods=[];
 if(!S.molts)S.molts=[];
 if(!S.customStamps)S.customStamps=[];
       S.pets.forEach(function(p){if(p.broodDays==null)p.broodDays=21; if(p.clutchGap==null)p.clutchGap=3; if(p.showHatch==null)p.showHatch=false; if(p.sex==null)p.sex="female"; if(p.order==null)p.order=0; if(p.photo==null)p.photo=false;});
-      if(!S.activePet)S.activePet=(S.pets[0]||{}).id; if(!S.molts)S.molts=[]; migrateMoltFlags(); cleanupBroods(); cleanupMolts(); persist(); renderAll(); toast("読み込みました"); },{yes:"置きかえる"});
+      if(!S.activePet)S.activePet=(S.pets[0]||{}).id; if(!S.molts)S.molts=[]; migrateMoltFlags(); cleanupBroods(); cleanupMolts(); persist(); renderAll();
+      if(photos&&idb){ var pKeys=Object.keys(photos); var total=pKeys.length; var done=0;
+        pKeys.forEach(function(k){ var dataUrl=photos[k]; fetch(dataUrl).then(function(r){return r.blob();}).then(function(blob){ idbPut(k,blob).then(function(){ done++; if(done===total)toast("読み込みました（写真"+total+"枚含む）"); }); }); });
+        if(!total) toast("読み込みました"); } else toast("読み込みました"); },{yes:"置きかえる"});
     }catch(e){toast("読み込みに失敗しました");} }; rd.readAsText(file); }
 
 /* JSON+CSV 同時バックアップ */
-function backupBoth(){ exportJson(); setTimeout(function(){ exportCsv(); }, 600); }
+function backupBoth(){
+  function doBackup(photos){
+    var data=JSON.parse(JSON.stringify(S));
+    if(photos) data.photos=photos;
+    download("niwalog-backup-"+todayStr()+".json", JSON.stringify(data,null,2), "application/json");
+    setTimeout(function(){ exportCsv(); }, 600);
+    toast(photos?"JSONを書き出しました（写真"+Object.keys(photos).length+"枚含む）":"JSONを書き出しました");
+  }
+  confirmAsk("写真もバックアップに含めますか？\n写真あり: ファイルが大きくなります",
+    function(){
+      toast("写真を収集中...");
+      idbGetAll().then(function(blobs){
+        var keys=Object.keys(blobs); var total=keys.length; if(!total){ doBackup({}); return; }
+        var photos={}; var done=0;
+        keys.forEach(function(k){ blobToBase64(blobs[k]).then(function(b64){ photos[k]=b64; done++; if(done===total) doBackup(photos); }); });
+      });
+    },
+    {yes:"📦 写真も含める", no:"📄 テキストのみ", onNo:function(){ doBackup(null); }}
+  );
+}
 
 /* 逆引きラベル（CSVインポート用） */
 function revLookup(map,label){ for(var k in map){ if(map[k]===label)return k; } return ""; }
@@ -1746,7 +2099,7 @@ Array.prototype.forEach.call($("wSeg").children,function(b){b.onclick=function()
 Array.prototype.forEach.call($("mSeg").children,function(b){b.onclick=function(){mRange=+b.dataset.range; Array.prototype.forEach.call($("mSeg").children,function(x){x.classList.toggle("on",x===b);}); renderWeightMulti();};});
 Array.prototype.forEach.call($("wMode").children,function(b){b.onclick=function(){wMode=b.dataset.m; Array.prototype.forEach.call($("wMode").children,function(x){x.classList.toggle("on",x===b);}); $("weightSingle").hidden=(wMode!=="single"); $("weightMulti").hidden=(wMode!=="multi"); renderWeight();};});
 Array.prototype.forEach.call($("sumSeg").children,function(b){b.onclick=function(){sumRange=+b.dataset.range; Array.prototype.forEach.call($("sumSeg").children,function(x){x.classList.toggle("on",x===b);}); renderSummary();};});
-$("sumAllBtn").onclick=function(){ sumFilterPet=(sumFilterPet==="all"?"active":"all"); $("sumAllBtn").classList.toggle("on",sumFilterPet==="all"); renderSummary(); };
+
 $("copySum").onclick=function(){ var txt=buildSummaryText(); if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){toast("コピーしました");},function(){fallbackCopy(txt);});} else fallbackCopy(txt); };
 function fallbackCopy(txt){var ta=document.createElement("textarea"); ta.value=txt; ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy"); toast("コピーしました");}catch(e){toast("コピーできませんでした");} document.body.removeChild(ta);}
 $("addPet2").onclick=function(){openPetSheet(null);};
@@ -1790,7 +2143,28 @@ if(navigator.storage && navigator.storage.persist){
   navigator.storage.persist().then(function(granted){ if(granted) console.log("persistent storage granted"); });
 }
 
-openIDB().then(function(){ renderAll(); checkBanners(); });
+openIDB().then(function(){
+  renderAll(); checkBanners();
+  if(S._firstVisit){ delete S._firstVisit; persist(); showWelcomeSheet(); }
+});
 </script>
+<script>
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').then(function(reg) {
+    reg.addEventListener('updatefound', function() {
+      var newSW = reg.installing;
+      newSW.addEventListener('statechange', function() {
+        if(newSW.state === 'installed' && navigator.serviceWorker.controller) {
+          if(confirm('niwaLog.の新しいバージョンが利用可能です。更新しますか？')) {
+            newSW.postMessage({type: 'SKIP_WAITING'});
+            window.location.reload();
+          }
+        }
+      });
+    });
+  });
+}
+</script>
+<div id="photoLb" style="display:none" onclick="this.style.display='none'"><span class="lb-close">✕</span><img id="photoLbImg" src=""></div>
 </body>
 </html>
