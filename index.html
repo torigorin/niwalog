@@ -178,7 +178,7 @@
 
   .fab{position:fixed; z-index:45; bottom:calc(var(--tab-h) + env(safe-area-inset-bottom) + 14px);
     right:calc(max(0px,(100vw - 430px)/2) + 14px); width:62px; height:62px; border-radius:50%;
-    background:var(--amber); color:#fff; font-weight:800; box-shadow:var(--shadow-lg);
+    background:var(--ink); color:#fff; font-weight:800; box-shadow:var(--shadow-lg);
     display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; padding:0;}
   .fab:active{transform:scale(.94);} .fab .ic{font-size:18px; line-height:1;}
   .fab .ft{font-size:8.5px; font-weight:800; line-height:1.45; text-align:center;}
@@ -229,7 +229,7 @@
   .sumcard h3{margin:0 0 4px; font-size:16px; font-weight:800; display:flex; align-items:center; gap:8px;}
   .sumcard .period{font-size:12px; color:var(--ink-soft); font-weight:700;}
   .day-badges{display:flex;gap:8px;margin:10px 0 2px;flex-wrap:wrap;}
-  .day-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px 4px 7px;border-radius:999px;background:rgba(120,109,53,.1);border:1.5px solid rgba(120,109,53,.28);color:#786d35;}
+  .day-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px 4px 7px;border-radius:999px;background:rgba(120,109,53,.1);border:none;color:#786d35;}
   .db-inner{display:flex;flex-direction:column;gap:1px;}
   .db-lbl{font-size:10px;font-weight:400;color:rgba(120,109,53,.6);line-height:1;}
   .db-num{font-size:13px;font-weight:500;color:#786d35;line-height:1.2;}
@@ -286,7 +286,7 @@
   .acc-body{display:none; padding-bottom:6px;} .acc.open .acc-body{display:block;}
   /* Q&A カテゴリアコーディオン */
   .qa-cat{margin-bottom:6px;}
-  .qa-cat-h{display:flex;align-items:center;justify-content:space-between;width:100%;padding:10px 14px;font-size:13px;font-weight:700;color:#fff;background:#4c4320;border:none;border-radius:8px;cursor:pointer;text-align:left;font-family:inherit;letter-spacing:.01em;}
+  .qa-cat-h{display:flex;align-items:center;justify-content:space-between;width:100%;padding:10px 14px;font-size:13px;font-weight:700;color:#fff;background:var(--ink);border:none;border-radius:8px;cursor:pointer;text-align:left;font-family:inherit;letter-spacing:.01em;}
   .qa-cat-h .ar{transition:transform .2s;flex-shrink:0;filter:brightness(0) invert(1);}
   .qa-cat.open .qa-cat-h .ar{transform:rotate(180deg);}
   .qa-cat-body{display:none;padding:6px 0 2px;}
@@ -306,7 +306,7 @@
   .bsheet-inner{padding:16px 18px 24px;}
   .bsheet-title{font-size:15px;font-weight:700;color:var(--ink);margin:0 0 6px;}
   .bsheet-sub{font-size:13px;color:var(--ink-soft);line-height:1.6;margin:0 0 18px;}
-  .bsheet-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;border-radius:12px;border:none;background:var(--amber);color:#fff;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;}
+  .bsheet-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;border-radius:12px;border:none;background:var(--ink);color:#fff;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;}
   .memo-it{font-size:13px; padding:8px 0; border-bottom:1px solid var(--line-soft); display:flex; gap:10px;}
   .memo-it:last-child{border-bottom:none;}
   .memo-it .md{flex:0 0 56px; font-weight:700; color:var(--ink-soft); font-size:12px;}
@@ -339,7 +339,7 @@
   .bk-div{height:1px; background:var(--line-soft); margin:0 16px;}
 
   .btn{display:block; width:100%; padding:13px; border-radius:var(--r-sm); font-weight:800; font-size:14px; text-align:center;}
-  .btn.primary{background:var(--amber); color:#fff; box-shadow:var(--shadow);}
+  .btn.primary{background:var(--ink); color:#fff; box-shadow:var(--shadow);}
   .btn.ghost{background:var(--card); border:1.5px solid var(--line); color:var(--ink);}
   .btn:active{transform:scale(.98);}
   .btnrow{display:flex; gap:8px;} .btnrow .btn{flex:1;}
@@ -555,7 +555,7 @@
   .confirm-btns button{flex:1; padding:12px; border-radius:var(--r-pill); font-weight:800; font-size:14px;}
   .confirm-no{background:var(--bg2); color:var(--ink-soft);}
   .confirm-yes{background:var(--danger); color:#fff;}
-  .confirm-yes.safe{background:var(--amber);}
+  .confirm-yes.safe{background:var(--ink);}
   @media (prefers-reduced-motion:reduce){*{transition:none !important;}}
 
   /* ===== notes tab ===== */
@@ -656,7 +656,10 @@
       <button id="notesNextM">›</button>
     </div>
     <div class="notes-pet-bar" id="notesPetBar" style="display:none"></div>
-    <div style="padding:0 16px 8px;"><button id="allMemoBtn" style="font-size:13px;font-weight:600;color:#4c4320;background:var(--amber-soft);border:none;border-radius:999px;padding:7px 16px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="display:inline-block;vertical-align:middle;margin-right:3px;flex-shrink:0"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg> 今日の全員メモを書く</button></div>
+    <div style="padding:0 16px 8px;display:flex;gap:8px;">
+      <button id="petMemoBtn" style="flex:1;font-size:13px;font-weight:600;color:#4c4320;background:var(--amber-soft);border:none;border-radius:999px;padding:7px 12px;display:flex;align-items:center;justify-content:center;gap:4px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="flex-shrink:0"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg><span id="petMemoBtnLabel">のメモ</span></button>
+      <button id="allMemoBtn" style="flex:1;font-size:13px;font-weight:600;color:#4c4320;background:var(--amber-soft);border:none;border-radius:999px;padding:7px 12px;display:flex;align-items:center;justify-content:center;gap:4px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="flex-shrink:0"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg> 全員メモ</button>
+    </div>
     <div id="notesBody"></div>
   </section>
 
@@ -724,7 +727,7 @@
       <p class="muted" style="font-size:13px; margin:0 0 14px; line-height:1.7;">
         Safariの共有ボタン →「ホーム画面に追加」で、ふつうのアプリのように使えます。インターネットがなくても動きます。
         <br><span class="faint">産卵の予測や日数の表示は、これまでの記録からの「目安」です。診断ではありません。</span></p>
-      <button onclick="openFeedback()" style="display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line-soft);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:var(--ink-soft);font-family:inherit;cursor:pointer;width:100%;">
+      <button onclick="openFeedback()" style="display:flex;align-items:center;gap:8px;background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:var(--ink);font-family:inherit;cursor:pointer;width:100%;box-shadow:var(--shadow);">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="flex-shrink:0;"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
         ご意見・ご要望を送る
       </button>
@@ -756,6 +759,10 @@
             <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">ExcelでCSVを編集して取り込めますか？<span class="ar"><span class="chev-d"></span></span></button>
             <div class="qa-item-body">はい。「Excel・スプレッドシート用に保存する」でCSVを書き出し、Excelで編集したあと「保存したファイルから復元する」でファイルを選ぶと自動で判別して取り込みます。体重・産卵・食事などの基本項目のみ対応です。写真や抱卵・換羽の完全な復元にはJSONを使ってください。</div>
           </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">バックアップに写真は含まれますか？<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">「データをすべて保存する」を押すと「写真も含めますか？」と聞かれます。「写真も含める」を選ぶと写真つきのJSONが書き出されます。写真ありはファイルが大きくなるため、写真なしの軽いバックアップも選べます。CSV書き出しには写真は含まれません。</div>
+          </div>
         </div>
       </div>
 
@@ -783,6 +790,39 @@
             <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">抱卵・換羽の記録はどこからつけますか？<span class="ar"><span class="chev-d"></span></span></button>
             <div class="qa-item-body">ホーム（カレンダータブ）上部の状態カードにあるボタンから開始・終了できます。抱卵中・換羽中はカードのデザインが変わり、カレンダーにもバーで表示されます。</div>
           </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">抱卵中でも産卵の記録はつけられますか？<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">はい、記録できます。抱卵中の産卵はUIでブロックされないので、日別シートから通常通り入力できます。</div>
+          </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">産卵期・休産期はどうやって判定していますか？<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">最後の産卵から「産卵期の区切り日数」（デフォルト3日）以内なら産卵期、それを超えると休産期と判定します。区切り日数はにわとりの設定画面から変更できます。</div>
+          </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">にわとりを削除したらデータも消えますか？<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">はい、消えます。そのにわとりの全記録・写真・抱卵・換羽の履歴がすべて削除されます。削除前に必ずバックアップをとってください。</div>
+          </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">産卵期・休産期・抱卵期はどうやって判定しますか？<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">
+              <b style="color:var(--ink);">産卵期</b>：最後に産卵した日から「産卵期の区切り日数」（デフォルト3日）以内なら産卵期です。ペット設定で変更できます。<br>
+              <b style="color:var(--ink);">休産期</b>：最後の産卵から区切り日数を超えると自動で休産期になります。<br>
+              <b style="color:var(--ink);">抱卵期</b>：「抱卵をはじめる」ボタンを押した日から、設定した抱卵目安日数（デフォルト21日）が経過するまでです。<br>
+              <b style="color:var(--ink);">換羽期</b>：「換羽をはじめる」ボタンを押してから「おわり」を押すまでの期間です。
+            </div>
+          </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">抱卵期の「終了まであと〇日」はどう計算していますか？<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">抱卵をはじめた日を1日目として、ペット設定の「抱卵目安日数」（デフォルト21日）から経過日数を引いた残り日数です。品種や個体によって異なるため、設定画面から日数を変更できます。あくまで目安です。</div>
+          </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">産卵ペース・産卵率はどう計算していますか？<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body"><b style="color:var(--ink);">産卵ペース（年換算）</b>：選択した期間内の産卵日数 ÷ 期間日数 × 365 で計算します。換羽中・抱卵中の日も期間に含みます。<br><b style="color:var(--ink);">産卵率</b>：産んだ日数 ÷ 期間日数 × 100。その期間のうち何割の日に産んだかを示します。</div>
+          </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">次の産卵予測はどうやって出していますか？<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">直近12回分の産卵間隔の平均と標準偏差から予測日を算出し、「6/29〜6/30」のように前後のばらつきを含む幅で表示します。記録が3回未満、または最後の産卵から間隔が空きすぎている場合は表示されません。あくまで目安です。</div>
+          </div>
         </div>
       </div>
 
@@ -807,7 +847,7 @@
         <div class="qa-cat-body">
           <div class="qa-item">
             <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">対応しているブラウザは？<span class="ar"><span class="chev-d"></span></span></button>
-            <div class="qa-item-body">iPhoneはSafari、AndroidはChromeが推奨です。Safariのメニューから「ホーム画面に追加」するとアプリとして快適に使えます。LINEやSNS内のブラウザで開くとデータが保存されないことがあります。<br><span style="font-size:12px;">iPhoneのChromeはSafariと同じエンジンなので記録は使えますが、ホーム画面への追加は非対応です。</span></div>
+            <div class="qa-item-body"><b style="color:var(--ink);">iPhone：</b>Safariが推奨です。Safariでホーム画面に追加するとアプリとして全画面で使えます。ChromeもiOS上でホーム画面への追加ができます（右上の共有ボタン →「ホーム画面に追加」）。ただしSafariのほうが安定して動作する場合が多いため、Safariを推奨しています。<br><b style="color:var(--ink);">Android：</b>Chromeが推奨です。ホーム画面への追加にも対応しています。<br><span style="font-size:12px;color:var(--ink-faint);">LINEやInstagram内のブラウザは動作が不安定なため、Safariやブラウザアプリで開き直してください。</span></div>
           </div>
           <div class="qa-item">
             <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">オフラインでも使えますか？<span class="ar"><span class="chev-d"></span></span></button>
@@ -821,11 +861,15 @@
             <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">昨日と見た目が違います<span class="ar"><span class="chev-d"></span></span></button>
             <div class="qa-item-body">アプリを随時アップデートしているため、デザインや機能が変わることがあります。バージョン番号はこのページ下部に表示しています。気になる変化や不具合があればお気軽に教えてください。</div>
           </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">更新があると聞いたのに変わりません<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">ブラウザやアプリがキャッシュ（一時保存）した古いデータを使い続けているためです。まずアプリを完全に終了して起動し直してみてください。それでもすぐ変わらない場合は少し時間をおくと反映されることがあります。時間がたっても変わらない場合は、先にバックアップをとってから、Safariの設定 →「履歴とWebサイトデータを消去」を試してみてください。バックアップがあれば万が一データが消えても復元できるので安心です。</div>
+          </div>
         </div>
       </div>
 
     </div>
-    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.2</p>
+    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.24</p>
   </section>
 
   <button class="fab" id="fab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 1px;"><path d="M17 3a2.83 2.83 0 0 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg><span class="ft">きょうの<br>記録</span></button>
@@ -1422,7 +1466,7 @@ function renderStateCard(){ var host=$("stateCard"); host.innerHTML=""; var p=ac
     band.appendChild(mkCell("今月",thisMonth+'<span style="font-size:11px;font-weight:700;opacity:.8"> 個</span>'));
     var sinceTxt=c.daysSince===0?"今日":c.daysSince+"日前";
     band.appendChild(mkCell("最後の産卵",fmtMd(c.last),'('+sinceTxt+')'));
-    if(pr) band.appendChild(mkCell("次の目安",fmtMd(pr.lo),'ごろ',isTodayPr));
+    if(pr){ var prTxt=pr.lo===pr.hi?fmtMd(pr.lo):'<span style="font-size:11px;">'+fmtMd(pr.lo)+'〜'+fmtMd(pr.hi)+'</span>'; band.appendChild(mkCell("次の目安",prTxt,'ごろ',isTodayPr)); }
     card.appendChild(band);
     var todR2=getRec(p.id,todayStr())||{};
     var arow2=el("div","state-actions");
@@ -1441,7 +1485,7 @@ function renderStateCard(){ var host=$("stateCard"); host.innerHTML=""; var p=ac
     function mkCell2(lbl,val,sub,badge){ var cx=el("div","card-stat-cell"); cx.innerHTML='<div class="card-stat-lbl">'+lbl+'</div><div class="card-stat-val">'+val+'</div>'+(badge?'<div class="card-stat-sub"><span class="card-today-badge">Today</span></div>':(sub?'<div class="card-stat-sub">'+sub+'</div>':'')); return cx; }
     if(c2){ var sT2=c2.daysSince===0?"今日":c2.daysSince+"日前"; band2.appendChild(mkCell2("最後の産卵",fmtMd(c2.last),'('+sT2+')')); }
     else { band2.appendChild(mkCell2("最後の産卵",'<span style="opacity:.6">—</span>')); }
-    if(pr2) band2.appendChild(mkCell2("次の目安",fmtMd(pr2.lo),'ごろ',isTodayPr2));
+    if(pr2){ var pr2Txt=pr2.lo===pr2.hi?fmtMd(pr2.lo):'<span style="font-size:11px;">'+fmtMd(pr2.lo)+'〜'+fmtMd(pr2.hi)+'</span>'; band2.appendChild(mkCell2("次の目安",pr2Txt,'ごろ',isTodayPr2)); }
     if(mpr2&&mpr2.daysUntil>0&&mpr2.daysUntil<60) band2.appendChild(mkCell2("次の換羽",fmtMd(mpr2.nextStart),'ごろ'));
     card.appendChild(band2);
     var todR3=getRec(p.id,todayStr())||{};
@@ -1591,6 +1635,26 @@ function showWelcomeSheet(){
   var laterBtn=el("button","btn ghost","あとで設定する"); laterBtn.style.marginTop="8px";
   laterBtn.onclick=closeSheet;
   act.appendChild(regBtn); act.appendChild(laterBtn); body.appendChild(act); openSheet();
+}
+function showInstallSheet(){
+  if(_ss.get("installDismissed")) return;
+  var body=$("sheetBody"); body.innerHTML="";
+  var div=el("div"); div.style.cssText="text-align:center;padding:40px 24px 16px;";
+  var isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  var stepTxt=isIOS
+    ? '<b>Safari</b>：画面下の共有ボタン →「ホーム画面に追加」<br><b>Chrome</b>：右上の共有ボタン →「ホーム画面に追加」'
+    : '<b>Chrome</b>：右上のメニュー（︙）→「ホーム画面に追加」';
+  div.innerHTML='<div style="width:80px;height:80px;border-radius:50%;overflow:hidden;margin:0 auto 20px;background:#E5DCC7;display:flex;align-items:center;justify-content:center;font-size:36px;">📱</div>'+
+    '<h2 style="margin:0 0 10px;font-size:22px;">ホーム画面に追加しませんか？</h2>'+
+    '<p style="color:var(--ink-soft);font-size:13px;line-height:1.8;margin:0 0 10px;">アプリのように全画面で使えて、<br>データも消えにくくなります。</p>'+
+    '<p style="color:var(--ink-soft);font-size:13px;line-height:1.8;margin:0;text-align:left;background:var(--bg2);border-radius:10px;padding:10px 14px;">'+stepTxt+'</p>';
+  body.appendChild(div);
+  var act=el("div","sheet-actions"); act.style.paddingTop="8px";
+  var okBtn=el("button","btn primary","わかった");
+  okBtn.onclick=function(){ _ss.set("installDismissed","1"); closeSheet(); };
+  var laterBtn=el("button","btn ghost","あとで"); laterBtn.style.marginTop="8px";
+  laterBtn.onclick=function(){ _ss.set("installDismissed","1"); closeSheet(); };
+  act.appendChild(okBtn); act.appendChild(laterBtn); body.appendChild(act); openSheet();
 }
 function backupExplainHtml(){
   return '<div style="text-align:left;padding:28px 22px 4px;">'+
@@ -3143,6 +3207,8 @@ function openAllMemoSheet(date){
 function renderNotes(){ notesPetId=S.activePet||'all';
   var label=$('notesLabel'); label.textContent=notesYear+'年 '+(notesMonth+1)+'月';
   var amBtn=$('allMemoBtn'); if(amBtn)amBtn.onclick=function(){openAllMemoSheet(todayStr());};
+  var pmBtn=$('petMemoBtn'); if(pmBtn)pmBtn.onclick=function(){ var p=activePet(); if(!p){toast("先ににわとりを追加してね");return;} openDaySheet(todayStr(),"diary"); };
+  var pml=$('petMemoBtnLabel'); if(pml){ var ap=activePet(); pml.textContent=ap?(ap.emoji+" "+ap.name+" のメモ"):"のメモ"; }
   var petBar=$('notesPetBar'); petBar.innerHTML='';
   function makeChip(id,name){ var c=el('button','chip'+(notesPetId===id?' on':'')); c.textContent=name; c.onclick=function(){notesPetId=id;renderNotes();}; petBar.appendChild(c); }
   makeChip('all','すべて');
@@ -3396,6 +3462,7 @@ window.addEventListener("resize",function(){ if(!$("view-weight").hidden)renderW
   $("bannerUpdateClose").onclick=function(){ $("bannerUpdate").style.display="none"; };
 })();
 document.addEventListener("click",closeDayPop);
+document.addEventListener("touchend",function(e){if(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA")e.target.focus();},false);
 
 /* ===== persist + banners ===== */
 var BKUP_KEY="toricale_lastbackup";
@@ -3408,8 +3475,8 @@ function lsSet(k,v){try{localStorage.setItem(k,String(v));}catch(e){}}
 function snoozed(k){ var t=lsGet(k); return t && (+t>Date.now()); }
 var _ss={get:function(k){try{return sessionStorage.getItem(k);}catch(e){return null;}},set:function(k,v){try{sessionStorage.setItem(k,v);}catch(e){}}};
 function checkBanners(){
-  if(!isStandalone() && /iphone|ipad|ipod/i.test(navigator.userAgent) && !_ss.get("installDismissed")){
-    $("bannerInstall").style.display="block";
+  if(!isStandalone() && /iphone|ipad|ipod|android/i.test(navigator.userAgent) && !_ss.get("installDismissed")){
+    setTimeout(function(){ if(!_ss.get("installDismissed")) showInstallSheet(); }, 600);
   }
   var sinceB=daysSinceBackup();
   if(sinceB>=7 && $("bannerInstall").style.display==="none" && !snoozed("toricale_backup_snooze")){
