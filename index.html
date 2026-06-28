@@ -705,8 +705,16 @@
       <div class="acc">
         <button class="acc-h" style="padding:11px 14px 11px;" onclick="this.parentElement.classList.toggle('open')">バックアップの方法について<span class="ar"><span class="chev-d"></span></span></button>
         <div class="acc-body" style="padding:0 14px 12px;font-size:12.5px;color:var(--ink-soft);line-height:1.75;">
-          <div style="margin-bottom:6px;"><span style="font-weight:700;color:var(--ink);">データをすべて保存する（JSON）</span><br>記録・抱卵・換羽・写真まですべて保存されます。端末を替えたときや復元にはこのファイルを使います。保存したファイルはiCloud DriveやDropboxに入れておくと安心です。</div>
-          <div><span style="font-weight:700;color:var(--ink);">Excel・スプレッドシート用（CSV）</span><br>体重・産卵・食事などの数値記録のみ。Excelで開いて確認・編集したいときに便利です。写真・抱卵・換羽は含まれません。</div>
+          <div style="margin-bottom:10px;"><span style="font-weight:700;color:var(--ink);">データをすべて保存する（JSON）</span><br>記録・抱卵・換羽・写真まですべて保存されます。端末を替えたときや復元にはこのファイルを使います。保存したファイルはiCloud DriveやDropboxに入れておくと安心です。</div>
+          <div style="margin-bottom:14px;"><span style="font-weight:700;color:var(--ink);">Excel・スプレッドシート用（CSV）</span><br>体重・産卵・食事などの数値記録のみ。Excelで開いて確認・編集したいときに便利です。写真・抱卵・換羽は含まれません。</div>
+          <div style="background:var(--bg2);border-radius:10px;padding:11px 13px;">
+            <div style="font-weight:700;color:var(--ink);margin-bottom:6px;">アプリが重くなってきたら</div>
+            <div style="display:flex;flex-direction:column;gap:7px;">
+              <div style="display:flex;gap:9px;"><span style="font-weight:800;color:var(--ink);flex-shrink:0;">1.</span><span>「データをすべて保存する」で念のためバックアップをとる</span></div>
+              <div style="display:flex;gap:9px;"><span style="font-weight:800;color:var(--ink);flex-shrink:0;">2.</span><span>「保存したファイルから復元する」で同じファイルを読み込み直す</span></div>
+              <div style="display:flex;gap:9px;"><span style="font-weight:800;color:var(--ink);flex-shrink:0;">3.</span><span>これだけで写真も記録もそのまま、アプリがすっきりします</span></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -725,7 +733,7 @@
     <div class="card" style="padding:0;overflow:hidden;">
 
       <!-- カテゴリ①：データ・バックアップ -->
-      <div class="qa-cat">
+      <div class="qa-cat open">
         <button class="qa-cat-h" onclick="this.parentElement.classList.toggle('open')">データ・バックアップ<span class="ar"><span class="chev-d"></span></span></button>
         <div class="qa-cat-body">
           <div class="qa-item">
@@ -752,7 +760,7 @@
       </div>
 
       <!-- カテゴリ②：使い方 -->
-      <div class="qa-cat">
+      <div class="qa-cat open">
         <button class="qa-cat-h" onclick="this.parentElement.classList.toggle('open')">使い方<span class="ar"><span class="chev-d"></span></span></button>
         <div class="qa-cat-body">
           <div class="qa-item">
@@ -779,7 +787,7 @@
       </div>
 
       <!-- カテゴリ③：写真 -->
-      <div class="qa-cat">
+      <div class="qa-cat open">
         <button class="qa-cat-h" onclick="this.parentElement.classList.toggle('open')">写真<span class="ar"><span class="chev-d"></span></span></button>
         <div class="qa-cat-body">
           <div class="qa-item">
@@ -794,7 +802,7 @@
       </div>
 
       <!-- カテゴリ④：端末・環境 -->
-      <div class="qa-cat">
+      <div class="qa-cat open">
         <button class="qa-cat-h" onclick="this.parentElement.classList.toggle('open')">端末・環境<span class="ar"><span class="chev-d"></span></span></button>
         <div class="qa-cat-body">
           <div class="qa-item">
