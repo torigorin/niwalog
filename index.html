@@ -547,7 +547,7 @@
   .note-pet-chip{font-size:11px;font-weight:700;background:var(--bg2);border-radius:999px;padding:2px 9px;color:var(--ink-soft);}
   .note-img-wrap{margin-bottom:8px;border-radius:10px;overflow:hidden;background:var(--bg2);}
   .note-img{width:100%;max-height:300px;object-fit:cover;display:block;cursor:zoom-in;}
-  .note-img-ph{padding:24px;text-align:center;font-size:13px;color:var(--ink-faint);}
+  .note-img-ph{padding:24px;text-align:center;font-size:13px;color:var(--ink-faint);display:flex;align-items:center;justify-content:center;}
   .note-memo{font-size:14px;line-height:1.75;margin:0 0 8px;color:var(--ink);}
   .note-edit-btn{font-size:12px;font-weight:700;color:var(--amber);background:none;border:none;padding:0;cursor:pointer;}
 </style>
@@ -822,6 +822,21 @@ function idbGetAll(){ return new Promise(function(res){ if(!idb)return res({}); 
   tx.onerror=function(){ res({}); };
 }catch(e){ res({}); } }); }
 function blobToBase64(blob){ return new Promise(function(res){ if(!blob)return res(null); var r=new FileReader(); r.onload=function(){ res(r.result); }; r.readAsDataURL(blob); }); }
+/* "rec|petId|date" 形式のキーで写真を取得する。
+   旧バージョンの不具合で "rec|" 接頭辞なしのキーに保存されたまま移行できていないデータが
+   万一残っていた場合に備えて、見つからなければ旧キーでも探すフォールバックを持つ。
+   旧キーで見つかった場合はその場で正しいキーに移行しておく。 */
+function idbGetRecPhoto(properKey){
+  return idbGet(properKey).then(function(b){
+    if(b) return b;
+    var legacyKey=properKey.indexOf("rec|")===0 ? properKey.slice(4) : null;
+    if(!legacyKey) return null;
+    return idbGet(legacyKey).then(function(legacyBlob){
+      if(legacyBlob){ idbPut(properKey,legacyBlob).then(function(){ idbDel(legacyKey); }); }
+      return legacyBlob;
+    });
+  });
+}
 
 /* ===== constants ===== */
 var WD=["日","月","火","水","木","金","土"];
@@ -1061,6 +1076,8 @@ var vetGlobalCustomStart=null, vetGlobalCustomEnd=null, vetGlobalSelDays=7;
 /* ===== record helpers ===== */
 function recKey(p,d){return p+"|"+d;}
 function recPhotoKey(p,d){return "rec|"+p+"|"+d;}
+/* 写真読み込み中/プレースホルダー用のカメラアイコン（絵文字📷の代替）。サイズはCAMERA_ICON_SVG(size)で指定。 */
+function CAMERA_ICON_SVG(size){ size=size||20; return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="'+size+'" height="'+size+'" fill="currentColor" style="display:block;flex-shrink:0;"><g> <path d="M256,233.109c-28.5,0-51.594,23.297-51.594,52.047c0,28.766,23.094,52.047,51.594,52.047 s51.594-23.281,51.594-52.047C307.594,256.406,284.5,233.109,256,233.109z"></path> <path d="M497.375,140.297c-8.984-9.094-21.641-14.813-35.453-14.813h-54.203c-4.359,0.016-8.438-2.594-10.313-6.813 l-16.234-36.344c-8.031-18.016-25.891-29.734-45.703-29.734H176.531c-19.813,0-37.672,11.719-45.719,29.719v0.016l-16.219,36.344 c-1.875,4.219-5.953,6.828-10.313,6.813H50.078c-13.813,0-26.484,5.719-35.484,14.813C5.594,149.359,0,162.031,0,175.828v233.25 c0,13.797,5.594,26.469,14.594,35.531c9,9.094,21.672,14.813,35.484,14.797h225.781h186.063 c13.813,0.016,26.469-5.703,35.453-14.797c9.031-9.063,14.625-21.734,14.625-35.531v-233.25 C512,162.031,506.406,149.344,497.375,140.297z M473.281,409.078c0,3.313-1.281,6.125-3.375,8.281 c-2.156,2.109-4.844,3.328-7.984,3.344H275.859H50.078c-3.156-0.016-5.859-1.234-7.984-3.344c-2.094-2.156-3.375-4.969-3.375-8.281 v-233.25c0-3.313,1.281-6.125,3.375-8.281c2.125-2.125,4.828-3.328,7.984-3.344h54.203c19.781,0,37.656-11.734,45.688-29.766 l16.188-36.328c1.906-4.203,5.969-6.813,10.375-6.813h158.938c4.406,0,8.469,2.609,10.359,6.797l16.219,36.359 c8.016,18.016,25.891,29.75,45.672,29.75h54.203c3.141,0.016,5.828,1.219,7.984,3.344c2.094,2.156,3.375,4.984,3.375,8.281V409.078 z"></path> <path d="M256,170.938c-31.313-0.016-59.75,12.844-80.203,33.5c-20.484,20.656-33.172,49.266-33.156,80.719 c-0.016,31.453,12.672,60.094,33.156,80.719c20.453,20.672,48.891,33.516,80.203,33.516c31.297,0,59.75-12.844,80.203-33.516 c20.484-20.625,33.172-49.266,33.156-80.719c0.016-31.453-12.672-60.063-33.156-80.719C315.75,183.781,287.297,170.922,256,170.938 z M315.031,344.891c-15.172,15.297-35.953,24.688-59.031,24.688c-23.094,0-43.859-9.391-59.047-24.688 c-15.141-15.297-24.5-36.328-24.516-59.734c0.016-23.391,9.375-44.422,24.516-59.734c15.188-15.297,35.953-24.672,59.047-24.688 c23.078,0.016,43.859,9.391,59.031,24.688c15.156,15.313,24.516,36.344,24.531,59.734 C339.547,308.563,330.188,329.594,315.031,344.891z"></path> <rect x="392.188" y="197.656" width="34.406" height="34.406"></rect> </g></svg>'; }
 function getRec(p,d){return S.records[recKey(p,d)]||null;}
 function ensureRec(p,d){var k=recKey(p,d); if(!S.records[k])S.records[k]={}; return S.records[k];}
 function anyHealth(r){ if(!r||!r.health)return false; for(var i=0;i<HEALTH.length;i++) if(r.health[HEALTH[i].k])return true; return false; }
@@ -1076,6 +1093,28 @@ function isEmptyRec(r){ if(!r)return true;
 function cleanRec(p,d){var k=recKey(p,d); if(isEmptyRec(S.records[k])){ delete S.records[k]; idbDel(recPhotoKey(p,d)); } }
 function activePet(){return S.pets.filter(function(p){return p.id===S.activePet;})[0]||null;}
 function petById(id){return S.pets.filter(function(p){return p.id===id;})[0]||null;}
+/* 旧バージョンで "rec|" 接頭辞なしのキー（petId|date）に保存されてしまった
+   写真データを、正しいキー（rec|petId|date）に移行する。
+   一度移行が完了したレコードは photo フラグが立っているのに旧キーが存在しない状態になるため、
+   何度起動しても無駄な処理が走らないよう安全（idempotent）に書かれている。 */
+function migrateLegacyPhotoKeys(){
+  return idbGetAll().then(function(allPhotos){
+    var tasks=[];
+    Object.keys(S.records).forEach(function(key){
+      var r=S.records[key];
+      if(!r||!r.photo)return;
+      // key は "petId|date"（または "_all|date"）形式そのもの。
+      // これが旧バージョンで rec| 接頭辞なしのまま誤って使われていたIDBキー。
+      var legacyKey=key;
+      var properKey="rec|"+key;
+      if(allPhotos[properKey]!==undefined) return; // 既に正しいキーで存在するなら何もしない
+      if(allPhotos[legacyKey]===undefined) return; // 旧キーにも無ければ移行対象なし（写真が実際には無い等）
+      var blob=allPhotos[legacyKey];
+      tasks.push(idbPut(properKey,blob).then(function(){ return idbDel(legacyKey); }));
+    });
+    return Promise.all(tasks).then(function(){ return tasks.length; });
+  });
+}
 function isFemale(p){return !p||p.sex!=="male";}
 function welcomeDays(p){ if(!p||!p.welcome)return null; var b=parseYmd(p.welcome); if(isNaN(b))return null; var d=diffDays(ymd(b),todayStr()); return d>=0?d:null; }
 function ageText(p){ if(!p||!p.birth)return ""; var b=parseYmd(p.birth), now=new Date();
@@ -1900,7 +1939,7 @@ function buildSnkChips(){
   pbtns.appendChild(selBtn); pbtns.appendChild(fileIn); prow.appendChild(pbtns); pf.appendChild(prow); pf.appendChild(delBtn); appendTo("diary",pf);
   function showThumb(blob){ thumbHost.innerHTML=""; if(blob){ var img=el("img","photo-thumb"); img.src=URL.createObjectURL(blob); thumbHost.appendChild(img); delBtn.style.display="block"; selBtn.innerHTML="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='13' height='13' fill='currentColor' style='display:inline-block;vertical-align:middle;margin-right:3px;flex-shrink:0'><path d='M0,0v512h512V0H0z M465.975,465.975H46.025V46.025h419.95V465.975z'/><path d='M75.693,385.429h360.614c3.604,0,6.912-1.978,8.619-5.15c1.708-3.163,1.537-7.019-0.449-10.022L332.573,200.709c-4.53-6.867-12.205-10.992-20.437-10.992c-8.224,0.018-15.899,4.152-20.419,11.036l-78.83,119.965l-43.508-49.314c-5.051-5.716-12.475-8.762-20.078-8.214c-7.612,0.539-14.533,4.602-18.712,10.973l-63.074,96.112c-1.977,3.01-2.139,6.848-0.43,10.012C68.79,383.461,72.098,385.429,75.693,385.429z'/><path d='M167.589,225.793c27.404,0,49.612-22.208,49.612-49.611c0-27.403-22.208-49.612-49.612-49.612c-27.402,0-49.62,22.208-49.62,49.612C117.97,203.585,140.187,225.793,167.589,225.793z'/></svg>写真を変える"; }
     else { thumbHost.innerHTML='<div class="photo-empty"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="36" height="36" fill="currentColor"><path d="M256,233.109c-28.5,0-51.594,23.297-51.594,52.047c0,28.766,23.094,52.047,51.594,52.047s51.594-23.281,51.594-52.047C307.594,256.406,284.5,233.109,256,233.109z"/><path d="M497.375,140.297c-8.984-9.094-21.641-14.813-35.453-14.813h-54.203c-4.359,0.016-8.438-2.594-10.313-6.813l-16.234-36.344c-8.031-18.016-25.891-29.734-45.703-29.734H176.531c-19.813,0-37.672,11.719-45.719,29.719v0.016l-16.219,36.344c-1.875,4.219-5.953,6.828-10.313,6.813H50.078c-13.813,0-26.484,5.719-35.484,14.813C5.594,149.359,0,162.031,0,175.828v233.25c0,13.797,5.594,26.469,14.594,35.531c9,9.094,21.672,14.813,35.484,14.797h411.844c13.813,0.016,26.469-5.703,35.453-14.797c9.031-9.063,14.625-21.734,14.625-35.531v-233.25C512,162.031,506.406,149.344,497.375,140.297z M473.281,409.078c0,3.313-1.281,6.125-3.375,8.281c-2.156,2.109-4.844,3.328-7.984,3.344H50.078c-3.156-0.016-5.859-1.234-7.984-3.344c-2.094-2.156-3.375-4.969-3.375-8.281v-233.25c0-3.313,1.281-6.125,3.375-8.281c2.125-2.125,4.828-3.328,7.984-3.344h54.203c19.781,0,37.656-11.734,45.688-29.766l16.188-36.328c1.906-4.203,5.969-6.813,10.375-6.813h158.938c4.406,0,8.469,2.609,10.359,6.797l16.219,36.359c8.016,18.016,25.891,29.75,45.672,29.75h54.203c3.141,0.016,5.828,1.219,7.984,3.344c2.094,2.156,3.375,4.984,3.375,8.281V409.078z"/><path d="M256,170.938c-31.313-0.016-59.75,12.844-80.203,33.5c-20.484,20.656-33.172,49.266-33.156,80.719c-0.016,31.453,12.672,60.094,33.156,80.719c20.453,20.672,48.891,33.516,80.203,33.516c31.297,0,59.75-12.844,80.203-33.516c20.484-20.625,33.172-49.266,33.156-80.719c0.016-31.453-12.672-60.063-33.156-80.719C315.75,183.781,287.297,170.922,256,170.938z M315.031,344.891c-15.172,15.297-35.953,24.688-59.031,24.688c-23.094,0-43.859-9.391-59.047-24.688c-15.141-15.297-24.5-36.328-24.516-59.734c0.016-23.391,9.375-44.422,24.516-59.734c15.188-15.297,35.953-24.672,59.047-24.688c23.078,0.016,43.859,9.391,59.031,24.688c15.156,15.313,24.516,36.344,24.531,59.734C339.547,308.563,330.188,329.594,315.031,344.891z"/><rect x="392.188" y="197.656" width="34.406" height="34.406"/></svg></div>'; delBtn.style.display="none"; selBtn.innerHTML="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='13' height='13' fill='currentColor' style='display:inline-block;vertical-align:middle;margin-right:3px;flex-shrink:0'><path d='M0,0v512h512V0H0z M465.975,465.975H46.025V46.025h419.95V465.975z'/><path d='M75.693,385.429h360.614c3.604,0,6.912-1.978,8.619-5.15c1.708-3.163,1.537-7.019-0.449-10.022L332.573,200.709c-4.53-6.867-12.205-10.992-20.437-10.992c-8.224,0.018-15.899,4.152-20.419,11.036l-78.83,119.965l-43.508-49.314c-5.051-5.716-12.475-8.762-20.078-8.214c-7.612,0.539-14.533,4.602-18.712,10.973l-63.074,96.112c-1.977,3.01-2.139,6.848-0.43,10.012C68.79,383.461,72.098,385.429,75.693,385.429z'/><path d='M167.589,225.793c27.404,0,49.612-22.208,49.612-49.611c0-27.403-22.208-49.612-49.612-49.612c-27.402,0-49.62,22.208-49.62,49.612C117.97,203.585,140.187,225.793,167.589,225.793z'/></svg>写真を選ぶ"; } }
-  idbGet(recPhotoKey(p.id,date)).then(function(b){ showThumb(b); });
+  idbGetRecPhoto(recPhotoKey(p.id,date)).then(function(b){ showThumb(b); });
   selBtn.onclick=function(){ fileIn.click(); };
   fileIn.onchange=function(){ var f=fileIn.files[0]; if(!f)return; resizeImage(f,1000,0.82).then(function(blob){ if(!blob){toast("この端末では写真を保存できません"); return;}
       idbPut(recPhotoKey(p.id,date),blob).then(function(ok){ if(ok){ var rec=ensureRec(p.id,date); rec.photo=true; persist(); showThumb(blob); toast("写真を保存しました"); } else toast("写真を保存できませんでした"); }); }); };
@@ -2606,12 +2645,12 @@ function renderSummary(){ buildSumPetSeg(); var host=$("sumBody"); host.innerHTM
       if(!dItems.length)return;
       var dcard=el("div","card acc"); dcard.style.marginTop="8px"; dcard.style.padding="0";
       var ah=el("div","acc-h"); ah.style.padding="12px 14px";
-      ah.innerHTML='<span>📷 写真・日記を見る（'+dItems.length+'件）</span><span class="ar"><span class="chev-d"></span></span>';
+      ah.innerHTML='<span style="display:inline-flex;align-items:center;gap:5px;">'+CAMERA_ICON_SVG(15)+'写真・日記を見る（'+dItems.length+'件）</span><span class="ar"><span class="chev-d"></span></span>';
       var ab=el("div","acc-body"); ab.style.padding="0 14px 10px";
       dItems.slice(0,20).forEach(function(x){
         var row=el("div","dt-row");
         var thumb=el("div","dt-thumb");
-        if(x.r.photo){ thumb.dataset.rkey="rec|"+p.id+"|"+x.date; thumb.textContent="📷"; }
+        if(x.r.photo){ thumb.dataset.rkey="rec|"+p.id+"|"+x.date; thumb.innerHTML=CAMERA_ICON_SVG(22); thumb.style.color="var(--ink-faint)"; }
         row.appendChild(thumb);
         var info=el("div","dt-info");
         var hmk=""; if(x.r.health)HEALTH.forEach(function(h){if(x.r.health[h.k]&&h.e)hmk+=h.e;});
@@ -2623,7 +2662,7 @@ function renderSummary(){ buildSumPetSeg(); var host=$("sumBody"); host.innerHTM
         if(dcard.classList.contains("open")){
           Array.prototype.forEach.call(ab.querySelectorAll('.dt-thumb[data-rkey]'),function(th){
             if(th.querySelector('img'))return;
-            idbGet(th.dataset.rkey).then(function(b){ if(!b)return; th.textContent=""; var img3=document.createElement("img"); img3.src=URL.createObjectURL(b); img3.style.cursor="zoom-in"; img3.onclick=function(e){e.stopPropagation();openPhotoLb(img3.src);}; th.appendChild(img3); });
+            idbGetRecPhoto(th.dataset.rkey).then(function(b){ if(!b)return; th.textContent=""; var img3=document.createElement("img"); img3.src=URL.createObjectURL(b); img3.style.cursor="zoom-in"; img3.onclick=function(e){e.stopPropagation();openPhotoLb(img3.src);}; th.appendChild(img3); });
           });
         }
       };
@@ -3045,8 +3084,8 @@ function renderNotes(){ notesPetId=S.activePet||'all';
     card.appendChild(head);
     if(x.r.photo){
       var iw=el('div','note-img-wrap');
-      var _idbK=x.pet?'rec|'+x.pet.id+'|'+x.date:'rec|_all|'+x.date; iw.innerHTML='<div class="note-img-ph">📷</div>';
-      (function(wrap,idbK){ idbGet(idbK).then(function(b){ if(!b)return; var img=document.createElement('img'); img.className='note-img'; img.src=URL.createObjectURL(b); img.onclick=function(e){e.stopPropagation();openPhotoLb(img.src);}; wrap.innerHTML=''; wrap.appendChild(img); }); })(iw,_idbK);
+      var _idbK=x.pet?'rec|'+x.pet.id+'|'+x.date:'rec|_all|'+x.date; iw.innerHTML='<div class="note-img-ph">'+CAMERA_ICON_SVG(26)+'</div>';
+      (function(wrap,idbK){ idbGetRecPhoto(idbK).then(function(b){ if(!b)return; var img=document.createElement('img'); img.className='note-img'; img.src=URL.createObjectURL(b); img.onclick=function(e){e.stopPropagation();openPhotoLb(img.src);}; wrap.innerHTML=''; wrap.appendChild(img); }); })(iw,_idbK);
       card.appendChild(iw);
     }
     if(x.r.memo){ var mp=el('p','note-memo'); mp.textContent=x.r.memo; card.appendChild(mp); }
@@ -3305,8 +3344,10 @@ function showUndo(msg){ var f=$("undoFab"); if(!f)return; var m=f.querySelector(
 $("undoBtn").onclick=function(){ if(!_undoSnap)return; S=JSON.parse(JSON.stringify(_undoSnap)); _undoSnap=null; clearTimeout(_undoTimer); try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){} _lastSaved=JSON.parse(JSON.stringify(S)); var f=$("undoFab"); if(f)f.classList.remove("show"); renderAll(); toast("元に戻しました"); };
 
 openIDB().then(function(){
-  renderAll(); checkBanners();
-  if(S._firstVisit){ delete S._firstVisit; persist(); showWelcomeSheet(); }
+  migrateLegacyPhotoKeys().then(function(n){
+    renderAll(); checkBanners();
+    if(S._firstVisit){ delete S._firstVisit; persist(); showWelcomeSheet(); }
+  });
 });
 </script>
 <script>
