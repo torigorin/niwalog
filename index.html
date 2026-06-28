@@ -237,7 +237,7 @@
   .sumitem{background:var(--bg2); border-radius:var(--r-sm); padding:10px 12px;}
   .sumitem.wide{grid-column:1/3;}
   .sumitem .k{font-size:10px; font-weight:600; color:var(--ink-soft); letter-spacing:.02em;}
-  .sumitem .v{font-size:19px; font-weight:600; margin-top:3px; color:var(--ink); line-height:1.15;} .sumitem .v small{font-size:11px; color:var(--ink-soft); font-weight:500; margin-left:2px;} .sumitem .v .no-data{font-size:14px; font-weight:500; color:#F9F4E4;}
+  .sumitem .v{font-size:19px; font-weight:600; margin-top:3px; color:var(--ink); line-height:1.15;} .sumitem .v small{font-size:11px; color:var(--ink-soft); font-weight:500; margin-left:2px;} .sumitem .v .no-data{font-size:14px; font-weight:500; color:#9ea98b;}
   .brood-history{margin-top:20px;}
   .bh-title{font-size:12px; font-weight:600; color:var(--ink-faint); margin-bottom:5px; letter-spacing:.04em;}
   .bh-row{display:flex; align-items:center; gap:10px; padding:5px 0; border-bottom:1px solid var(--line-soft);}
@@ -284,6 +284,29 @@
   .acc-h{display:flex; align-items:center; justify-content:space-between; padding:11px 2px 4px; font-size:13px; font-weight:700; color:var(--ink-soft);}
   .acc-h .ar{transition:transform .2s;} .acc.open .acc-h .ar{transform:rotate(180deg);}
   .acc-body{display:none; padding-bottom:6px;} .acc.open .acc-body{display:block;}
+  /* Q&A カテゴリアコーディオン */
+  .qa-cat{margin-bottom:6px;}
+  .qa-cat-h{display:flex;align-items:center;justify-content:space-between;width:100%;padding:10px 14px;font-size:13px;font-weight:700;color:#fff;background:#4c4320;border:none;border-radius:8px;cursor:pointer;text-align:left;font-family:inherit;letter-spacing:.01em;}
+  .qa-cat-h .ar{transition:transform .2s;flex-shrink:0;filter:brightness(0) invert(1);}
+  .qa-cat.open .qa-cat-h .ar{transform:rotate(180deg);}
+  .qa-cat-body{display:none;padding:6px 0 2px;}
+  .qa-cat.open .qa-cat-body{display:block;}
+  .qa-item{background:var(--card);box-shadow:var(--shadow);border-radius:14px;margin-bottom:7px;overflow:hidden;}
+  .qa-item-h{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 14px;font-size:13px;font-weight:600;color:var(--ink-soft);background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;}
+  .qa-item-h .ar{transition:transform .2s;flex-shrink:0;}
+  .qa-item.open .qa-item-h .ar{transform:rotate(180deg);}
+  .qa-item-body{display:none;padding:0 14px 12px;font-size:13px;color:var(--ink-soft);line-height:1.7;}
+  .qa-item.open .qa-item-body{display:block;}
+  /* ボトムシート */
+  .bsheet-overlay{display:none;position:fixed;inset:0;background:transparent;z-index:200;}
+  .bsheet-overlay.open{display:block;}
+  .bsheet{position:fixed;bottom:0;left:0;right:0;background:#fff;border-radius:18px 18px 0 0;z-index:201;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);padding:0 0 env(safe-area-inset-bottom,0);}
+  .bsheet.open{transform:translateY(0);}
+  .bsheet-bar{width:36px;height:4px;background:var(--line-soft);border-radius:2px;margin:10px auto 0;}
+  .bsheet-inner{padding:16px 18px 24px;}
+  .bsheet-title{font-size:15px;font-weight:700;color:var(--ink);margin:0 0 6px;}
+  .bsheet-sub{font-size:13px;color:var(--ink-soft);line-height:1.6;margin:0 0 18px;}
+  .bsheet-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;border-radius:12px;border:none;background:var(--amber);color:#fff;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;}
   .memo-it{font-size:13px; padding:8px 0; border-bottom:1px solid var(--line-soft); display:flex; gap:10px;}
   .memo-it:last-child{border-bottom:none;}
   .memo-it .md{flex:0 0 56px; font-weight:700; color:var(--ink-soft); font-size:12px;}
@@ -380,8 +403,8 @@
   .inwrap .u{font-size:13px; color:var(--ink-soft); font-weight:700;}
   textarea.memo{width:100%; border:1.5px solid var(--line); border-radius:var(--r-sm); background:var(--card); padding:12px 14px; resize:none; min-height:70px; font-weight:600; box-shadow:var(--shadow); line-height:1.55;}
   textarea.memo::placeholder{color:var(--ink-faint); font-weight:500; opacity:.7; font-size:13px; line-height:1.7;}
-  .inwrap input::placeholder, .total input::placeholder, .snk-g-row input::placeholder, .snackmemo-wrap input::placeholder{color:var(--ink-faint); font-weight:400; font-size:13px; opacity:.8;}
-  .inwrap input::placeholder,.foodbox input::placeholder{color:var(--ink-faint); opacity:.6;}
+  .inwrap input::placeholder, .total input::placeholder, .food-xtra-total input::placeholder, .snk-g-row input::placeholder, .snackmemo-wrap input::placeholder{color:var(--ink-faint); font-weight:400; font-size:13px; opacity:.8;}
+  .inwrap input::placeholder,.foodbox input::placeholder,.food-xtra-box input::placeholder{color:var(--ink-faint); opacity:.6;}
 
   .mark-toggles{display:grid; grid-template-columns:repeat(3,1fr); gap:8px;}
   .mt{background:var(--card); border:1.5px solid var(--line); border-radius:var(--r-sm); padding:11px 4px 9px;
@@ -633,7 +656,7 @@
       <button id="notesNextM">›</button>
     </div>
     <div class="notes-pet-bar" id="notesPetBar" style="display:none"></div>
-    <div style="padding:0 16px 8px;"><button id="allMemoBtn" style="font-size:13px;font-weight:600;color:var(--rust);background:var(--amber-soft);border:none;border-radius:999px;padding:7px 16px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="14" height="14" fill="currentColor" style="display:inline-block;vertical-align:middle;margin-right:3px;flex-shrink:0"><g> <path d="M78.131,72.577c1.653,0,3.267,0.03,4.836,0.05c1.415,0.03,2.785,0.04,4.126,0.04 c12.733,0,24.693,3.783,35.341,9.959c10.332-12.382,15.5-23.72,15.5-32.199c0-10.524-8.534-19.063-19.068-19.063 c-5.74,0-10.892,2.552-14.388,6.583c0.06-0.606,0.1-1.202,0.1-1.817c0-10.535-8.548-19.063-19.068-19.063 c-10.534,0-19.068,8.528-19.068,19.063c0,0.288,0.03,0.576,0.045,0.854c-3.028-2.512-6.925-4.031-11.159-4.031 c-9.652,0-17.485,7.834-17.485,17.474c0,6.513,3.654,15.102,11.875,26.372C59.605,73.46,69.037,72.577,78.131,72.577z"></path> <path d="M34.455,166.909c0,0-11.602,12.571-27.076,42.545c-17.539,33.996,30.759,56.088,41.393,23.203 C55.936,210.537,39.295,166.423,34.455,166.909z"></path> <path d="M33.601,150.477c-4.413-14.824-7.893-27.889-11.234-40.171c-6.578,7.038-13.504,15.895-20.797,27.105 c-8.191,12.609,17.926,11.209,26.123,11.596C29.748,149.108,31.715,149.634,33.601,150.477z"></path> <path d="M499.146,138.862c-34.87-36.906-104.446-43.518-149.423,2.898c-48.238,49.812-36.448,108.8-95.738,108.8 c-59.289,0-94.283-49.326-100.097-94.284c0-7.069-1.112-13.86-3.198-20.224c-8.504-26.163-34.536-52.304-63.524-52.304 c-14.6,0-33.644-2.333-57.691,19.539c4.925,17.921,9.834,36.976,17.355,60.556c16.556,27.86,22.905,89.368,17.971,135.776 c-7.839,67.892,10.986,123.286,70.236,167.091c66.721,49.326,229.2,52.225,248.055-143.62c30.074,7.853,55.407-40.858,35.7-59.056 c39.873,18.398,80.751-33.997,44.088-58.441C513.647,214.29,523.809,164.963,499.146,138.862z M75.56,137.779 c-6.608,0-11.974-5.361-11.974-11.974c0-6.612,5.366-11.964,11.974-11.964c6.608,0,11.964,5.352,11.964,11.964 C87.524,132.418,82.168,137.779,75.56,137.779z M256.437,403.781c-32.497,0-60.417-10.306-82.424-25.17 c-22.037-14.874-38.266-34.195-47.911-52.781c-6.394-12.411-9.964-24.484-9.993-35.247c0-0.933,0.03-1.856,0.084-2.76l14.476,0.904 c-0.045,0.596-0.06,1.211-0.06,1.856c-0.014,5.56,1.5,12.758,4.682,20.582c3.157,7.804,7.938,16.274,14.203,24.574 c12.53,16.631,30.987,32.626,54.221,42.694c15.484,6.722,33.112,10.833,52.722,10.833c24.092,0,51.267-6.206,81.228-21.834 l6.706,12.867C312.629,396.87,283.056,403.781,256.437,403.781z"></path> </g></svg> 今日の全員メモを書く</button></div>
+    <div style="padding:0 16px 8px;"><button id="allMemoBtn" style="font-size:13px;font-weight:600;color:#4c4320;background:var(--amber-soft);border:none;border-radius:999px;padding:7px 16px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="display:inline-block;vertical-align:middle;margin-right:3px;flex-shrink:0"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg> 今日の全員メモを書く</button></div>
     <div id="notesBody"></div>
   </section>
 
@@ -649,88 +672,152 @@
     </div>
 
     <div class="section-t">記録のバックアップ</div>
-    <div class="card" style="margin-top:8px;padding:14px 16px;">
-      <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px;">バックアップの方法</div>
-      <div style="font-size:12.5px;color:var(--ink-soft);line-height:1.75;">
-        <div style="margin-bottom:6px;"><span style="font-weight:700;color:var(--ink);">JSONで保存（おすすめ）</span><br>記録・抱卵・換羽・写真まですべて保存されます。端末を替えたときや復元にはこのファイルを使います。</div>
-        <div style="margin-bottom:6px;"><span style="font-weight:700;color:var(--ink);">CSVで保存</span><br>体重・産卵・食事などの数値記録のみ。Excelで開いて確認・編集したいときに便利です。</div>
-        <div style="color:var(--ink-faint);font-size:11.5px;">保存したファイルはiCloud DriveやDropboxに入れておくと安心です。</div>
-      </div>
-    </div>
-    <div class="card" style="margin-top:8px;padding:14px 16px;background:rgba(197,107,78,.08);border:1px solid rgba(197,107,78,.22);">
-      <div style="font-size:13px;font-weight:700;color:var(--rust);margin-bottom:6px;display:flex;align-items:center;gap:6px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="14" height="14" fill="var(--rust)" style="display:block;flex-shrink:0;"><g> <path d="M479.548,265.753c-2.408-6.276-2.408-13.224,0-19.522l19.468-51.108c4.6-12.065,0.162-25.666-10.63-32.714 l-45.797-29.904c-5.635-3.682-9.719-9.317-11.471-15.801l-14.296-52.799c-3.366-12.443-14.96-20.865-27.828-20.224l-54.636,2.732 c-6.715,0.324-13.324-1.814-18.564-6.036L273.2,6.073c-10.035-8.097-24.361-8.097-34.404,0l-42.594,34.304 c-5.241,4.222-11.848,6.36-18.572,6.036l-54.629-2.732c-12.868-0.64-24.462,7.781-27.827,20.224l-14.288,52.799 c-1.76,6.484-5.843,12.119-11.478,15.801L23.61,162.408c-10.791,7.048-15.222,20.664-10.629,32.714l19.476,51.116 c2.401,6.291,2.401,13.238,0,19.521l-19.476,51.116c-4.593,12.042-0.162,25.666,10.629,32.714l45.798,29.912 c5.635,3.666,9.718,9.286,11.478,15.785l14.288,52.799c3.366,12.451,14.96,20.865,27.827,20.224l54.629-2.717 c6.724-0.348,13.331,1.806,18.572,6.021l42.594,34.319c10.043,8.09,24.369,8.09,34.396,0l42.602-34.319 c5.234-4.214,11.849-6.368,18.564-6.021l54.636,2.717c12.868,0.641,24.462-7.773,27.828-20.224l14.296-52.799 c1.752-6.499,5.836-12.119,11.471-15.785l45.797-29.912c10.792-7.048,15.23-20.672,10.622-32.714L479.548,265.753z M288.778,369.127c0,10.451-8.476,18.943-18.927,18.943h-27.704c-10.452,0-18.935-8.492-18.935-18.943v-28.916 c0-10.452,8.483-18.943,18.935-18.943h27.704c10.451,0,18.927,8.491,18.927,18.943V369.127z M288.778,268.948 c0,10.452-8.476,18.928-18.927,18.928h-27.704c-10.452,0-18.935-8.476-18.935-18.928V142.879c0-10.467,8.483-18.943,18.935-18.943 h27.704c10.451,0,18.927,8.476,18.927,18.943V268.948z"></path> </g></svg>ホーム画面に追加する前に必ず読んでください</div>
-      <div style="font-size:12.5px;color:var(--ink);line-height:1.75;">
-        <div style="margin-bottom:6px;">いまSafariなどのタブで直接開いて記録している場合、その記録は「ホーム画面に追加」したアイコンには<b>自動で引き継がれません</b>。先にJSONでバックアップを保存し、ホーム画面に追加したあとに「読み込む（復元）」で戻してください。</div>
-        <div style="margin-bottom:6px;">ホーム画面に追加した<b>アイコンを削除すると、記録も一緒に消えます</b>。削除する前にも必ずバックアップを取ってください。</div>
-        <div style="color:var(--ink-soft);font-size:11.5px;">また、数週間ほどアプリを開かないでいると、端末側が自動でデータを消してしまうことがあります。月1回など、ときどきバックアップを保存しておくと安心です。</div>
-      </div>
-    </div>
-    <div class="card bk-card" style="margin-top:14px;">
+    <div class="card bk-card" style="margin-top:8px;">
       <button class="bk-row" id="backupBoth">
-        <div class="bk-ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20" height="20" fill="var(--ink-soft)" style="display:block;flex-shrink:0;"><g> <path d="M389.738,62.933c-15.561,0-30.372,3.09-43.966,8.554C325.469,29.238,282.4,0,232.395,0 c-67.165,0-121.883,52.649-125.517,118.908c-3.983-0.533-8.014-0.91-12.148-0.91c-49.961,0-90.466,40.497-90.466,90.466 c0,49.968,40.504,90.465,90.466,90.465h144.454v113.197c5.372-1.507,10.993-2.343,16.782-2.343c5.79,0,11.411,0.836,16.782,2.343 V298.93h116.991c65.161,0,117.999-52.829,117.999-117.998C507.737,115.762,454.899,62.933,389.738,62.933z M389.738,265.366H94.729 c-31.377,0-56.901-25.526-56.901-56.901c0-31.376,25.524-56.902,56.901-56.902c2.122,0,4.568,0.197,7.699,0.615l35.977,4.81 l1.987-36.243c2.68-48.888,43.094-87.18,92.003-87.18c35.723,0,67.574,20.101,83.123,52.461l13.615,28.327l29.16-11.726 c10.124-4.065,20.695-6.13,31.445-6.13c46.544,0,84.435,37.874,84.435,84.435C474.173,227.492,436.282,265.366,389.738,265.366z"></path> <path d="M255.994,431.589c-22.207,0-40.21,17.994-40.21,40.202c0,22.207,18.003,40.21,40.21,40.21 c22.203,0,40.206-18.003,40.206-40.21C296.2,449.583,278.197,431.589,255.994,431.589z"></path> <path d="M89.571,455.008v33.564h106.736c-1.512-5.367-2.352-10.989-2.352-16.782c0-5.793,0.84-11.415,2.352-16.782 H89.571z"></path> <path d="M318.057,471.79c0,5.793-0.84,11.415-2.347,16.782h106.74v-33.564h-106.74 C317.218,460.375,318.057,465.997,318.057,471.79z"></path> <polygon points="280.774,113.205 231.218,113.205 231.218,167.714 201.485,167.714 255.99,234.621 310.507,167.714 280.774,167.714 "></polygon> </g></svg></div>
+        <div class="bk-ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20" height="20" fill="var(--ink-soft)" style="display:block;flex-shrink:0;"><g><path d="M389.738,62.933c-15.561,0-30.372,3.09-43.966,8.554C325.469,29.238,282.4,0,232.395,0c-67.165,0-121.883,52.649-125.517,118.908c-3.983-0.533-8.014-0.91-12.148-0.91c-49.961,0-90.466,40.497-90.466,90.466c0,49.968,40.504,90.465,90.466,90.465h144.454v113.197c5.372-1.507,10.993-2.343,16.782-2.343c5.79,0,11.411,0.836,16.782,2.343V298.93h116.991c65.161,0,117.999-52.829,117.999-117.998C507.737,115.762,454.899,62.933,389.738,62.933z M389.738,265.366H94.729c-31.377,0-56.901-25.526-56.901-56.901c0-31.376,25.524-56.902,56.901-56.902c2.122,0,4.568,0.197,7.699,0.615l35.977,4.81l1.987-36.243c2.68-48.888,43.094-87.18,92.003-87.18c35.723,0,67.574,20.101,83.123,52.461l13.615,28.327l29.16-11.726c10.124-4.065,20.695-6.13,31.445-6.13c46.544,0,84.435,37.874,84.435,84.435C474.173,227.492,436.282,265.366,389.738,265.366z"/><path d="M255.994,431.589c-22.207,0-40.21,17.994-40.21,40.202c0,22.207,18.003,40.21,40.21,40.21c22.203,0,40.206-18.003,40.206-40.21C296.2,449.583,278.197,431.589,255.994,431.589z"/><path d="M89.571,455.008v33.564h106.736c-1.512-5.367-2.352-10.989-2.352-16.782c0-5.793,0.84-11.415,2.352-16.782H89.571z"/><path d="M318.057,471.79c0,5.793-0.84,11.415-2.347,16.782h106.74v-33.564h-106.74C317.218,460.375,318.057,465.997,318.057,471.79z"/><polygon points="280.774,113.205 231.218,113.205 231.218,167.714 201.485,167.714 255.99,234.621 310.507,167.714 280.774,167.714"/></g></svg></div>
         <div class="bk-info">
-          <div class="bk-title">書き出す（バックアップ）</div>
-          <div class="bk-sub">JSON＋CSV。写真も含めるか選べます</div>
+          <div class="bk-title">データをすべて保存する（おすすめ）</div>
+          <div class="bk-sub">写真・体重・産卵などすべての記録をJSONで完全バックアップ。機種変更や復元にはこれを使います。</div>
+        </div>
+        <span class="chev-r"></span>
+      </button>
+      <div class="bk-div"></div>
+      <button class="bk-row" id="exportCsv">
+        <div class="bk-ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20" height="20" fill="var(--ink-soft)" style="display:block;flex-shrink:0;"><g><rect y="107.79" width="134.737" height="377.263"/><rect x="377.263" y="215.579" width="134.737" height="269.474"/><rect x="188.632" y="26.947" width="134.737" height="458.105"/></g></svg></div>
+        <div class="bk-info">
+          <div class="bk-title">Excel・スプレッドシート用に保存する</div>
+          <div class="bk-sub">体重や食事などの数値データのみを書き出します（写真は含まれません）。</div>
         </div>
         <span class="chev-r"></span>
       </button>
       <div class="bk-div"></div>
       <button class="bk-row" id="importBtn">
-        <div class="bk-ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20" height="20" fill="var(--ink-soft)" style="display:block;flex-shrink:0;"><g> <path d="M256,431.589c-22.207,0-40.21,17.994-40.21,40.202c0,22.207,18.003,40.21,40.21,40.21 s40.21-18.003,40.21-40.21C296.21,449.583,278.207,431.589,256,431.589z"></path> <path d="M272.758,323.522h-33.564v88.605c5.367-1.507,10.989-2.343,16.782-2.343c5.786,0,11.406,0.836,16.782,2.343 V323.522z"></path> <path d="M89.581,455.008v33.564h106.731c-1.507-5.367-2.351-10.989-2.351-16.782c0-5.793,0.844-11.415,2.351-16.782 H89.581z"></path> <path d="M318.064,471.79c0,5.793-0.836,11.415-2.344,16.782h106.731v-33.564H315.721 C317.228,460.375,318.064,465.997,318.064,471.79z"></path> <path d="M389.732,62.933c-15.544,0-30.36,3.09-43.955,8.554C325.48,29.238,282.411,0,232.4,0 c-67.161,0-121.883,52.649-125.513,118.908c-3.982-0.533-8.014-0.91-12.152-0.91c-49.961,0-90.466,40.497-90.466,90.466 c0,49.968,40.505,90.465,90.466,90.465h294.996c65.17,0,117.999-52.829,117.999-117.998 C507.731,115.762,454.901,62.933,389.732,62.933z M283.976,180.899v61.531h-55.943v-61.531h-33.564L256,105.38l61.54,75.519 H283.976z"></path> </g></svg></div>
+        <div class="bk-ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20" height="20" fill="var(--ink-soft)" style="display:block;flex-shrink:0;"><g><path d="M256,431.589c-22.207,0-40.21,17.994-40.21,40.202c0,22.207,18.003,40.21,40.21,40.21s40.21-18.003,40.21-40.21C296.21,449.583,278.207,431.589,256,431.589z"/><path d="M272.758,323.522h-33.564v88.605c5.367-1.507,10.989-2.343,16.782-2.343c5.786,0,11.406,0.836,16.782,2.343V323.522z"/><path d="M89.581,455.008v33.564h106.731c-1.507-5.367-2.351-10.989-2.351-16.782c0-5.793,0.844-11.415,2.351-16.782H89.581z"/><path d="M318.064,471.79c0,5.793-0.836,11.415-2.344,16.782h106.731v-33.564H315.721C317.228,460.375,318.064,465.997,318.064,471.79z"/><path d="M389.732,62.933c-15.544,0-30.36,3.09-43.955,8.554C325.48,29.238,282.411,0,232.4,0c-67.161,0-121.883,52.649-125.513,118.908c-3.982-0.533-8.014-0.91-12.152-0.91c-49.961,0-90.466,40.497-90.466,90.466c0,49.968,40.505,90.465,90.466,90.465h294.996c65.17,0,117.999-52.829,117.999-117.998C507.731,115.762,454.901,62.933,389.732,62.933z M283.976,180.899v61.531h-55.943v-61.531h-33.564L256,105.38l61.54,75.519H283.976z"/></g></svg></div>
         <div class="bk-info">
-          <div class="bk-title">読み込む（復元）</div>
-          <div class="bk-sub">JSONバックアップから記録を復元します</div>
+          <div class="bk-title">保存したファイルから復元する</div>
+          <div class="bk-sub">過去に保存したJSONファイル、またはExcelで編集したCSVファイルを読み込んで記録を戻します。</div>
         </div>
         <span class="chev-r"></span>
       </button>
     </div>
-    <div class="card bk-card" style="margin-top:8px;">
-      <button class="bk-row" id="exportJson">
-        <div class="bk-ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20" height="20" fill="var(--ink-soft)" style="display:block;flex-shrink:0;"><g> <path d="M243.591,309.362c3.272,4.317,7.678,6.692,12.409,6.692c4.73,0,9.136-2.376,12.409-6.689l89.594-118.094 c3.348-4.414,4.274-8.692,2.611-12.042c-1.666-3.35-5.631-5.198-11.168-5.198H315.14c-9.288,0-16.844-7.554-16.844-16.84V59.777 c0-11.04-8.983-20.027-20.024-20.027h-44.546c-11.04,0-20.022,8.987-20.022,20.027v97.415c0,9.286-7.556,16.84-16.844,16.84 h-34.305c-5.538,0-9.503,1.848-11.168,5.198c-1.665,3.35-0.738,7.628,2.609,12.046L243.591,309.362z"></path> <path d="M445.218,294.16v111.304H66.782V294.16H0v152.648c0,14.03,11.413,25.443,25.441,25.443h461.118 c14.028,0,25.441-11.413,25.441-25.443V294.16H445.218z"></path> </g></svg></div>
-        <div class="bk-info"><div class="bk-title">JSONで書き出す</div><div class="bk-sub">完全バックアップ。写真を含めるか選べます。復元もこのファイルで行います</div></div>
-        <span class="chev-r"></span>
-      </button>
-      <div class="bk-div"></div>
-      <button class="bk-row" id="exportCsv">
-        <div class="bk-ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20" height="20" fill="var(--ink-soft)" style="display:block;flex-shrink:0;"><g> <path d="M243.591,309.362c3.272,4.317,7.678,6.692,12.409,6.692c4.73,0,9.136-2.376,12.409-6.689l89.594-118.094 c3.348-4.414,4.274-8.692,2.611-12.042c-1.666-3.35-5.631-5.198-11.168-5.198H315.14c-9.288,0-16.844-7.554-16.844-16.84V59.777 c0-11.04-8.983-20.027-20.024-20.027h-44.546c-11.04,0-20.022,8.987-20.022,20.027v97.415c0,9.286-7.556,16.84-16.844,16.84 h-34.305c-5.538,0-9.503,1.848-11.168,5.198c-1.665,3.35-0.738,7.628,2.609,12.046L243.591,309.362z"></path> <path d="M445.218,294.16v111.304H66.782V294.16H0v152.648c0,14.03,11.413,25.443,25.441,25.443h461.118 c14.028,0,25.441-11.413,25.441-25.443V294.16H445.218z"></path> </g></svg></div>
-        <div class="bk-info"><div class="bk-title">CSVで書き出す</div><div class="bk-sub">Excelで記録を確認したいときに。写真・抱卵・換羽は含まれません</div></div>
-        <span class="chev-r"></span>
-      </button>
-      <div class="bk-div"></div>
-      <button class="bk-row" id="importCsvBtn">
-        <div class="bk-ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20" height="20" fill="var(--ink-soft)" style="display:block;flex-shrink:0;"><g> <rect y="107.79" width="134.737" height="377.263"></rect> <rect x="377.263" y="215.579" width="134.737" height="269.474"></rect> <rect x="188.632" y="26.947" width="134.737" height="458.105"></rect> </g></svg></div>
-        <div class="bk-info">
-          <div class="bk-title">Excelで編集したCSVを取り込む</div>
-          <div class="bk-sub">体重・産卵・食事などの基本項目のみ対応。完全な復元はJSONを使ってください</div>
+    <input type="file" id="importFile" accept="application/json,.json,.csv,text/csv" hidden>
+    <div class="card" style="margin-top:8px;padding:0;overflow:hidden;">
+      <div class="acc">
+        <button class="acc-h" style="padding:11px 14px 11px;" onclick="this.parentElement.classList.toggle('open')">バックアップの方法について<span class="ar"><span class="chev-d"></span></span></button>
+        <div class="acc-body" style="padding:0 14px 12px;font-size:12.5px;color:var(--ink-soft);line-height:1.75;">
+          <div style="margin-bottom:6px;"><span style="font-weight:700;color:var(--ink);">データをすべて保存する（JSON）</span><br>記録・抱卵・換羽・写真まですべて保存されます。端末を替えたときや復元にはこのファイルを使います。保存したファイルはiCloud DriveやDropboxに入れておくと安心です。</div>
+          <div><span style="font-weight:700;color:var(--ink);">Excel・スプレッドシート用（CSV）</span><br>体重・産卵・食事などの数値記録のみ。Excelで開いて確認・編集したいときに便利です。写真・抱卵・換羽は含まれません。</div>
         </div>
-        <span class="chev-r"></span>
-      </button>
-    </div>
-    <input type="file" id="importFile" accept="application/json,.json" hidden>
-    <input type="file" id="importCsvFile" accept="text/csv,.csv" hidden>
-
-    <div class="section-t">写真とデータについて</div>
-    <div class="card">
-      <p class="muted" style="font-size:13px; margin:0; line-height:1.7;">
-        写真はこの端末の中に保存されます。枚数の上限は端末の空き容量しだいで、たくさん貯めると重くなることがあります。大切な写真は「写真」アプリにも残しておくと安心です。
-        <br><span class="faint">ブラウザのデータ削除や容量不足で記録が消えることがあります。ときどき「まとめて保存」でバックアップしてください。</span></p>
+      </div>
     </div>
 
-    <div class="section-t">対応ブラウザ・端末</div>
-    <div class="card">
-      <p class="muted" style="font-size:13px; margin:0; line-height:1.75;">
-        iPhone は Safari で開いて「ホーム画面に追加」するのが一番快適です。Chrome・Firefox でも記録できますが、ホームに追加できるのは Safari のみです。<br>
-        Android は Chrome からご利用ください。<br>
-        <span class="faint" style="font-size:12px;">iPhoneのChromeはSafariと同じエンジンなので記録は使えますが、ホーム追加は非対応です。</span>
-      </p>
-    </div>
     <div class="section-t">このアプリについて</div>
     <div class="card">
-      <p class="muted" style="font-size:13px; margin:0; line-height:1.7;">
+      <p class="muted" style="font-size:13px; margin:0 0 14px; line-height:1.7;">
         Safariの共有ボタン →「ホーム画面に追加」で、ふつうのアプリのように使えます。インターネットがなくても動きます。
         <br><span class="faint">産卵の予測や日数の表示は、これまでの記録からの「目安」です。診断ではありません。</span></p>
+      <button onclick="openFeedback()" style="display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line-soft);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:var(--ink-soft);font-family:inherit;cursor:pointer;width:100%;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="flex-shrink:0;"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+        ご意見・ご要望を送る
+      </button>
     </div>
-    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.0</p>
+    <div class="section-t">よくある質問</div>
+    <div class="card" style="padding:0;overflow:hidden;">
+
+      <!-- カテゴリ①：データ・バックアップ -->
+      <div class="qa-cat">
+        <button class="qa-cat-h" onclick="this.parentElement.classList.toggle('open')">データ・バックアップ<span class="ar"><span class="chev-d"></span></span></button>
+        <div class="qa-cat-body">
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">こまめにバックアップしたほうがいいですか？<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body"><b style="color:var(--ink);">はい、強くおすすめします。</b>このアプリはブラウザ内にデータを保存しているため、ブラウザのキャッシュ削除や端末の容量不足による自動クリーンアップで記録が消えることがあります。大切な家族の記録を守るため、週に1回を目安にバックアップを習慣にしてください。</div>
+          </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">スマホを変えてもデータは引き継げますか？<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">はい、可能です。「データをすべて保存する」でファイルをダウンロードし、新しいスマホで「保存したファイルから復元する」を選んで読み込ませてください。</div>
+          </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">ホーム画面に追加したら記録が消えました<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">Safariのタブで開いて記録していたデータは、ホーム画面のアイコンには<b style="color:var(--ink);">自動で引き継がれません</b>。<br>先にJSONでバックアップを保存し、ホーム画面のアイコンから開いたあとに「保存したファイルから復元する」で読み込んでください。<br><span style="font-size:12px;">また、ホーム画面のアイコンを削除すると記録も一緒に消えます。削除前には必ずバックアップを。</span></div>
+          </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">バックアップファイルはどこに保存されますか？<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">iPhoneの場合、ダウンロードしたファイルは「ファイル」アプリの「ダウンロード」フォルダに保存されます。iCloud DriveやGoogleドライブなどに移しておくと、端末を変えたときも安心です。</div>
+          </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">ExcelでCSVを編集して取り込めますか？<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">はい。「Excel・スプレッドシート用に保存する」でCSVを書き出し、Excelで編集したあと「保存したファイルから復元する」でファイルを選ぶと自動で判別して取り込みます。体重・産卵・食事などの基本項目のみ対応です。写真や抱卵・換羽の完全な復元にはJSONを使ってください。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- カテゴリ②：使い方 -->
+      <div class="qa-cat">
+        <button class="qa-cat-h" onclick="this.parentElement.classList.toggle('open')">使い方<span class="ar"><span class="chev-d"></span></span></button>
+        <div class="qa-cat-body">
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">ホーム画面への追加方法を教えてください<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body"><b style="color:var(--ink);">iPhone（Safari）：</b>Safariでこのページを開き、画面下の共有ボタン（四角から上矢印のアイコン）をタップ →「ホーム画面に追加」を選んで「追加」。<br><b style="color:var(--ink);">Android（Chrome）：</b>右上のメニュー（︙）→「ホーム画面に追加」。<br><span style="font-size:12px;">ホームに追加するとアプリのように全画面で使えます。</span></div>
+          </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">にわとりを複数羽登録できますか？<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">はい。画面上部のペットチップ右端の「＋」から追加できます。何羽でも登録でき、タップで切り替えながら記録できます。</div>
+          </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">過去の日付に記録を入れられますか？<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">はい。カレンダータブで過去の日付をタップすると、その日の記録シートが開いて入力できます。</div>
+          </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">間違えた記録は修正できますか？<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">はい。カレンダーでその日の日付をタップすると記録シートが開き、上書きして保存できます。</div>
+          </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">抱卵・換羽の記録はどこからつけますか？<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">ホーム（カレンダータブ）上部の状態カードにあるボタンから開始・終了できます。抱卵中・換羽中はカードのデザインが変わり、カレンダーにもバーで表示されます。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- カテゴリ③：写真 -->
+      <div class="qa-cat">
+        <button class="qa-cat-h" onclick="this.parentElement.classList.toggle('open')">写真<span class="ar"><span class="chev-d"></span></span></button>
+        <div class="qa-cat-body">
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">アイコンに写真を設定しましたが表示されません<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">別のタブに切り替えてから戻ってくると表示されます。それでも表示されない場合は、ページを一度閉じて開き直してみてください。</div>
+          </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">写真をたくさん登録すると重くなりますか？<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">写真はこの端末の中に保存されます。枚数の上限は端末の空き容量次第ですが、たくさん貯めるとアプリが重くなることがあります。大切な写真はスマホ本体の「写真」アプリにも残しておくと安心です。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- カテゴリ④：端末・環境 -->
+      <div class="qa-cat">
+        <button class="qa-cat-h" onclick="this.parentElement.classList.toggle('open')">端末・環境<span class="ar"><span class="chev-d"></span></span></button>
+        <div class="qa-cat-body">
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">対応しているブラウザは？<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">iPhoneはSafari、AndroidはChromeが推奨です。Safariのメニューから「ホーム画面に追加」するとアプリとして快適に使えます。LINEやSNS内のブラウザで開くとデータが保存されないことがあります。<br><span style="font-size:12px;">iPhoneのChromeはSafariと同じエンジンなので記録は使えますが、ホーム画面への追加は非対応です。</span></div>
+          </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">オフラインでも使えますか？<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">はい、使えます。一度読み込めばインターネットがない環境でも記録できます。ただし、アプリの更新（新機能の反映）にはネット接続が必要です。</div>
+          </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">複数の端末で同期・共有できますか？<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">現在はリアルタイムの同期には対応していません。JSONでバックアップしたファイルを別の端末で復元することで、記録を移行することはできます。</div>
+          </div>
+          <div class="qa-item">
+            <button class="qa-item-h" onclick="this.parentElement.classList.toggle('open')">昨日と見た目が違います<span class="ar"><span class="chev-d"></span></span></button>
+            <div class="qa-item-body">アプリを随時アップデートしているため、デザインや機能が変わることがあります。バージョン番号はこのページ下部に表示しています。気になる変化や不具合があればお気軽に教えてください。</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.2</p>
   </section>
 
   <button class="fab" id="fab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 1px;"><path d="M17 3a2.83 2.83 0 0 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg><span class="ft">きょうの<br>記録</span></button>
@@ -740,7 +827,7 @@
     <button data-tab="cal" class="on"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="22" height="22" fill="currentColor" style="display:block;flex-shrink:0"><g> <path d="M186.469,408.911c32.102,0,56.032-21.571,56.032-54.189c0-23.421-13.152-38.94-23.668-43.411v-0.525 c13.152-8.68,19.983-22.102,19.983-37.097c0-28.941-19.197-49.455-52.609-49.455c-28.941,0-48.676,16.575-52.624,38.146 c-0.262,1.572,0.524,2.891,2.112,3.153l22.357,5.266c1.588,0.262,2.637-0.262,3.161-1.842 c3.161-11.048,10.793-18.418,23.945-18.418c14.987,0,23.93,9.999,23.93,24.207c0,15.781-10.253,26.042-26.042,26.042h-7.108 c-1.573,0-2.621,1.049-2.621,2.63v20.784c0,1.581,1.048,2.629,2.621,2.629h7.632c17.624,0,29.203,11.055,29.203,29.203 c0,15.264-9.729,26.574-26.304,26.574c-14.74,0-23.421-8.419-27.106-18.942c-0.524-1.58-1.834-2.104-3.145-1.842l-22.897,5.266 c-1.572,0.524-2.359,1.834-2.096,3.415C136.744,394.972,158.577,408.911,186.469,408.911z"></path> <path d="M296.713,281.583l27.352-19.204h0.524v141.011c0,1.58,1.064,2.629,2.637,2.629h24.207 c1.572,0,2.621-1.048,2.621-2.629V229.754c0-1.572-1.048-2.629-2.621-2.629h-22.373c-2.097,0-3.407,0.524-4.733,1.58 l-28.664,20.784c-1.326,1.048-1.85,2.104-1.85,3.677v26.836C293.814,282.108,295.125,282.632,296.713,281.583z"></path> <path d="M118.612,89.297c9.482,0,17.176-7.686,17.176-17.169v-54.96C135.788,7.686,128.094,0,118.612,0 c-9.483,0-17.177,7.686-17.177,17.169v54.96C101.435,81.611,109.129,89.297,118.612,89.297z"></path> <path d="M255.993,89.297c9.482,0,17.176-7.686,17.176-17.169v-54.96C273.168,7.686,265.475,0,255.993,0 c-9.483,0-17.17,7.686-17.17,17.169v54.96C238.823,81.611,246.51,89.297,255.993,89.297z"></path> <path d="M427.001,44.899h-2.714v27.229c0,17.038-13.861,30.906-30.914,30.906c-17.038,0-30.914-13.869-30.914-30.906 V44.899h-75.552v27.229c0,17.038-13.869,30.906-30.914,30.906c-17.038,0-30.907-13.869-30.907-30.906V44.899h-75.56v27.229 c0,17.038-13.869,30.906-30.914,30.906c-17.038,0-30.914-13.869-30.914-30.906V44.899h-2.698 c-37.074,0-67.133,30.058-67.133,67.133v332.835c0,37.074,30.058,67.133,67.133,67.133h342.002 c37.066,0,67.133-30.058,67.133-67.133V112.032C494.134,74.958,464.067,44.899,427.001,44.899z M466.642,439.771 c0,24.716-20.029,44.753-44.744,44.753H90.103c-24.716,0-44.76-20.037-44.76-44.753V127.328h421.299V439.771z"></path> <path d="M393.373,89.297c9.483,0,17.176-7.686,17.176-17.169v-54.96C410.549,7.686,402.855,0,393.373,0 c-9.483,0-17.177,7.686-17.177,17.169v54.96C376.196,81.611,383.89,89.297,393.373,89.297z"></path> </g></svg></span><span class="tl">カレンダー</span></button>
     <button data-tab="weight"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="22" height="22" fill="currentColor" style="display:block;flex-shrink:0"><g> <path d="M469.332,0.004H42.668C19.101,0.004,0,19.104,0,42.673v426.655c0,23.567,19.101,42.668,42.668,42.668h426.664 c23.567,0,42.668-19.101,42.668-42.668V42.673C512,19.104,492.899,0.004,469.332,0.004z M364.37,191.877h-65.293l11.409-68.16 l-10.592-2.15l-10.6-2.167l-17.443,72.477H147.63l-28.151-81.902c39.867-24.026,86.578-37.868,136.529-37.868 c49.943,0,96.645,13.842,136.513,37.868L364.37,191.877z"></path> </g></svg></span><span class="tl">体重</span></button>
     <button data-tab="summary"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="22" height="22" fill="currentColor" style="display:block;flex-shrink:0"><g> <path d="M449.891,87.953c-3.766-8.906-10.031-16.438-17.922-21.781c-7.891-5.328-17.5-8.469-27.719-8.469h-42.656 v-7.359h-61.828c0.281-2,0.438-4.063,0.438-6.141C300.203,19.828,280.375,0,256,0s-44.203,19.828-44.203,44.203 c0,2.078,0.156,4.141,0.438,6.141h-61.828v7.359H107.75c-6.813,0-13.359,1.391-19.281,3.906 c-8.906,3.766-16.453,10.031-21.797,17.922c-5.328,7.906-8.469,17.5-8.469,27.719v355.219c0,6.781,1.391,13.344,3.906,19.281 c3.766,8.906,10.031,16.438,17.922,21.781c7.906,5.344,17.5,8.469,27.719,8.469h296.5c6.797,0,13.359-1.375,19.281-3.906 c8.922-3.75,16.453-10.031,21.797-17.922c5.328-7.891,8.469-17.5,8.469-27.703V107.25 C453.797,100.438,452.422,93.891,449.891,87.953z M256,27.797c9.047,0,16.406,7.359,16.406,16.406c0,2.172-0.438,4.234-1.203,6.141 h-30.391c-0.781-1.906-1.219-3.969-1.219-6.141C239.594,35.156,246.969,27.797,256,27.797z M424.328,462.469 c0,2.813-0.563,5.406-1.578,7.797c-1.5,3.578-4.063,6.672-7.281,8.859c-3.219,2.156-7,3.406-11.219,3.406h-296.5 c-2.813,0-5.422-0.563-7.813-1.563c-3.594-1.516-6.672-4.094-8.844-7.297c-2.156-3.219-3.406-7-3.422-11.203V107.25 c0-2.813,0.563-5.422,1.578-7.813c1.516-3.594,4.078-6.688,7.281-8.844c3.219-2.156,7-3.406,11.219-3.422h42.656v6.141 c0,11.531,9.344,20.875,20.891,20.875h169.422c11.531,0,20.875-9.344,20.875-20.875v-6.141h42.656c2.813,0,5.422,0.563,7.813,1.578 c3.578,1.5,6.672,4.063,8.844,7.281s3.422,7,3.422,11.219V462.469z"></path> <rect x="156.141" y="170.672" width="31.625" height="31.625"></rect> <rect x="225.516" y="170.672" width="130.359" height="31.625"></rect> <rect x="156.141" y="264.125" width="31.625" height="31.625"></rect> <rect x="225.516" y="264.125" width="130.359" height="31.625"></rect> <rect x="156.141" y="357.594" width="31.625" height="31.625"></rect> <rect x="225.516" y="357.594" width="130.359" height="31.625"></rect> </g></svg></span><span class="tl">サマリー</span></button>
-    <button data-tab="notes"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="22" height="22" fill="currentColor" style="display:block;flex-shrink:0"><g> <path d="M508.248,70.39c-4.907-9.166-13.991-15.347-24.323-16.54l-32.442-3.741l-63.947,129.587l-38.842-32.624 l-63.766,20.782l63.948-129.586L228.783,24.411c-32.842-3.786-64.584,13.208-79.649,42.638L13.166,332.741 c-6.709,13.108-6.572,28.673,0.382,41.654c6.945,12.99,19.825,21.737,34.454,23.431l232.767,28.201 c6.617,0.819,11.596,6.444,11.596,13.117v2.267c0,3.786-1.62,7.391-4.46,9.904c-2.831,2.503-6.609,3.678-10.358,3.213 L48.003,426.718c-19.052-2.103-35.829-12.981-44.877-29.12c-9.321,16.312,1.848,59.414,38.35,63.291l232.594,26.835 c24.178,2.804,47.544-9.767,58.55-31.486L508.52,99.792C513.254,90.544,513.153,79.557,508.248,70.39z"></path> </g></svg></span><span class="tl">ノート</span></button>
+    <button data-tab="notes"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="22" height="22" fill="currentColor" style="display:block;flex-shrink:0"><g> <path d="M508.248,70.39c-4.907-9.166-13.991-15.347-24.323-16.54l-32.442-3.741l-63.947,129.587l-38.842-32.624 l-63.766,20.782l63.948-129.586L228.783,24.411c-32.842-3.786-64.584,13.208-79.649,42.638L13.166,332.741 c-6.709,13.108-6.572,28.673,0.382,41.654c6.945,12.99,19.825,21.737,34.454,23.431l232.767,28.201 c6.617,0.819,11.596,6.444,11.596,13.117v2.267c0,3.786-1.62,7.391-4.46,9.904c-2.831,2.503-6.609,3.678-10.358,3.213 L48.003,426.718c-19.052-2.103-35.829-12.981-44.877-29.12c-9.321,16.312,1.848,59.414,38.35,63.291l232.594,26.835 c24.178,2.804,47.544-9.767,58.55-31.486L508.52,99.792C513.254,90.544,513.153,79.557,508.248,70.39z"></path> </g></svg></span><span class="tl">メモ</span></button>
     <button data-tab="settings"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="22" height="22" fill="currentColor" style="display:block;flex-shrink:0"><g> <path d="M443.656,305.719c1.844-9.063,11-16.984,20.344-17.594l31.031-2.078c9.328-0.609,16.969-8.781,16.969-18.141 v-23.813c0-9.359-7.641-17.531-16.969-18.141l-31-2.063c-9.344-0.625-18.094-6.25-19.484-12.516 c-1.375-6.25-0.078-26.375,7.688-31.594l25.797-17.281c7.766-5.203,10.297-16.094,5.625-24.188l-11.906-20.625 c-4.688-8.094-15.375-11.359-23.781-7.219l-27.906,13.719c-8.375,4.125-18.781,3.656-23.063-1.031 c-4.297-4.688-13.313-22.844-9.188-31.219l13.719-27.906c4.125-8.406,0.875-19.094-7.219-23.781l-20.625-11.906 c-8.094-4.672-18.984-2.141-24.188,5.625l-17.313,25.813c-5.203,7.781-12.172,13.188-15.484,11.984c0,0,0,0-3.078-0.953 c-7.906-2.469-7.906-2.469-7.906-2.469C296.656,66.5,288.75,57.328,288.125,48l-2.078-31.031C285.438,7.641,277.266,0,267.906,0 h-23.813c-9.359,0-17.531,7.641-18.141,16.969l-2.078,31c-0.609,9.344-6.25,18.094-12.5,19.484 c-6.25,1.375-26.375,0.078-31.594-7.688L162.5,33.969c-5.203-7.766-16.094-10.297-24.188-5.625L117.688,40.25 c-8.094,4.688-11.344,15.375-7.219,23.781l13.719,27.906c4.125,8.375,3.656,18.766-1.031,23.063 c-4.703,4.297-22.844,13.313-31.219,9.188l-27.922-13.719c-8.391-4.141-19.078-0.875-23.766,7.219l-11.906,20.625 c-4.672,8.094-2.141,18.984,5.625,24.188l25.813,17.297c7.781,5.203,13.172,12.188,12,15.484c0,0,0,0-0.969,3.078 c-2.469,7.922-2.469,7.922-2.469,7.922C66.5,215.344,57.328,223.25,48,223.891l-31.031,2.063C7.625,226.563,0,234.734,0,244.094 v23.813c0,9.359,7.625,17.531,16.969,18.141l31,2.078c9.344,0.609,18.094,6.234,19.484,12.5c1.375,6.25,0.078,26.375-7.688,31.594 L33.969,349.5c-7.766,5.203-10.297,16.094-5.625,24.188l11.906,20.625c4.688,8.094,15.375,11.344,23.766,7.219l27.922-13.719 c8.375-4.125,18.766-3.656,23.063,1.031c4.281,4.688,13.313,22.844,9.188,31.219l-13.719,27.922 c-4.141,8.391-0.875,19.078,7.219,23.766l20.625,11.906c8.094,4.672,18.984,2.141,24.188-5.625l17.313-25.813 c5.188-7.781,12.156-13.188,15.469-12c0,0,0,0,3.078,0.969c7.922,2.469,7.922,2.469,7.922,2.469 c9.063,1.844,16.969,11,17.594,20.344l2.078,31.031c0.609,9.328,8.781,16.969,18.141,16.969h23.813 c9.359,0,17.531-7.641,18.141-16.969l2.063-31c0.625-9.344,6.25-18.094,12.516-19.484c6.25-1.375,26.375-0.078,31.594,7.672 l17.281,25.813c5.203,7.766,16.094,10.297,24.188,5.625l20.625-11.906c8.094-4.688,11.344-15.375,7.219-23.766l-13.719-27.922 c-4.125-8.375-3.656-18.766,1.031-23.063s22.844-13.313,31.219-9.188l27.906,13.719c8.406,4.141,19.094,0.875,23.781-7.219 l11.906-20.625c4.672-8.094,2.141-18.984-5.625-24.188l-25.813-17.313c-7.781-5.188-13.172-12.172-12-15.469c0,0,0,0,0.969-3.078 C443.656,305.719,443.656,305.719,443.656,305.719z M303.047,275.844c-3.813,9.063-10.391,17-18.563,22.5 c-4.078,2.781-8.547,4.938-13.281,6.406s-9.766,2.281-15.203,2.281c-7.25,0-13.781-1.438-19.844-3.984 c-9.063-3.828-17-10.391-22.5-18.563c-2.781-4.094-4.938-8.547-6.406-13.281s-2.281-9.766-2.281-15.203 c0-7.25,1.438-13.781,3.984-19.844c3.813-9.063,10.391-17,18.563-22.516c4.078-2.766,8.547-4.922,13.281-6.391 s9.766-2.281,15.203-2.281c7.25,0.016,13.781,1.422,19.844,3.984c9.063,3.813,17,10.391,22.5,18.563 c2.766,4.078,4.938,8.547,6.406,13.281s2.281,9.766,2.281,15.203C307.016,263.25,305.594,269.781,303.047,275.844z"></path> </g></svg></span><span class="tl">設定</span></button>
   </nav>
 </div>
@@ -1584,7 +1671,7 @@ function buildDaySheet(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local;
   var female=isFemale(p);
 
   // タブバー
-  var TABS=[{id:"today",label:"からだ"},{id:"health",label:"体調"},{id:"food",label:"食事"},{id:"diary",label:"ノート"}];
+  var TABS=[{id:"today",label:"からだ"},{id:"health",label:"体調"},{id:"food",label:"食事"},{id:"diary",label:"メモ"}];
   if(!daySheet._tab) daySheet._tab="today";
   var tabBar=el("div","day-tabs");
   var panels={};
@@ -1695,7 +1782,6 @@ function buildDaySheet(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local;
     var inp=el("input"); inp.type="number"; inp.inputMode="decimal"; inp.placeholder="0"; inp.value=L.food[f.k]; inp.dataset.k=f.k;
     inp.oninput=function(){ L.food[f.k]=inp.value; recalcFood(); }; it.appendChild(inp); it.appendChild(el("span","u","g")); br.appendChild(it); });
   fb.appendChild(br);
-  br.classList.add("open"); tg.querySelector(".ar").classList.add("open");
   tg.onclick=function(){ br.classList.toggle("open"); tg.querySelector(".ar").classList.toggle("open"); };
   ti.oninput=function(){ L.food.t=ti.value; };
   function recalcFood(){ var s=(+L.food.m||0)+(+L.food.n||0)+(+L.food.e2||0); if(s>0){L.food.t=s; ti.value=s;} }
@@ -3075,7 +3161,7 @@ function renderNotes(){ notesPetId=S.activePet||'all';
     items.push({pet:null,date:date,r:r});
   });
   items.sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:0;});
-  if(!items.length){ host.innerHTML='<div class="empty"><div class="e"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="44" height="44" fill="currentColor" style="display:block;flex-shrink:0;"><g> <path d="M508.248,70.39c-4.907-9.166-13.991-15.347-24.323-16.54l-32.442-3.741l-63.947,129.587l-38.842-32.624 l-63.766,20.782l63.948-129.586L228.783,24.411c-32.842-3.786-64.584,13.208-79.649,42.638L13.166,332.741 c-6.709,13.108-6.572,28.673,0.382,41.654c6.945,12.99,19.825,21.737,34.454,23.431l232.767,28.201 c6.617,0.819,11.596,6.444,11.596,13.117v2.267c0,3.786-1.62,7.391-4.46,9.904c-2.831,2.503-6.609,3.678-10.358,3.213 L48.003,426.718c-19.052-2.103-35.829-12.981-44.877-29.12c-9.321,16.312,1.848,59.414,38.35,63.291l232.594,26.835 c24.178,2.804,47.544-9.767,58.55-31.486L508.52,99.792C513.254,90.544,513.153,79.557,508.248,70.39z"></path> </g></svg></div><p>この月の日記はありません</p></div>'; return; }
+  if(!items.length){ host.innerHTML='<div class="empty"><div class="e"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="44" height="44" fill="currentColor" style="display:block;flex-shrink:0;"><g> <path d="M508.248,70.39c-4.907-9.166-13.991-15.347-24.323-16.54l-32.442-3.741l-63.947,129.587l-38.842-32.624 l-63.766,20.782l63.948-129.586L228.783,24.411c-32.842-3.786-64.584,13.208-79.649,42.638L13.166,332.741 c-6.709,13.108-6.572,28.673,0.382,41.654c6.945,12.99,19.825,21.737,34.454,23.431l232.767,28.201 c6.617,0.819,11.596,6.444,11.596,13.117v2.267c0,3.786-1.62,7.391-4.46,9.904c-2.831,2.503-6.609,3.678-10.358,3.213 L48.003,426.718c-19.052-2.103-35.829-12.981-44.877-29.12c-9.321,16.312,1.848,59.414,38.35,63.291l232.594,26.835 c24.178,2.804,47.544-9.767,58.55-31.486L508.52,99.792C513.254,90.544,513.153,79.557,508.248,70.39z"></path> </g></svg></div><p>この月のメモはありません</p></div>'; return; }
   items.forEach(function(x){
     var card=el('div','note-card card');
     var head=el('div','note-head');
@@ -3281,10 +3367,14 @@ $("cropSave").onclick=function(){
 
 $("addPet2").onclick=function(){openPetSheet(null);};
 $("openCustomStamps").onclick=function(){openCustomStampsSheet();};
-$("exportJson").onclick=function(){backupBoth();}; $("exportCsv").onclick=exportCsv;
+$("exportCsv").onclick=exportCsv;
 $("backupBoth").onclick=function(){ backupBoth(); markBackup(); lsSet("toricale_backup_snooze", Date.now()+7*86400000); $("bannerBackup").style.display="none"; };
-$("importBtn").onclick=function(){$("importFile").click();}; $("importFile").onchange=function(e){if(e.target.files[0])importData(e.target.files[0]); e.target.value="";};
-$("importCsvBtn").onclick=function(){$("importCsvFile").click();}; $("importCsvFile").onchange=function(e){if(e.target.files[0])importCsv(e.target.files[0]); e.target.value="";};
+$("importBtn").onclick=function(){$("importFile").click();};
+$("importFile").onchange=function(e){
+  var f=e.target.files[0]; if(!f){return;}
+  if(f.name.toLowerCase().endsWith(".csv")){importCsv(f);}else{importData(f);}
+  e.target.value="";
+};
 window.addEventListener("resize",function(){ if(!$("view-weight").hidden)renderWeight(); });
 /* ===== SW update notification ===== */
 (function(){
@@ -3392,5 +3482,32 @@ if('serviceWorker' in navigator) {
 }
 </script>
 <div id="photoLb" style="display:none" onclick="this.style.display='none'"><span class="lb-close">✕</span><img id="photoLbImg" src=""></div>
+
+<!-- フィードバック ボトムシート -->
+<div class="bsheet-overlay" id="feedbackOverlay" onclick="closeFeedback()"></div>
+<div class="bsheet" id="feedbackSheet">
+  <div class="bsheet-bar"></div>
+  <div class="bsheet-inner">
+    <p class="bsheet-title">ご意見・ご要望</p>
+    <p class="bsheet-sub">使ってみての感想、欲しい機能、気になるところなど、なんでもお気軽に。Googleフォームが開きます。</p>
+    <button class="bsheet-btn" onclick="window.open('https://forms.gle/AahCdfCojcBGU1qH8','_blank'); closeFeedback();">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+      フォームを開く
+    </button>
+  </div>
+</div>
+
+<script>
+function openFeedback(){
+  document.getElementById('feedbackOverlay').classList.add('open');
+  requestAnimationFrame(function(){
+    document.getElementById('feedbackSheet').classList.add('open');
+  });
+}
+function closeFeedback(){
+  document.getElementById('feedbackSheet').classList.remove('open');
+  document.getElementById('feedbackOverlay').classList.remove('open');
+}
+</script>
 </body>
 </html>
