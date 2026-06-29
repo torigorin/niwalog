@@ -896,7 +896,7 @@
       </div>
 
     </div>
-    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.3.7-dev</p>
+    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.3.8-dev</p>
   </section>
 
   <button class="fab-multi" id="fabMulti"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 1px;"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="ft">まとめて</span></button>
@@ -1692,23 +1692,43 @@ function renderQuick(){ /* quickカードは廃止（FAB＋状態カードに集
 /* ===== sheet base ===== */
 function openSheet(){$("scrim").classList.add("show"); $("sheet").classList.add("show"); $("sheet").scrollTop=0; $("sheetFab").classList.remove("show");}
 (function(){
-  var sh=$("sheet"), _ty0=0, _dragging=false, _startScrollTop=0;
+  var sh=$("sheet"), _x0=0, _y0=0, _mode=null, _startScrollTop=0;
   sh.addEventListener("touchstart",function(e){
-    _ty0=e.touches[0].clientY; _startScrollTop=sh.scrollTop; _dragging=false;
+    _x0=e.touches[0].clientX; _y0=e.touches[0].clientY;
+    _startScrollTop=sh.scrollTop; _mode=null;
+    sh.style.transition=""; sh.style.transform="";
   },{passive:true});
   sh.addEventListener("touchmove",function(e){
-    var dy=e.touches[0].clientY-_ty0;
-    if(!_dragging && dy>10 && _startScrollTop===0){ _dragging=true; }
-    if(_dragging){ sh.style.transition="none"; sh.style.transform="translateY("+Math.max(0,dy)+"px)"; }
+    var dx=e.touches[0].clientX-_x0, dy=e.touches[0].clientY-_y0;
+    if(!_mode){
+      if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>8){ _mode="h"; }
+      else if(dy>10&&_startScrollTop===0){ _mode="v"; }
+    }
+    if(_mode==="v"){ sh.style.transition="none"; sh.style.transform="translateY("+Math.max(0,dy)+"px)"; }
+    if(_mode==="h"&&dx>0){ sh.style.transition="none"; sh.style.transform="translateX("+Math.min(120,dx)+"px)"; }
   },{passive:true});
   sh.addEventListener("touchend",function(e){
-    if(_dragging){
-      var dy=e.changedTouches[0].clientY-_ty0;
-      sh.style.transition="";
-      if(dy>80){ closeSheet(); }
-      else{ sh.style.transform=""; }
-      _dragging=false;
+    var dx=e.changedTouches[0].clientX-_x0, dy=e.changedTouches[0].clientY-_y0;
+    sh.style.transition=""; sh.style.transform="";
+    if(_mode==="v"){ if(dy>80)closeSheet(); }
+    else if(_mode==="h"){
+      var backBtn=$("sheetBody").querySelector(".sheet-back-btn");
+      if(dx>60&&backBtn){
+        backBtn.onclick();
+      } else {
+        // day sheet tab swipe (left or right)
+        var tabs=$("sheetBody").querySelectorAll(".day-tab");
+        if(tabs.length&&Math.abs(dx)>60){
+          var active=null; var idx=-1;
+          tabs.forEach(function(t,i){if(t.classList.contains("active")){active=t;idx=i;}});
+          if(active){
+            var next=dx<0?tabs[idx+1]:tabs[idx-1];
+            if(next)next.click();
+          }
+        }
+      }
     }
+    _mode=null;
   },{passive:true});
 })();
 function showWelcomeSheet(){
