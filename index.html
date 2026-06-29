@@ -703,8 +703,11 @@
       <button class="btn ghost" id="openCustomStamps">カスタム項目を管理</button>
     </div>
 
-    <div class="section-t">体調チェック項目</div>
-    <div class="card" id="healthSettingsCont" style="padding:0 14px;"></div>
+    <div class="section-t">体調チェック項目のカスタム</div>
+    <div class="card">
+      <p class="muted" style="font-size:13px;margin:0 0 10px;line-height:1.6;">体調チェックの項目を表示/非表示にしたり、好きな項目を追加できます。</p>
+      <button class="btn ghost" id="openHealthSettings">体調チェック項目を管理</button>
+    </div>
     <div class="section-t">記録のバックアップ</div>
     <div class="card bk-card" style="margin-top:8px;">
       <button class="bk-row" id="backupBoth">
@@ -737,7 +740,7 @@
     <input type="file" id="importFile" accept="application/json,.json,.csv,text/csv" hidden>
     <div class="card" style="margin-top:8px;padding:0;overflow:hidden;">
       <div class="acc">
-        <button class="acc-h" style="padding:10px 14px;background:var(--ink);color:#fff;border-radius:8px;letter-spacing:.01em;" onclick="this.parentElement.classList.toggle('open')">バックアップの方法について<span class="ar" style="filter:brightness(0) invert(1)"><span class="chev-d"></span></span></button>
+        <button class="acc-h" style="padding:10px 14px;background:var(--ink);color:#fff;border-radius:8px;letter-spacing:.01em;justify-content:center;gap:6px;" onclick="this.parentElement.classList.toggle('open')">バックアップの方法について<span class="ar" style="filter:brightness(0) invert(1)"><span class="chev-d"></span></span></button>
         <div class="acc-body" style="padding:0 14px 12px;font-size:12.5px;color:var(--ink-soft);line-height:1.75;">
           <div style="margin-bottom:8px;"><span style="font-weight:700;color:var(--ink);">データをすべて保存する（JSON）</span><br>記録・抱卵・換羽・写真まですべて保存されます。端末を替えたときや復元にはこのファイルを使います。保存したファイルはiCloud DriveやDropboxに入れておくと安心です。</div>
           <div style="height:1px;background:var(--line);margin:10px 0;"></div>
@@ -893,7 +896,7 @@
       </div>
 
     </div>
-    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.3.2-dev</p>
+    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.3.3-dev</p>
   </section>
 
   <button class="fab-multi" id="fabMulti"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 1px;"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="ft">まとめて</span></button>
@@ -1190,6 +1193,8 @@ if(!S){
 if(!S.broods)S.broods=[];
 if(!S.molts)S.molts=[];
 if(!S.customStamps)S.customStamps=[]; if(!S.hiddenHealth)S.hiddenHealth=[];
+if(!S.customHealth)S.customHealth=[];
+S.customHealth.forEach(function(ch){ if(!HEALTH.some(function(h){return h.k===ch.k;}))HEALTH.push({k:ch.k,l:ch.label,custom:true}); });
 var SNACK_SVG_MAP={
 'イチゴ':'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1.1em" height="1.1em" fill="currentColor" style="display:inline-block;vertical-align:middle;flex-shrink:0;"><g><polygon points="390.413,150.438 396.548,92.394 324.295,102.009 296.48,34.621 249.284,68.964 195.026,0 185.024,100.272 290.221,161.008 395.425,221.75 477.264,162.949"></polygon><path d="M100.99,160.46c-49.997,32.316-73.392,86.654-64.346,144.136l23.868,151.708 c3.093,19.674,14.918,36.904,32.169,46.861c17.26,9.964,38.086,11.584,56.666,4.435l143.326-55.184 c54.294-20.906,89.651-68.344,92.65-127.803l0.715-84.399L173.732,117.641L100.99,160.46z M92.185,249.39 c7.134-12.364,18.697-19.06,25.801-14.961c7.113,4.107,7.084,17.464-0.051,29.828c-7.142,12.364-18.689,19.06-25.801,14.954 C85.029,275.104,85.044,261.755,92.185,249.39z M118.541,379.527c-7.141,12.372-18.688,19.061-25.794,14.961 c-7.112-4.107-7.09-17.456,0.052-29.828c7.134-12.35,18.689-19.061,25.801-14.954C125.704,353.813,125.675,367.17,118.541,379.527z M210.629,437.177c-7.142,12.364-18.689,19.06-25.801,14.954c-7.105-4.107-7.084-17.456,0.051-29.821 c7.142-12.364,18.696-19.06,25.801-14.954C217.793,411.463,217.763,424.812,210.629,437.177z M289.572,260.362 c7.134-12.357,18.697-19.054,25.801-14.954c7.113,4.107,7.084,17.464-0.051,29.821c-7.142,12.372-18.689,19.068-25.801,14.961 C282.416,286.082,282.431,272.733,289.572,260.362z M286.953,361.845c7.142-12.365,18.697-19.068,25.809-14.961 c7.105,4.1,7.076,17.456-0.066,29.821c-7.134,12.364-18.681,19.06-25.786,14.954C279.797,387.551,279.819,374.21,286.953,361.845z M215.32,320.484c-7.142,12.365-18.689,19.054-25.801,14.954c-7.105-4.108-7.09-17.457,0.051-29.82 c7.134-12.365,18.697-19.069,25.801-14.962C222.483,294.763,222.454,308.12,215.32,320.484z M180.699,193.032 c7.134-12.365,18.682-19.061,25.801-14.954c7.105,4.1,7.076,17.457-0.058,29.821c-7.141,12.357-18.688,19.061-25.794,14.954 C173.528,218.746,173.558,205.396,180.699,193.032z"></path></g></svg>',
 'キウイ':'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1.1em" height="1.1em" fill="currentColor" style="display:inline-block;vertical-align:middle;flex-shrink:0;"><path d="M506.191,139.049c-6.607-17.419-18.416-33.062-33.85-46.741c-23.2-20.542-54.676-36.935-91.64-48.411 c-36.973-11.438-79.461-17.912-124.692-17.912c-34.457,0-67.338,3.759-97.391,10.603c-22.536,5.145-43.486,12.007-62.337,20.399 c-28.278,12.596-51.895,28.515-68.915,47.519c-8.496,9.511-15.34,19.811-20.066,30.84C2.572,146.357,0,158.119,0,170.193 c0,43.304,6.123,84.53,17.77,122.138c17.486,56.395,47.443,104.739,88.033,139.14c20.276,17.2,43.228,30.87,68.421,40.21 c25.193,9.34,52.616,14.334,81.786,14.334c38.871,0.01,74.677-8.904,106.201-25.089c23.655-12.131,44.88-28.334,63.39-47.775 c27.755-29.179,49.34-65.63,63.997-106.884C504.255,265.003,512,218.898,512,170.193C512,159.467,509.968,148.978,506.191,139.049z  M484.492,187.907c-0.456,1.538-0.969,3.075-1.539,4.603c-4.86,12.776-13.991,25.326-27.11,36.963 c-19.65,17.456-48.165,32.634-82.508,43.247c-34.344,10.65-74.487,16.802-117.326,16.802c-32.654,0-63.722-3.561-91.867-9.977 c-42.203-9.607-77.78-25.696-102.119-45.155c-12.198-9.702-21.548-20.219-27.775-31.003c-2.961-5.126-5.202-10.308-6.759-15.548 c-0.227-5.828-0.36-11.722-0.36-17.646c0-7.318,1.358-14.429,4.044-21.51c4.68-12.359,13.574-24.642,26.493-36.09 c19.317-17.182,47.567-32.226,81.682-42.773c34.098-10.575,74.022-16.716,116.662-16.697c32.483,0,63.381,3.551,91.354,9.92 c20.96,4.783,40.267,11.143,57.335,18.728c25.629,11.372,46.095,25.554,59.726,40.827c6.816,7.632,11.941,15.501,15.34,23.428 c3.398,7.954,5.107,15.937,5.107,24.167C484.871,176.145,484.738,182.049,484.492,187.907z"/><path d="M257.111,111.464c-6.465,0-11.696,3.456-11.696,7.746c0,4.262,5.23,11.76,11.696,11.76 c6.454,0,11.675-7.499,11.675-11.76C268.786,114.919,263.565,111.464,257.111,111.464z"/><path d="M257.111,186.691c-6.465,0-11.696,7.48-11.696,11.751c0,4.272,5.23,7.736,11.696,7.736 c6.454,0,11.675-3.464,11.675-7.736C268.786,194.171,263.565,186.691,257.111,186.691z"/><path d="M257.111,68.188c-6.465,0-11.696,3.493-11.696,7.765c0,4.3,5.23,11.828,11.696,11.828 c6.454,0,11.675-7.527,11.675-11.828C268.786,71.681,263.565,68.188,257.111,68.188z"/><path d="M257.111,242.26c-6.465,0-11.696,7.528-11.696,11.808c0,4.29,5.23,7.774,11.696,7.774 c6.454,0,11.675-3.484,11.675-7.774C268.786,249.787,263.565,242.26,257.111,242.26z"/><path d="M137.26,119.713c5.581,2.136,18.016,2.905,21.235-0.797c3.227-3.711-3.959-10.461-9.54-12.606 c-5.61-2.117-12.748-0.854-15.966,2.838C129.761,112.85,131.679,117.587,137.26,119.713z"/><path d="M371.646,189.994c-5.563-2.135-17.988-2.886-21.206,0.817c-3.227,3.683,3.959,10.432,9.55,12.586 c5.582,2.117,12.72,0.854,15.947-2.848C379.164,196.838,377.246,192.12,371.646,189.994z"/><path d="M137.981,196.127c-5.581,2.135-7.518,6.872-4.281,10.565c3.237,3.701,10.376,4.964,15.957,2.838 c5.581-2.137,12.796-8.885,9.559-12.596C155.979,193.241,143.563,194,137.981,196.127z"/><path d="M374.152,123.937c5.601-2.136,7.499-6.854,4.253-10.565c-3.209-3.702-10.347-4.965-15.947-2.848 c-5.582,2.155-12.758,8.904-9.559,12.596C356.136,126.833,368.551,126.072,374.152,123.937z"/><path d="M210.142,104.877c5.582-2.127,4.452-10.366,1.225-14.058c-3.237-3.712-10.375-4.974-15.956-2.848 c-5.582,2.145-7.499,6.872-4.262,10.584C194.356,102.247,204.542,107.012,210.142,104.877z"/><path d="M304.061,212.767c-5.573,2.145-4.443,10.375-1.215,14.058c3.217,3.711,10.374,4.984,15.947,2.847 c5.6-2.126,7.499-6.862,4.271-10.574C319.856,215.396,309.66,210.63,304.061,212.767z"/><path d="M145.224,151.094c-6.445,0-11.684,3.465-11.684,7.728c0,4.281,5.239,7.736,11.684,7.736 c6.446,0,17.78-3.455,17.78-7.736C163.003,154.559,151.669,151.094,145.224,151.094z"/><path d="M368.988,151.094c-6.464,0-17.788,3.465-17.788,7.728c0,4.281,11.324,7.736,17.788,7.736 c6.436,0,11.676-3.455,11.676-7.736C380.664,154.559,375.424,151.094,368.988,151.094z"/><path d="M210.124,212.767c-5.581-2.137-15.767,2.629-18.976,6.331c-3.237,3.712-1.319,8.449,4.262,10.574 c5.581,2.136,12.72,0.864,15.956-2.847C214.594,223.142,215.724,214.912,210.124,212.767z"/><path d="M318.792,87.97c-5.572-2.126-12.73-0.864-15.947,2.848c-3.228,3.702-4.358,11.932,1.215,14.058 c5.6,2.136,15.795-2.63,19.003-6.322C326.292,94.842,324.392,90.115,318.792,87.97z"/><path d="M211.168,132.366c-5.591-2.117-12.73-0.854-15.966,2.828c-3.208,3.711-1.309,8.448,4.29,10.565 c5.582,2.145,17.998,2.904,21.225-0.797C223.935,141.251,216.759,134.502,211.168,132.366z"/><path d="M319.002,182.448c3.227-3.702,1.3-8.43-4.272-10.584c-5.601-2.117-18.026-2.868-21.244,0.816 c-3.228,3.712,3.968,10.461,9.549,12.596C308.636,187.403,315.774,186.15,319.002,182.448z"/><path d="M199.492,171.864c-5.6,2.154-7.498,6.882-4.29,10.584c3.237,3.702,10.375,4.955,15.966,2.828 c5.591-2.136,12.768-8.884,9.549-12.596C217.49,168.997,205.074,169.747,199.492,171.864z"/><path d="M314.73,145.76c5.572-2.117,7.499-6.854,4.272-10.565c-3.228-3.683-10.366-4.946-15.957-2.828 c-5.591,2.136-12.787,8.884-9.559,12.596C296.732,148.664,309.129,147.905,314.73,145.76z"/></svg>',
@@ -2919,7 +2924,7 @@ function renderSummary(){ buildSumPetSeg(); var host=$("sumBody"); host.innerHTM
     card.appendChild(vetBtn);
     // 産卵期の記録（メスのみ）
     if(female){ var ec=eggCycleHistory(p);
-      if(ec.items.length>=2){ var eh=el("div","card"); eh.style.cssText="margin-top:8px;border-left:4px solid var(--phase-lay);"; eh.innerHTML='<div class="cy-title" style="border-left:none;color:var(--phase-lay);">産卵期の記録</div>';
+      if(ec.items.length>=2){ var eh=el("div","card"); eh.style.cssText="margin-top:8px;"; eh.innerHTML='<div class="cy-title" style="border-left:none;padding-left:0;color:var(--phase-lay);"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--phase-lay);margin-right:6px;vertical-align:middle;"></span>産卵期の記録</div>';
         var esum=el("div","cy-summary");
         if(ec.avgDays)esum.innerHTML+='<span class="cy-chip">平均 '+ec.avgDays+'日間</span>';
         if(ec.avg)esum.innerHTML+='<span class="cy-chip">周期 約'+ec.avg+'日</span>';
@@ -2929,7 +2934,7 @@ function renderSummary(){ buildSumPetSeg(); var host=$("sumBody"); host.innerHTM
         host.appendChild(eh); } }
     // 抱卵期の記録（メスのみ）
     if(female){ var bs2=S.broods.filter(function(b){return b.petId===p.id && (b.end?b.end:todayStr())>=cutoff;}).slice().sort(function(a,b2){return a.start>b2.start?-1:1;});
-      if(bs2.length){ var bcard=el("div","card"); bcard.style.cssText="margin-top:8px;border-left:4px solid var(--phase-brood);"; bcard.innerHTML='<div class="cy-title" style="border-left:none;color:var(--phase-brood);">抱卵期の記録</div>';
+      if(bs2.length){ var bcard=el("div","card"); bcard.style.cssText="margin-top:8px;"; bcard.innerHTML='<div class="cy-title" style="border-left:none;padding-left:0;color:var(--phase-brood);"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--phase-brood);margin-right:6px;vertical-align:middle;"></span>抱卵期の記録</div>';
         var bsum=el("div","cy-summary");
         var bDaysArr=bs2.filter(function(b){return b.end;}).map(function(b){return diffDays(b.start,b.end)+1;});
         if(bDaysArr.length){var bAvg=Math.round(bDaysArr.reduce(function(a,v){return a+v;},0)/bDaysArr.length); bsum.innerHTML+='<span class="cy-chip">平均 '+bAvg+'日間</span>';}
@@ -2940,7 +2945,7 @@ function renderSummary(){ buildSumPetSeg(); var host=$("sumBody"); host.innerHTM
         host.appendChild(bcard); } }
     // 換羽期の記録
     var mc=moltCycleHistory(p.id);
-    if(mc.items.length>=1){ var mh=el("div","card"); mh.style.cssText="margin-top:8px;border-left:4px solid var(--phase-molt);"; mh.innerHTML='<div class="cy-title" style="border-left:none;color:var(--phase-molt);">換羽期の記録</div>';
+    if(mc.items.length>=1){ var mh=el("div","card"); mh.style.cssText="margin-top:8px;"; mh.innerHTML='<div class="cy-title" style="border-left:none;padding-left:0;color:var(--phase-molt);"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--phase-molt);margin-right:6px;vertical-align:middle;"></span>換羽期の記録</div>';
       var msum=el("div","cy-summary");
       if(mc.avgDays)msum.innerHTML+='<span class="cy-chip">平均 '+mc.avgDays+'日間</span>';
       if(mc.avg)msum.innerHTML+='<span class="cy-chip">周期 約'+mc.avg+'日</span>';
@@ -3224,6 +3229,8 @@ function openCustomStampsSheet(fromDay){
     addBtn.onclick=function(){ var lb=(lblIn.value||"").trim();
       if(!selIcon||!lb){toast("アイコンとラベルを選んでね");return;}
       if(!S.customStamps)S.customStamps=[]; if(!S.hiddenHealth)S.hiddenHealth=[];
+if(!S.customHealth)S.customHealth=[];
+S.customHealth.forEach(function(ch){ if(!HEALTH.some(function(h){return h.k===ch.k;}))HEALTH.push({k:ch.k,l:ch.label,custom:true}); });
       S.customStamps.push({id:"cs"+Date.now(),icon:selIcon,label:lb});
       persist(); selIcon=""; lblIn.value=""; selPreview.innerHTML=""; updatePickBtn(); iconPickerWrap.style.display="none"; renderList(); toast("追加しました"); };
     lblIn.style.flex="1"; lblIn.style.minWidth="0";
@@ -3253,27 +3260,62 @@ function renderSettings(){ var pl=$("petList"); pl.innerHTML=""; sortPets();
     row.querySelector(".edit").onclick=function(){openPetSheet(p.id);};
     pl.appendChild(row);
     if(p.photo){ idbGet("pet|"+p.id).then(function(b){ if(b){ var av=$("setav-"+p.id); if(av){ av.style.backgroundImage="url("+URL.createObjectURL(b)+")"; av.style.backgroundSize="cover"; av.textContent=""; } } }); }
-  }); renderHealthSettings(); }
-function renderHealthSettings(){
-  var cont=$("healthSettingsCont"); if(!cont)return;
-  cont.innerHTML="";
-  if(!S.hiddenHealth)S.hiddenHealth=[];
-  HEALTH.forEach(function(h){
-    var hidden=(S.hiddenHealth||[]).indexOf(h.k)>=0;
-    var row=document.createElement("div"); row.style.cssText="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line-soft);";
-    var lbl=document.createElement("div"); lbl.style.cssText="flex:1;font-size:13px;font-weight:700;color:"+(hidden?"var(--ink-faint)":"var(--ink)")+";";
-    lbl.textContent=h.l+(h.femaleOnly?" ♀":"")+(h.maleOnly?" ♂":"");
-    var tog=document.createElement("button");
-    tog.style.cssText="border:none;background:none;cursor:pointer;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;color:"+(hidden?"var(--ink-faint)":"var(--amber)")+";border:1.5px solid "+(hidden?"var(--line)":"var(--amber)")+";";
-    tog.textContent=hidden?"非表示":"表示中";
-    tog.onclick=(function(k){ return function(){
-      if(!S.hiddenHealth)S.hiddenHealth=[];
-      var i=S.hiddenHealth.indexOf(k);
-      if(i>=0)S.hiddenHealth.splice(i,1); else S.hiddenHealth.push(k);
-      persist(); renderHealthSettings();
-    };})(h.k);
-    row.appendChild(lbl); row.appendChild(tog); cont.appendChild(row);
-  });
+  }); }
+function openHealthSettingsSheet(){
+  var body=$("sheetBody"); body.innerHTML="";
+  body.appendChild(el("div",null,'<h2 style="margin:0 0 4px;">体調チェック項目を管理</h2><div class="sub">表示/非表示の切り替えや、項目の追加ができます</div>'));
+  var list=el("div","card"); list.style.padding="4px 14px";
+  function renderList(){
+    list.innerHTML="";
+    if(!S.hiddenHealth)S.hiddenHealth=[];
+    HEALTH.forEach(function(h){
+      var hidden=(S.hiddenHealth||[]).indexOf(h.k)>=0;
+      var row=document.createElement("div"); row.style.cssText="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line-soft);";
+      var lbl=document.createElement("div"); lbl.style.cssText="flex:1;font-size:13px;font-weight:700;color:"+(hidden?"var(--ink-faint)":"var(--ink)")+";";
+      lbl.textContent=h.l+(h.femaleOnly?" ♀":"")+(h.maleOnly?" ♂":"");
+      var tog=document.createElement("button");
+      tog.style.cssText="border:none;background:none;cursor:pointer;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;color:"+(hidden?"var(--ink-faint)":"var(--amber)")+";border:1.5px solid "+(hidden?"var(--line)":"var(--amber)")+";";
+      tog.textContent=hidden?"非表示":"表示中";
+      tog.onclick=(function(k){ return function(){
+        if(!S.hiddenHealth)S.hiddenHealth=[];
+        var i=S.hiddenHealth.indexOf(k);
+        if(i>=0)S.hiddenHealth.splice(i,1); else S.hiddenHealth.push(k);
+        persist(); renderList();
+      };})(h.k);
+      row.appendChild(lbl); row.appendChild(tog);
+      if(h.custom){
+        var del=el("button","link-danger","削除"); del.style.cssText="font-size:12px;padding:4px 8px;flex-shrink:0;";
+        del.onclick=(function(k){ return function(){
+          confirmAsk("この項目を削除しますか？",function(){
+            S.customHealth=(S.customHealth||[]).filter(function(ch){return ch.k!==k;});
+            var hi=HEALTH.findIndex(function(h2){return h2.k===k;}); if(hi>=0)HEALTH.splice(hi,1);
+            var hh=S.hiddenHealth.indexOf(k); if(hh>=0)S.hiddenHealth.splice(hh,1);
+            persist(); renderList();
+          },{yes:"削除"});
+        };})(h.k);
+        row.appendChild(del);
+      }
+      list.appendChild(row);
+    });
+  }
+  renderList(); body.appendChild(list);
+  var af=el("div","field"); af.appendChild(el("label",null,"新しい項目を追加"));
+  var lblIn=el("input","custom-lbl-input"); lblIn.type="text"; lblIn.placeholder="例：羽の汚れ";
+  lblIn.style.cssText="flex:1;border:1.5px solid var(--line);border-radius:var(--r-sm);padding:10px 14px;font-size:14px;background:var(--card);box-sizing:border-box;min-width:0;width:100%;margin-bottom:8px;";
+  var addBtn=el("button","btn primary","追加");
+  addBtn.onclick=function(){
+    var lb=(lblIn.value||"").trim();
+    if(!lb){toast("項目名を入れてね"); return;}
+    if(!S.customHealth)S.customHealth=[];
+    var k="ch"+Date.now();
+    S.customHealth.push({k:k,label:lb});
+    HEALTH.push({k:k,l:lb,custom:true});
+    persist(); lblIn.value=""; renderList(); toast("追加しました");
+  };
+  af.appendChild(lblIn); af.appendChild(addBtn);
+  body.appendChild(af);
+  var act=el("div","sheet-actions"); var done=el("button","btn ghost","とじる"); done.onclick=closeSheet; act.appendChild(done); body.appendChild(act);
+  openSheet();
 }
 function countRecords(petId){var n=0; Object.keys(S.records).forEach(function(k){if(k.indexOf(petId+"|")===0)n++;}); return n;}
 
@@ -3293,6 +3335,8 @@ function importData(file){ var rd=new FileReader(); rd.onload=function(){ try{ v
     confirmAsk("いまの記録をこのバックアップで置きかえますか？",function(){ var photos=obj.photos||null; delete obj.photos; S=obj; if(!S.broods)S.broods=[];
 if(!S.molts)S.molts=[];
 if(!S.customStamps)S.customStamps=[]; if(!S.hiddenHealth)S.hiddenHealth=[];
+if(!S.customHealth)S.customHealth=[];
+S.customHealth.forEach(function(ch){ if(!HEALTH.some(function(h){return h.k===ch.k;}))HEALTH.push({k:ch.k,l:ch.label,custom:true}); });
       S.pets.forEach(function(p){if(p.broodDays==null)p.broodDays=21; if(p.clutchGap==null)p.clutchGap=3; if(p.showHatch==null)p.showHatch=false; if(p.sex==null)p.sex="female"; if(p.order==null)p.order=0; if(p.photo==null)p.photo=false;});
       if(!S.activePet)S.activePet=(S.pets[0]||{}).id; if(!S.molts)S.molts=[]; migrateMoltFlags(); cleanupBroods(); cleanupMolts(); persist(); renderAll();
       if(photos&&idb){ var pKeys=Object.keys(photos); var total=pKeys.length; var done=0;
@@ -3788,6 +3832,7 @@ $("cropSave").onclick=function(){
 
 $("addPet2").onclick=function(){openPetSheet(null);};
 $("openCustomStamps").onclick=function(){openCustomStampsSheet();};
+$("openHealthSettings").onclick=function(){openHealthSettingsSheet();};
 $("exportCsv").onclick=exportCsv;
 $("backupBoth").onclick=function(){ backupBoth(); markBackup(); lsSet("toricale_backup_snooze", Date.now()+7*86400000); $("bannerBackup").style.display="none"; };
 $("importBtn").onclick=function(){$("importFile").click();};
