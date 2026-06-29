@@ -896,7 +896,7 @@
       </div>
 
     </div>
-    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.4.1-dev</p>
+    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.4.2-dev</p>
   </section>
 
   <button class="fab-multi" id="fabMulti"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 1px;"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="ft">まとめて</span></button>
@@ -2365,13 +2365,13 @@ function buildSnkChips(){
       var hasCustom=!!(src.customs&&Object.keys(src.customs).length);
       var curTab=daySheet._tab||"today";
       var fieldOn={
-        food:      curTab==="food"   ? hasFood      : false,
-        snack:     curTab==="food"   ? hasSnack     : false,
-        health:    curTab==="health" ? true          : hasHealthMark,
-        condition: curTab==="health" ? true          : hasCondition,
-        weight:    curTab==="today"  ? !!(src.weight): false,
+        food:      curTab==="food"   && hasFood,
+        snack:     curTab==="food"   && hasSnack,
+        health:    curTab==="health" && hasHealthMark,
+        condition: curTab==="health" && hasCondition,
+        weight:    curTab==="today"  && !!(src.weight),
         custom:    hasCustom,
-        memo:      curTab==="diary"  ? !!(src.memo)  : false
+        memo:      curTab==="diary"  && !!(src.memo)
       };
       var fieldWrap=el("div","card"); fieldWrap.style.padding="4px 14px";
       var fieldEls={};
