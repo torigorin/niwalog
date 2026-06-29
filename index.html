@@ -896,7 +896,7 @@
       </div>
 
     </div>
-    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.3.6-dev</p>
+    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.3.7-dev</p>
   </section>
 
   <button class="fab-multi" id="fabMulti"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 1px;"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="ft">まとめて</span></button>
@@ -2301,59 +2301,84 @@ function buildSnkChips(){
       var chb=el("button","sheet-back-btn"); chb.innerHTML='<span class="chev-l"></span>'; chb.onclick=function(){buildDaySheet();}; cb.appendChild(chb);
       cb.appendChild(el("div",null,'<h2 style="margin-top:10px;padding-left:36px;">記録をコピー</h2><div class="sub">'+fmtMd(daySheet.date)+'の記録を他の子にコピーします</div>'));
       var src=S.records[daySheet.p.id+"|"+daySheet.date]||{};
-      var copyFields=[
-        {key:"weight",label:"体重"},{key:"food",label:"食事量"},
-        {key:"health",label:"からだ（体調マーク）"},{key:"condition",label:"食欲・うんち・行動"},{key:"memo",label:"メモ"}
-      ];
-      var fieldChecks={};
-      // コピー先ペット選択（タップしやすいカード型）
       var otherPets=S.pets.filter(function(pp){return pp.id!==daySheet.p.id;});
       var selectedPets={};
       otherPets.forEach(function(pp){selectedPets[pp.id]=true;});
-      var petWrap=el("div","card"); petWrap.style.padding="4px 14px";
+      // コピー先ペット選択
       var petLabel=el("div"); petLabel.style.cssText="font-size:12px;font-weight:700;color:var(--ink-soft);margin:12px 14px 6px;"; petLabel.textContent="コピー先"; cb.appendChild(petLabel);
+      var petWrap=el("div","card"); petWrap.style.padding="4px 14px";
       function renderPetRows(){
         petWrap.innerHTML="";
         otherPets.forEach(function(pp){
-          var row=el("div","brood-list-row"); row.style.cursor="pointer";
+          var row=el("div"); row.style.cssText="display:flex;align-items:center;gap:10px;padding:10px 2px;border-bottom:1px solid var(--line-soft);cursor:pointer;";
+          var nm=el("div"); nm.style.cssText="flex:1;font-weight:700;font-size:14px;"; nm.textContent=pp.name;
           var sel=selectedPets[pp.id];
           var chk=el("div"); chk.style.cssText="width:22px;height:22px;border-radius:50%;border:2px solid "+(sel?"var(--amber)":"var(--line)")+";background:"+(sel?"var(--amber)":"transparent")+";display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:13px;font-weight:700;";
           if(sel)chk.textContent="✓";
-          var nm=el("div"); nm.style.cssText="flex:1;font-weight:700;font-size:14px;"; nm.textContent=pp.name;
-          row.appendChild(chk); row.appendChild(nm); petWrap.appendChild(row);
+          row.appendChild(nm); row.appendChild(chk); petWrap.appendChild(row);
           row.onclick=(function(id){return function(){selectedPets[id]=!selectedPets[id]; renderPetRows();};})(pp.id);
         });
       }
       renderPetRows(); cb.appendChild(petWrap);
-      // 項目カスタマイズ（アコーディオン）
-      var detailAcc=el("div"); detailAcc.style.cssText="margin-top:10px;";
-      var detailToggle=el("button"); detailToggle.style.cssText="background:none;border:none;color:var(--ink-soft);font-size:12px;font-weight:700;cursor:pointer;padding:6px 0;width:100%;text-align:left;display:flex;align-items:center;gap:4px;";
-      var detailBody=el("div","card"); detailBody.style.cssText="display:none;padding:6px 14px;";
-      detailToggle.innerHTML='<span class="chev-d" style="display:inline-block;margin-right:2px;"></span>コピーする項目を変える';
-      detailToggle.onclick=function(){
-        var open=detailBody.style.display!=="none";
-        detailBody.style.display=open?"none":"block";
-        detailToggle.querySelector(".chev-d").style.transform=open?"":"rotate(180deg)";
-      };
-      copyFields.forEach(function(cf){
-        var row=el("div"); row.style.cssText="display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid var(--line-soft);";
-        var cbi=el("input"); cbi.type="checkbox"; cbi.checked=true; cbi.style.cssText="width:18px;height:18px;cursor:pointer;flex-shrink:0;";
-        var lbi=el("label"); lbi.style.cssText="font-size:13px;font-weight:700;cursor:pointer;flex:1;"; lbi.appendChild(cbi); lbi.appendChild(document.createTextNode(" "+cf.label));
-        row.appendChild(lbi); detailBody.appendChild(row); fieldChecks[cf.key]=cbi;
-      });
-      detailAcc.appendChild(detailToggle); detailAcc.appendChild(detailBody); cb.appendChild(detailAcc);
+      // コピーする項目
+      var fieldLabel=el("div"); fieldLabel.style.cssText="font-size:12px;font-weight:700;color:var(--ink-soft);margin:12px 14px 6px;"; fieldLabel.textContent="コピーする項目"; cb.appendChild(fieldLabel);
+      var SVG_FOOD='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="18" height="18" fill="currentColor" style="display:block;flex-shrink:0;"><path d="M430.398,66.354c-66.281,33.875-136.046,120.266-164.781,218.094c-3.109,10.594-2.563,10.484-2.563,10.484c-3.094,12.703-14.484,21.656-27.547,21.656H17.524h-3.313c-4.172,0-8.141,1.844-10.828,5.031c-2.703,3.188-3.844,7.406-3.156,11.531c0,0-0.875-2.156,0.813,4.781c16.313,66.719,76.5,116.234,148.234,116.234c79.219,0,144.328-60.359,151.859-137.578c10.75-52.531,94.469-147.484,174-169.031C546.398,129.323,504.977,28.229,430.398,66.354z"/><path d="M46.336,301.417c8.594,0,15.563-6.969,15.563-15.563s-6.969-15.563-15.563-15.563s-15.578,6.969-15.578,15.563S37.743,301.417,46.336,301.417z"/><circle cx="102.665" cy="285.854" r="15.563"/><path d="M159.008,301.417c8.594,0,15.547-6.969,15.547-15.563s-6.953-15.563-15.547-15.563c-8.609,0-15.578,6.969-15.578,15.563S150.399,301.417,159.008,301.417z"/><circle cx="215.336" cy="285.854" r="15.563"/></svg>';
+      var SVG_SNACK='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="18" height="18" fill="currentColor" style="display:block;flex-shrink:0;"><path d="M415.957,13.891c-21.891-17.438-56.984-19-87.359-1.594c-30.375,17.391-46.766,48.438-42.813,76.141c21.875,17.453,56.984,19.016,87.359,1.609C403.519,72.625,419.91,41.609,415.957,13.891z"/><path d="M439.316,178.406c-57.844-67.484-121.829-40.469-161.235-28.547V95.313c0-11.688-9.484-21.156-21.172-21.156s-21.156,9.469-21.156,21.156v55.078c-39.219-11.578-104.313-40.531-163.078,28.016C0.55,262.563,51.644,512,255.988,512C460.363,512,511.457,262.563,439.316,178.406z"/></svg>';
+      var SVG_HEALTH='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="18" height="18" fill="currentColor" style="display:block;flex-shrink:0;"><path d="M421.813,327.728c32.953-49.156,5.344-115.031-57.219-127.203c32.453-30.547,7-75.625-28.5-91.594c-18.031-8.109-24.891-17.688-30.875-27.672c-11.469-19.078-15.688-46.438-45.813-62.016c-20.75-10.75-50.094-13.609-65.844-4.297c-10.594,6.25,1.688,9.125,10.75,16.453c15.031,12.172,15.75,31.484,2.594,47c-16.906,19.984-30.5,24.797-45.781,30.531c-36.438,13.656-61.531,61.047-29.094,91.594c-63.5,12.359-90.563,80.063-55.172,129.438C32.844,340.243,0,379.649,0,426.821c0,30.406,13.672,57.578,35.156,75.844h441.688C498.313,484.399,512,457.228,512,426.821C512,374.993,472.406,332.462,421.813,327.728z"/></svg>';
+      var SVG_WEIGHT='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="18" height="18" fill="currentColor" style="display:block;flex-shrink:0;"><path d="M469.332,0.004H42.668C19.101,0.004,0,19.104,0,42.673v426.655c0,23.567,19.101,42.668,42.668,42.668h426.664c23.567,0,42.668-19.101,42.668-42.668V42.673C512,19.104,492.899,0.004,469.332,0.004z M364.37,191.877h-65.293l11.409-68.16l-10.592-2.15l-10.6-2.167l-17.443,72.477H147.63l-28.151-81.902c39.867-24.026,86.578-37.868,136.529-37.868c49.943,0,96.645,13.842,136.513,37.868L364.37,191.877z"/></svg>';
+      var SVG_CUSTOM='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="18" height="18" fill="currentColor" style="display:block;flex-shrink:0;"><path d="M256,0C114.613,0,0,114.613,0,256s114.613,256,256,256s256-114.613,256-256S397.387,0,256,0z M356.662,244.613l-47.588,37.976l16.178,58.702c1.338,4.887-0.477,10.097-4.581,13.081c-4.105,2.976-9.621,3.097-13.855,0.306l-50.83-33.532l-50.815,33.532c-4.233,2.79-9.75,2.67-13.863-0.306c-4.104-2.984-5.92-8.194-4.581-13.081l16.186-58.702l-47.597-37.976c-3.952-3.161-5.548-8.451-3.975-13.274c1.564-4.822,5.96-8.17,11.016-8.395l60.831-2.75l21.411-57.001c1.79-4.742,6.331-7.887,11.387-7.887c5.08,0,9.612,3.146,11.394,7.887l21.42,57.001l60.815,2.75c5.064,0.226,9.467,3.573,11.032,8.395C362.218,236.162,360.629,241.452,356.662,244.613z"/></svg>';
+      var SVG_MEMO='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="18" height="18" fill="currentColor" style="display:block;flex-shrink:0;"><path d="M508.248,70.39c-4.907-9.166-13.991-15.347-24.323-16.54l-32.442-3.741l-63.947,129.587l-38.842-32.624l-63.766,20.782l63.948-129.586L228.783,24.411c-32.842-3.786-64.584,13.208-79.649,42.638L13.166,332.741c-6.709,13.108-6.572,28.673,0.382,41.654c6.945,12.99,19.825,21.737,34.454,23.431l232.767,28.201c6.617,0.819,11.596,6.444,11.596,13.117v2.267c0,3.786-1.62,7.391-4.46,9.904c-2.831,2.503-6.609,3.678-10.358,3.213L48.003,426.718c-19.052-2.103-35.829-12.981-44.877-29.12c-9.321,16.312,1.848,59.414,38.35,63.291l232.594,26.835c24.178,2.804,47.544-9.767,58.55-31.486L508.52,99.792C513.254,90.544,513.153,79.557,508.248,70.39z"/></svg>';
+      var copyFields=[
+        {key:"food",  label:"ごはん内容", unit:"g", svg:SVG_FOOD},
+        {key:"snack", label:"おやつ内容", unit:"g", svg:SVG_SNACK},
+        {key:"health",label:"体調・うんち",unit:"",  svg:SVG_HEALTH},
+        {key:"weight",label:"体重",        unit:"g", svg:SVG_WEIGHT},
+        {key:"custom",label:"カスタム項目",unit:"",  svg:SVG_CUSTOM},
+        {key:"memo",  label:"メモ",        unit:"",  svg:SVG_MEMO}
+      ];
+      var fieldOn={}; copyFields.forEach(function(cf){fieldOn[cf.key]=true;});
+      var fieldWrap=el("div","card"); fieldWrap.style.padding="4px 14px";
+      var fieldEls={};
+      function renderFieldRows(){
+        fieldWrap.innerHTML="";
+        copyFields.forEach(function(cf){
+          var on=fieldOn[cf.key];
+          var row=el("div"); row.style.cssText="display:flex;align-items:center;gap:10px;padding:9px 2px;border-bottom:1px solid var(--line-soft);cursor:pointer;";
+          var ic=el("div"); ic.style.cssText="width:28px;height:28px;border-radius:8px;background:var(--bg2);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--ink-soft);";
+          ic.innerHTML=cf.svg;
+          var lbl=el("div"); lbl.style.cssText="flex:1;font-size:13px;font-weight:700;color:"+(on?"var(--ink)":"var(--ink-faint)")+";";
+          lbl.textContent=cf.label+(cf.unit?" ("+cf.unit+")":"");
+          var chk=el("div"); chk.style.cssText="width:22px;height:22px;border-radius:50%;border:2px solid "+(on?"var(--amber)":"var(--line)")+";background:"+(on?"var(--amber)":"transparent")+";display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:13px;font-weight:700;";
+          if(on)chk.textContent="✓";
+          row.appendChild(ic); row.appendChild(lbl); row.appendChild(chk);
+          fieldWrap.appendChild(row);
+          fieldEls[cf.key]=chk;
+          row.onclick=(function(k){return function(){fieldOn[k]=!fieldOn[k]; renderFieldRows();};})(cf.key);
+        });
+      }
+      renderFieldRows(); cb.appendChild(fieldWrap);
       var act2=el("div","sheet-actions");
       var doBtn=el("button","btn primary","コピーする");
       doBtn.onclick=function(){ var copied=0;
-        var doW=fieldChecks.weight.checked, doF=fieldChecks.food.checked, doH=fieldChecks.health.checked, doC=fieldChecks.condition.checked, doM=fieldChecks.memo.checked;
         otherPets.forEach(function(pp){
           if(!selectedPets[pp.id])return;
           var nr=ensureRec(pp.id,daySheet.date);
-          if(doW&&src.weight)nr.weight=src.weight;
-          if(doF&&src.food)nr.food=JSON.parse(JSON.stringify(src.food));
-          if(doH&&src.health){nr.health=JSON.parse(JSON.stringify(src.health)); if(src.customs)nr.customs=JSON.parse(JSON.stringify(src.customs));}
-          if(doC)['appetite','poopC','poopF','behavior'].forEach(function(k){if(src[k])nr[k]=src[k];});
-          if(doM&&src.memo)nr.memo=src.memo;
+          if(fieldOn.weight&&src.weight)nr.weight=src.weight;
+          if(fieldOn.food&&src.food){
+            if(!nr.food)nr.food={};
+            ['t','m','n','e2'].forEach(function(k){if(src.food[k]!=null)nr.food[k]=src.food[k];});
+          }
+          if(fieldOn.snack&&src.food){
+            if(!nr.food)nr.food={};
+            if(src.food.s!=null)nr.food.s=src.food.s;
+            if(src.food.sm!=null)nr.food.sm=src.food.sm;
+          }
+          if(fieldOn.health){
+            if(src.health)nr.health=JSON.parse(JSON.stringify(src.health));
+            ['appetite','poopC','poopF','behavior'].forEach(function(k){if(src[k])nr[k]=src[k];});
+          }
+          if(fieldOn.custom&&src.customs)nr.customs=JSON.parse(JSON.stringify(src.customs));
+          if(fieldOn.memo&&src.memo)nr.memo=src.memo;
           cleanRec(pp.id,daySheet.date); copied++;
         });
         persist(); closeSheet(); renderAll(); showUndo(copied+"羽にコピーしました"); };
