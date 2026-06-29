@@ -893,7 +893,7 @@
       </div>
 
     </div>
-    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.3.1-dev</p>
+    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.3.2-dev</p>
   </section>
 
   <button class="fab-multi" id="fabMulti"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 1px;"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="ft">まとめて</span></button>
@@ -3562,59 +3562,90 @@ function openMultiSheet(){
   var h1=el("div"); h1.style.cssText="flex:1;font-size:11px;font-weight:700;color:var(--ink-soft);text-align:center;"; h1.textContent="体重(g)";
   var h2=el("div"); h2.style.cssText="flex:1;font-size:11px;font-weight:700;color:var(--ink-soft);text-align:center;"; h2.textContent="ごはん(g)";
   var h3=el("div"); h3.style.cssText="flex:1;font-size:11px;font-weight:700;color:var(--ink-soft);text-align:center;"; h3.textContent="たまご";
-  hdr.appendChild(h0); hdr.appendChild(h1); hdr.appendChild(h2); hdr.appendChild(h3);
+  var h4=el("div"); h4.style.cssText="flex:1;font-size:11px;font-weight:700;color:var(--ink-soft);text-align:center;"; h4.textContent="発情";
+  hdr.appendChild(h0); hdr.appendChild(h1); hdr.appendChild(h2); hdr.appendChild(h3); hdr.appendChild(h4);
   body.appendChild(hdr);
   var rowData=[];
+  function mkInputCell(value){
+    var wrap=el("div"); wrap.style.cssText="flex:1;display:flex;align-items:center;justify-content:center;";
+    var inp=el("input","multi-input"); inp.type="number"; inp.inputMode="decimal"; inp.placeholder="–"; inp.value=value?String(value):"";
+    wrap.appendChild(inp);
+    return {wrap:wrap, inp:inp};
+  }
+  function mkToggleCell(active,icon,activeColor){
+    var wrap=el("div"); wrap.style.cssText="flex:1;display:flex;align-items:center;justify-content:center;";
+    var btn=el("button"); var on=!!active;
+    var paint=function(){ btn.style.cssText="width:34px;height:34px;border-radius:50%;border:2px solid "+(on?activeColor:"var(--line)")+";background:"+(on?activeColor:"transparent")+";font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;"; btn.textContent=on?icon:""; };
+    paint();
+    btn.onclick=function(){ on=!on; paint(); };
+    wrap.appendChild(btn);
+    return {wrap:wrap, btn:btn, get on(){return on;} };
+  }
+  function pencilBtn(petId){
+    var pb=el("button"); pb.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+    pb.style.cssText="border:none;background:none;color:var(--ink-soft);cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;";
+    pb.onclick=function(){ S.activePet=petId; closeSheet(); setTimeout(function(){ openDaySheet(date); },300); };
+    return pb;
+  }
   S.pets.forEach(function(p){
     if(p.sex==="male")return; // オスはたまご欄なしで行追加
     var rec=getRec(p.id,date)||{};
     var row=el("div","multi-sheet-row");
-    var nm=el("div","multi-pet-name"); nm.textContent=p.name||p.emoji; row.appendChild(nm);
-    var wi=el("input","multi-input"); wi.type="number"; wi.inputMode="decimal"; wi.placeholder="–"; wi.value=rec.weight?String(rec.weight):""; row.appendChild(wi);
-    var fi=el("input","multi-input"); fi.type="number"; fi.inputMode="decimal"; fi.placeholder="–";
+    var nm=el("div","multi-pet-name"); nm.style.cssText+="display:flex;align-items:center;gap:4px;"; nm.innerHTML='<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(p.name||p.emoji)+'</span>'; nm.appendChild(pencilBtn(p.id)); row.appendChild(nm);
+    var wc=mkInputCell(rec.weight); row.appendChild(wc.wrap);
     var ftotal=rec.food?(parseFloat(rec.food.t||0)+parseFloat(rec.food.m||0)+parseFloat(rec.food.n||0)+parseFloat(rec.food.e2||0)||""):"";
-    fi.value=ftotal?String(ftotal):""; row.appendChild(fi);
-    var eggWrap=el("div"); eggWrap.style.cssText="flex:1;display:flex;align-items:center;justify-content:center;";
-    var isFemale2=p.sex!=="male";
-    if(isFemale2){
-      var eb=el("button"); var egged=!!(rec.egg);
-      eb.style.cssText="width:34px;height:34px;border-radius:50%;border:2px solid "+(egged?"var(--amber)":"var(--line)")+";background:"+(egged?"var(--amber)":"transparent")+";font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;";
-      eb.textContent=egged?"🥚":"";
-      eb.onclick=function(){ egged=!egged; eb.style.borderColor=egged?"var(--amber)":"var(--line)"; eb.style.background=egged?"var(--amber)":"transparent"; eb.textContent=egged?"🥚":""; };
-      eggWrap.appendChild(eb);
-    } else {
-      var dash=el("div"); dash.style.cssText="color:var(--ink-faint);font-size:13px;text-align:center;width:100%;"; dash.textContent="–"; eggWrap.appendChild(dash);
-    }
-    row.appendChild(eggWrap);
+    var fc=mkInputCell(ftotal); row.appendChild(fc.wrap);
+    var eggC=mkToggleCell(!!rec.egg,"🥚","var(--amber)"); row.appendChild(eggC.wrap);
+    var estC=mkToggleCell(!!rec.estrus,"❤️","var(--rose)"); row.appendChild(estC.wrap);
     body.appendChild(row);
-    rowData.push({p:p, wi:wi, fi:fi, eggBtn:isFemale2?eggWrap.querySelector("button"):null, get egged(){return this.eggBtn&&this.eggBtn.style.background.indexOf("amber")>=0;} });
+    rowData.push({p:p, wi:wc.inp, fi:fc.inp, eggC:eggC, estC:estC});
   });
   // オスも体重・ごはんのみで追加
   S.pets.forEach(function(p){
     if(p.sex!=="male")return;
     var rec=getRec(p.id,date)||{};
     var row=el("div","multi-sheet-row");
-    var nm=el("div","multi-pet-name"); nm.textContent=p.name||p.emoji; row.appendChild(nm);
-    var wi=el("input","multi-input"); wi.type="number"; wi.inputMode="decimal"; wi.placeholder="–"; wi.value=rec.weight?String(rec.weight):""; row.appendChild(wi);
-    var fi=el("input","multi-input"); fi.type="number"; fi.inputMode="decimal"; fi.placeholder="–";
+    var nm=el("div","multi-pet-name"); nm.style.cssText+="display:flex;align-items:center;gap:4px;"; nm.innerHTML='<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(p.name||p.emoji)+'</span>'; nm.appendChild(pencilBtn(p.id)); row.appendChild(nm);
+    var wc=mkInputCell(rec.weight); row.appendChild(wc.wrap);
     var ftotal=rec.food?(parseFloat(rec.food.t||0)+parseFloat(rec.food.m||0)+parseFloat(rec.food.n||0)+parseFloat(rec.food.e2||0)||""):"";
-    fi.value=ftotal?String(ftotal):""; row.appendChild(fi);
-    var dash=el("div"); dash.style.cssText="flex:1;color:var(--ink-faint);font-size:13px;text-align:center;"; dash.textContent="♂"; row.appendChild(dash);
+    var fc=mkInputCell(ftotal); row.appendChild(fc.wrap);
+    var dash1=el("div"); dash1.style.cssText="flex:1;color:var(--ink-faint);font-size:13px;text-align:center;"; dash1.textContent="–"; row.appendChild(dash1);
+    var estC=mkToggleCell(!!rec.estrus,"❤️","var(--rose)"); row.appendChild(estC.wrap);
     body.appendChild(row);
-    rowData.push({p:p, wi:wi, fi:fi, eggBtn:null, egged:false});
+    rowData.push({p:p, wi:wc.inp, fi:fc.inp, eggC:null, estC:estC});
   });
+  // 全員共通：おやつ・メモ
+  var shareWrap=el("div"); shareWrap.style.cssText="margin-top:10px;padding-top:10px;border-top:2px solid var(--line);";
+  shareWrap.appendChild(el("div",null,'<div class="sub" style="margin-bottom:6px;">全員共通</div>'));
+  var snackRow=el("div"); snackRow.style.cssText="display:flex;align-items:center;gap:8px;margin-bottom:8px;";
+  var snackLbl=el("div"); snackLbl.style.cssText="width:60px;font-size:13px;font-weight:800;color:var(--ink);flex-shrink:0;"; snackLbl.textContent="おやつ";
+  var snackInp=el("input","multi-input"); snackInp.type="number"; snackInp.inputMode="decimal"; snackInp.placeholder="g"; snackInp.style.width="80px";
+  snackRow.appendChild(snackLbl); snackRow.appendChild(snackInp);
+  shareWrap.appendChild(snackRow);
+  var memoRow=el("div"); memoRow.style.cssText="display:flex;align-items:flex-start;gap:8px;";
+  var memoLbl=el("div"); memoLbl.style.cssText="width:60px;font-size:13px;font-weight:800;color:var(--ink);flex-shrink:0;padding-top:6px;"; memoLbl.textContent="メモ";
+  var memoInp=el("textarea"); memoInp.placeholder="全員のメモに追記"; memoInp.rows=2;
+  memoInp.style.cssText="flex:1;border:1.5px solid var(--line);border-radius:8px;padding:6px 8px;font-size:13px;font-weight:600;background:var(--bg2);color:var(--ink);font-family:inherit;resize:none;";
+  memoRow.appendChild(memoLbl); memoRow.appendChild(memoInp);
+  shareWrap.appendChild(memoRow);
+  body.appendChild(shareWrap);
   var act=el("div","sheet-actions");
   var saveB=el("button","btn primary","保存する");
   saveB.onclick=function(){
     var saved=0;
+    var snackVal=parseFloat(snackInp.value);
+    var memoVal=(memoInp.value||"").trim();
     rowData.forEach(function(rd){
       var w=parseFloat(rd.wi.value); var f=parseFloat(rd.fi.value);
-      var hasEgg=rd.eggBtn&&rd.eggBtn.style.background.indexOf("transparent")<0&&rd.eggBtn.style.background!=="";
-      if(isNaN(w)&&isNaN(f)&&!hasEgg)return;
+      var hasEgg=rd.eggC&&rd.eggC.on; var hasEst=rd.estC&&rd.estC.on;
+      if(isNaN(w)&&isNaN(f)&&!hasEgg&&!hasEst&&isNaN(snackVal)&&!memoVal)return;
       var nr=ensureRec(rd.p.id,date);
       if(!isNaN(w))nr.weight=w;
       if(!isNaN(f)){if(!nr.food)nr.food={}; nr.food.t=f;}
-      if(rd.eggBtn){nr.egg=hasEgg?1:0;}
+      if(rd.eggC){nr.egg=hasEgg?1:0;}
+      if(rd.estC){nr.estrus=hasEst;}
+      if(!isNaN(snackVal)){if(!nr.food)nr.food={}; nr.food.s=snackVal;}
+      if(memoVal){nr.memo=nr.memo?(nr.memo+"\n"+memoVal):memoVal;}
       cleanRec(rd.p.id,date); saved++;
     });
     persist(); closeSheet(); renderAll(); if(saved)toast(saved+"羽分を保存しました");
