@@ -542,7 +542,8 @@
   .link-danger{text-align:center; color:var(--danger); font-weight:700; font-size:13px; padding:10px;}
   .empty{text-align:center; padding:40px 20px; color:var(--ink-soft);}
   .empty .e{font-size:40px; display:flex; justify-content:center; align-items:center;} .empty p{font-weight:700; margin:10px 0 0;}
-  .toast{position:fixed; bottom:calc(var(--tab-h) + env(safe-area-inset-bottom) + 18px);
+  @media print{body>*:not(#printArea){display:none!important;} #printArea{display:block!important;white-space:pre-wrap;font-family:sans-serif;font-size:14px;line-height:1.8;padding:24px 32px;position:fixed;top:0;left:0;right:0;bottom:0;background:#fff;color:#000;}}
+    .toast{position:fixed; bottom:calc(var(--tab-h) + env(safe-area-inset-bottom) + 18px);
     left:calc(max(0px,(100vw - 430px)/2) + 14px); right:calc(max(0px,(100vw - 430px)/2) + 90px);
     background:#4D4320; color:#fff; padding:8px 16px; border-radius:999px; font-size:13px; font-weight:700; z-index:90; opacity:0;
     transition:all .25s; pointer-events:none; text-align:center;}
@@ -893,7 +894,7 @@
   </nav>
 </div>
 
-<div class="scrim" id="scrim"></div>
+<div class="scrim" id="scrim"></div><div id="printArea" style="display:none"></div>
 <div class="sheet" id="sheet"><div class="grab"></div><div id="sheetBody"></div>
 </div>
 <button class="sheet-fab" id="sheetFab" aria-label="保存">✓</button>
@@ -1144,18 +1145,9 @@ function openVetShareSheet(p,cutoff){
   var printBtn=el('button','btn ghost','印刷 / PDF保存');
   printBtn.style.marginTop='8px';
   printBtn.onclick=function(){
-    var content=escapeHtml(txta.value);
-    var html='<html><head><meta charset=utf-8><title>受診前要約 - '+escapeHtml(p.name)+'</title>'
-      +'<style>body{font-family:sans-serif;font-size:14px;line-height:1.8;padding:24px 32px;white-space:pre-wrap;}@media print{.no-print{display:none;}}</style>'
-      +'</head><body>'+content+'<p class="no-print" style="margin-top:24px;"><button onclick="window.print()" style="font-size:14px;padding:8px 20px;">🖨️ 印刷する</button></p>'
-      +'<script>window.onload=function(){window.print();}<\/script>'
-      +'</body></html>';
-    var blob=new Blob([html],{type:'text/html;charset=utf-8'});
-    var url=URL.createObjectURL(blob);
-    var a=document.createElement('a');
-    a.href=url; a.target='_blank'; a.rel='noopener';
-    document.body.appendChild(a); a.click();
-    setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},1000);
+    var pa=$('printArea'); pa.textContent=txta.value; pa.style.display='block';
+    window.print();
+    setTimeout(function(){pa.style.display='none'; pa.textContent='';},500);
   };
   var shareBtn=el('button','btn primary','共有（LINE・メール等）');
   shareBtn.style.marginTop='8px';
@@ -1164,7 +1156,10 @@ function openVetShareSheet(p,cutoff){
     else{ navigator.clipboard.writeText(txta.value).then(function(){toast('テキストをコピーしました（LINEに貼り付けてください）');}).catch(function(){txta.select();document.execCommand('copy');toast('コピーしました');});}
   };
   act.appendChild(shareBtn); act.appendChild(copyBtn); act.appendChild(printBtn); body.appendChild(act);
+  var _sh=$("sheet"); _sh.style.maxHeight="68vh";
   openSheet();
+  var _shObs=new MutationObserver(function(){if(!_sh.classList.contains("open")){_sh.style.maxHeight="";_shObs.disconnect();}});
+  _shObs.observe(_sh,{attributes:true,attributeFilter:["class"]});
 }
 
 function escapeHtml(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
