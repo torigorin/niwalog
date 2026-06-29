@@ -473,7 +473,7 @@
   .snk-chip.on{background:var(--amber-soft);border-color:var(--amber);color:var(--ink);}
   .snk-chip:active{transform:scale(.95);}
   .snk-chip-add{border-style:dashed!important;color:var(--ink-faint)!important;font-size:11px;}
-  .snk-del{background:none;border:none;cursor:pointer;color:inherit;font-size:10px;padding:0 0 0 2px;opacity:.5;line-height:1;font-family:inherit;flex-shrink:0;}
+  .snk-del{background:none;border:none;cursor:pointer;color:inherit;font-size:13px;padding:4px 2px 4px 6px;opacity:.6;line-height:1;font-family:inherit;flex-shrink:0;min-width:28px;min-height:28px;display:inline-flex;align-items:center;justify-content:center;margin:-4px -4px -4px 0;}
   .snk-del:hover{opacity:1;}
   .snk-add-row{display:flex;gap:8px;padding:0 12px 6px;align-items:center;}
   .snk-add-inp{flex:1;border:1.5px solid var(--line);border-radius:10px;padding:7px 12px;background:var(--card);font-size:13px;font-weight:600;color:var(--ink);outline:none;font-family:inherit;}
@@ -997,7 +997,7 @@ var HEALTH=[
  {k:"loose",l:"軟便・下痢"},{k:"vomit",l:"吐き戻し"},{k:"resp",l:"呼吸器"},
  {k:"weak",l:"元気がない"},{k:"appup",l:"食欲増加"},{k:"appdown",l:"食欲低下"},
  {k:"eggbound",l:"卵詰まり疑い",femaleOnly:true},{k:"softegg",l:"軟卵",femaleOnly:true},{k:"eateggs",l:"食卵",femaleOnly:true},
- {k:"med",l:"投薬"},{k:"vet",l:"通院"}
+ {k:"crow",l:"鳴き声の調子が悪い",maleOnly:true},{k:"med",l:"投薬"},{k:"vet",l:"通院"}
 ];
 var COMB_SUB=[{v:"black",l:"黒っぽい"},{v:"white",l:"白っぽい"}];
 var COMB_SUB_L={black:"黒っぽい",white:"白っぽい"};
@@ -1919,7 +1919,7 @@ function buildDaySheet(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local;
   var combSubWrap=null;
   function renderCombSub(){ if(!combSubWrap)return; combSubWrap.style.display=L.health.comb?"grid":"none";
     Array.prototype.forEach.call(combSubWrap.children,function(x,i){ x.className="chip mini"+(L.combDetail===COMB_SUB[i].v?" on":""); }); }
-  HEALTH.filter(function(h){ return female || !h.femaleOnly; }).forEach(function(h){ var on=L.health[h.k]; var b=el("button","mt health"+(on?" on":"")); b.dataset.k=h.k;
+  HEALTH.filter(function(h){ return (female || !h.femaleOnly) && (!h.maleOnly || !female); }).forEach(function(h){ var on=L.health[h.k]; var b=el("button","mt health"+(on?" on":"")); b.dataset.k=h.k;
     b.innerHTML=(h.e?'<span class="e">'+h.e+'</span>':'')+'<span class="l">'+h.l+'</span><span class="hc-chk">'+(on?'✓':'')+'</span>';
     b.onclick=function(){ if(L.health[h.k])delete L.health[h.k]; else L.health[h.k]=true; b.className="mt health"+(L.health[h.k]?" on":""); var chk=b.querySelector(".hc-chk"); if(chk)chk.textContent=L.health[h.k]?"✓":"";
       if(h.k==="comb"){ if(!L.health.comb)L.combDetail=""; renderCombSub(); } }; hg.appendChild(b); });
@@ -2263,6 +2263,15 @@ function buildSnkChips(){
   // actions
   var act=el("div","sheet-actions");
   var saveB=el("button","btn primary","保存する"); saveB.onclick=function(){ saveDaySheet(); }; act.appendChild(saveB);
+  setTimeout(function(){
+    if(window.IntersectionObserver){
+      var _fabObs=new IntersectionObserver(function(entries){
+        $("sheetFab").style.opacity=entries[0].isIntersecting?"0":"";
+        $("sheetFab").style.pointerEvents=entries[0].isIntersecting?"none":"";
+      },{root:$("sheet"),threshold:0.5});
+      _fabObs.observe(saveB);
+    }
+  },100);
   // 多頭飼い: 他の子にもコピー（2羽以上いる場合のみ表示）
   if(S.pets.length>=2){
     var copyBtn=el("button","btn ghost","他の子にも同じ記録をコピー"); copyBtn.style.marginTop="6px";
@@ -2270,7 +2279,7 @@ function buildSnkChips(){
       // コピー先を選ぶシート
       var cb=$("sheetBody"); cb.innerHTML="";
       var chb=el("button","sheet-back-btn"); chb.innerHTML='<span class="chev-l"></span>'; chb.onclick=function(){buildDaySheet();}; cb.appendChild(chb);
-      cb.appendChild(el("div",null,'<h2 style="margin-top:10px">記録をコピー</h2><div class="sub">'+fmtMd(daySheet.date)+'の記録を他の子にコピーします</div>'));
+      cb.appendChild(el("div",null,'<h2 style="margin-top:10px;padding-left:36px;">記録をコピー</h2><div class="sub">'+fmtMd(daySheet.date)+'の記録を他の子にコピーします</div>'));
       var src=S.records[daySheet.p.id+"|"+daySheet.date]||{};
       // コピーする項目
       var itemSec=el("div","card"); itemSec.style.padding="10px 14px 6px";
@@ -2881,7 +2890,7 @@ function renderSummary(){ buildSumPetSeg(); var host=$("sumBody"); host.innerHTM
     card.appendChild(vetBtn);
     // 産卵期の記録（メスのみ）
     if(female){ var ec=eggCycleHistory(p);
-      if(ec.items.length>=2){ var eh=el("div","card"); eh.style.marginTop="8px"; eh.innerHTML='<div class="cy-title">産卵期の記録</div>';
+      if(ec.items.length>=2){ var eh=el("div","card"); eh.style.cssText="margin-top:8px;border-left:4px solid var(--phase-lay);"; eh.innerHTML='<div class="cy-title" style="border-left:none;color:var(--phase-lay);">産卵期の記録</div>';
         var esum=el("div","cy-summary");
         if(ec.avgDays)esum.innerHTML+='<span class="cy-chip">平均 '+ec.avgDays+'日間</span>';
         if(ec.avg)esum.innerHTML+='<span class="cy-chip">周期 約'+ec.avg+'日</span>';
@@ -2891,7 +2900,7 @@ function renderSummary(){ buildSumPetSeg(); var host=$("sumBody"); host.innerHTM
         host.appendChild(eh); } }
     // 抱卵期の記録（メスのみ）
     if(female){ var bs2=S.broods.filter(function(b){return b.petId===p.id && (b.end?b.end:todayStr())>=cutoff;}).slice().sort(function(a,b2){return a.start>b2.start?-1:1;});
-      if(bs2.length){ var bcard=el("div","card"); bcard.style.marginTop="8px"; bcard.innerHTML='<div class="cy-title">抱卵期の記録</div>';
+      if(bs2.length){ var bcard=el("div","card"); bcard.style.cssText="margin-top:8px;border-left:4px solid var(--phase-brood);"; bcard.innerHTML='<div class="cy-title" style="border-left:none;color:var(--phase-brood);">抱卵期の記録</div>';
         var bsum=el("div","cy-summary");
         var bDaysArr=bs2.filter(function(b){return b.end;}).map(function(b){return diffDays(b.start,b.end)+1;});
         if(bDaysArr.length){var bAvg=Math.round(bDaysArr.reduce(function(a,v){return a+v;},0)/bDaysArr.length); bsum.innerHTML+='<span class="cy-chip">平均 '+bAvg+'日間</span>';}
@@ -2902,7 +2911,7 @@ function renderSummary(){ buildSumPetSeg(); var host=$("sumBody"); host.innerHTM
         host.appendChild(bcard); } }
     // 換羽期の記録
     var mc=moltCycleHistory(p.id);
-    if(mc.items.length>=1){ var mh=el("div","card"); mh.style.marginTop="8px"; mh.innerHTML='<div class="cy-title">換羽期の記録</div>';
+    if(mc.items.length>=1){ var mh=el("div","card"); mh.style.cssText="margin-top:8px;border-left:4px solid var(--phase-molt);"; mh.innerHTML='<div class="cy-title" style="border-left:none;color:var(--phase-molt);">換羽期の記録</div>';
       var msum=el("div","cy-summary");
       if(mc.avgDays)msum.innerHTML+='<span class="cy-chip">平均 '+mc.avgDays+'日間</span>';
       if(mc.avg)msum.innerHTML+='<span class="cy-chip">周期 約'+mc.avg+'日</span>';
