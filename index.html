@@ -191,7 +191,7 @@
   .multi-sheet-row:last-child{border-bottom:none;}
   .multi-pet-name{width:84px;font-size:13px;font-weight:800;color:var(--ink);flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .multi-field{display:flex;align-items:center;gap:4px;flex:1;}
-  .multi-input{width:46px;border:1.5px solid var(--line);border-radius:8px;padding:6px 4px;font-size:13px;font-weight:700;text-align:center;background:var(--bg2);color:var(--ink);font-family:inherit;}
+  .multi-input{width:68px;border:1.5px solid var(--line);border-radius:8px;padding:6px 4px;font-size:13px;font-weight:700;text-align:center;background:var(--bg2);color:var(--ink);font-family:inherit;}
   .multi-unit{font-size:11px;color:var(--ink-soft);flex-shrink:0;}
   .fab .ft{font-size:8.5px; font-weight:800; line-height:1.45; text-align:center;}
   .undo-fab{position:fixed; z-index:45; bottom:calc(var(--tab-h) + env(safe-area-inset-bottom) + 18px); left:calc(max(0px,(100vw - 430px)/2) + 14px); right:calc(max(0px,(100vw - 430px)/2) + 90px); border-radius:999px; background:#4D4320; box-shadow:0 3px 14px rgba(0,0,0,.15); display:flex; flex-direction:row; align-items:center; padding:8px 16px; gap:0; opacity:0; pointer-events:none; transition:opacity .22s;}
@@ -896,7 +896,7 @@
       </div>
 
     </div>
-    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.4.5-dev</p>
+    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.4.6-dev</p>
   </section>
 
   <button class="fab-multi" id="fabMulti"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 1px;"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="ft">まとめて</span></button>
@@ -3722,38 +3722,77 @@ function openMultiSheet(){
   var shareWrap=el("div"); shareWrap.style.cssText="margin-top:10px;padding-top:10px;border-top:2px solid var(--line);";
   shareWrap.appendChild(el("div",null,'<div class="sub" style="margin-bottom:8px;">全員共通</div>'));
 
-  // おやつチップ
+  // おやつ（個人編集と同じ構造）
   var multiSnkChips=[];
-  var snkSelRow=el("div","snk-selected"); snkSelRow.style.cssText="display:none;flex-wrap:wrap;gap:4px;padding:4px 0 2px;";
-  var snkChipRow=el("div","snk-chips"); snkChipRow.style.cssText="display:flex;flex-wrap:wrap;gap:5px;padding:4px 0;";
-  var snkGRow=el("div","snk-g-row");
-  var snkGInp=el("input"); snkGInp.type="number"; snkGInp.inputMode="decimal"; snkGInp.placeholder="合計g"; snkGInp.style.cssText="flex:1;min-width:0;border:none;background:transparent;padding:10px 0;font-weight:800;font-size:17px;color:var(--ink);outline:none;font-family:inherit;";
-  var snkU=el("span","u","g"); snkGRow.appendChild(snkGInp); snkGRow.appendChild(snkU);
-  function buildMultiSnkChips(){
-    snkSelRow.innerHTML="";
+  var mSnkSelRow=el("div","snk-selected"); mSnkSelRow.style.display="none";
+  var mSnkStockSep=el("div","snk-stock-sep"); mSnkStockSep.style.display="none";
+  var mSnkChipRow=el("div","snk-chips");
+  var mSnkAddRow=el("div"); mSnkAddRow.style.cssText="display:none;flex-direction:column;padding:8px 12px 4px;gap:6px;border-top:1px solid var(--line-soft);";
+  var mSnkGrid=el("div"); mSnkGrid.style.cssText="display:flex;flex-wrap:wrap;gap:5px;";
+  var mSnkSelIcon="";
+  function mSnkClearSel(){ mSnkGrid.querySelectorAll("button").forEach(function(b){b.style.borderColor="var(--line)";b.style.background="var(--card)";}); }
+  Object.keys(SNACK_SVG_MAP).forEach(function(key){
+    var _b=el("button"); _b.style.cssText="width:36px;height:36px;border-radius:8px;border:1.5px solid var(--line);background:var(--card);display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;"; _b.title=key;
+    _b.innerHTML=renderStampIcon("snack:"+key,20);
+    _b.onclick=function(){ mSnkSelIcon="snack:"+key; mSnkClearSel(); _b.style.borderColor="var(--amber)"; _b.style.background="var(--amber-soft)"; mSnkAddInp.value=key; mSnkAddInp.select(); mSnkIconPreview.innerHTML=SNACK_SVG_MAP[key]||""; mSnkIconPreview.style.display=SNACK_SVG_MAP[key]?"flex":"none"; };
+    mSnkGrid.appendChild(_b);
+  });
+  var mSnkIconPreview=el("div"); mSnkIconPreview.style.cssText="display:none;align-items:center;justify-content:center;width:32px;height:32px;flex-shrink:0;color:var(--ink-soft);";
+  var mSnkInpRow=el("div"); mSnkInpRow.style.cssText="display:flex;gap:6px;align-items:center;";
+  var mSnkAddInp=el("input","snk-add-inp"); mSnkAddInp.type="text"; mSnkAddInp.placeholder="おやつの名前";
+  var mSnkAddOk=el("button","snk-add-ok","追加");
+  function doMSnkAdd(){
+    var name=mSnkAddInp.value.trim(); if(!name){mSnkAddInp.focus();return;}
+    if(!S.snackPresets)S.snackPresets=[];
+    if(!S.snackPresets.some(function(s){return s.label===name;})){
+      S.snackPresets.push({id:"sp_"+uid(),label:name,emoji:"",icon:mSnkSelIcon||""});
+      try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}
+    }
+    if(multiSnkChips.indexOf(name)<0)multiSnkChips.push(name);
+    mSnkAddInp.value=""; mSnkAddRow.style.display="none"; mSnkSelIcon=""; mSnkClearSel(); mSnkIconPreview.innerHTML=""; mSnkIconPreview.style.display="none";
+    buildMSnkChips();
+  }
+  mSnkAddInp.onkeydown=function(e){if(e.key==="Enter"){e.preventDefault();doMSnkAdd();}};
+  mSnkAddOk.onclick=doMSnkAdd;
+  mSnkInpRow.appendChild(mSnkIconPreview); mSnkInpRow.appendChild(mSnkAddInp); mSnkInpRow.appendChild(mSnkAddOk);
+  mSnkAddRow.appendChild(mSnkGrid); mSnkAddRow.appendChild(mSnkInpRow);
+  function buildMSnkChips(){
+    mSnkSelRow.innerHTML="";
     multiSnkChips.forEach(function(lbl){
-      var ic=snackIcon(lbl,S.snackPresets||[]);
-      var c=el("div","snk-chip-sel");
+      var ic=snackIcon(lbl); var c=el("div","snk-chip-sel");
       c.innerHTML=(ic?"<span style='line-height:1;display:inline-flex;align-items:center;margin-right:3px;'>"+ic+"</span>":"")+"<span>"+lbl.replace(/&/g,"&amp;").replace(/</g,"&lt;")+"</span>";
       var dx=el("button","snk-del","×");
-      dx.onclick=(function(l2){return function(e){ e.stopPropagation(); var ix=multiSnkChips.indexOf(l2); if(ix>=0)multiSnkChips.splice(ix,1); buildMultiSnkChips(); };})(lbl);
-      c.appendChild(dx); snkSelRow.appendChild(c);
+      dx.onclick=(function(l2){return function(e){ e.stopPropagation(); var ix=multiSnkChips.indexOf(l2); if(ix>=0)multiSnkChips.splice(ix,1); buildMSnkChips(); };})(lbl);
+      c.appendChild(dx); mSnkSelRow.appendChild(c);
     });
-    snkSelRow.style.display=multiSnkChips.length?"flex":"none";
-    snkChipRow.innerHTML="";
-    var presets=(S.snackPresets||[]).filter(function(x){ return !x.hidden && multiSnkChips.indexOf(x.label)<0; });
+    mSnkSelRow.style.display=multiSnkChips.length?"flex":"none";
+    mSnkStockSep.style.display=multiSnkChips.length?"":"none";
+    mSnkChipRow.innerHTML="";
+    var presets=(S.snackPresets||[]).filter(function(x){return !x.hidden&&multiSnkChips.indexOf(x.label)<0;});
     presets.forEach(function(sn){
-      var ic2=snackIcon(sn.label,S.snackPresets||[]);
-      var c=el("div","snk-chip");
+      var ic2=snackIcon(sn.label); var c=el("div","snk-chip");
       c.innerHTML=(ic2?"<span style='line-height:1;display:inline-flex;align-items:center;margin-right:3px;'>"+ic2+"</span>":"")+(sn.emoji&&!ic2?"<span>"+sn.emoji+" </span>":"")+"<span>"+sn.label.replace(/&/g,"&amp;").replace(/</g,"&lt;")+"</span>";
-      c.onclick=function(){ multiSnkChips.push(sn.label); buildMultiSnkChips(); };
-      snkChipRow.appendChild(c);
+      c.onclick=function(){multiSnkChips.push(sn.label); buildMSnkChips();};
+      if(sn.id.startsWith("sp_")){
+        var dx=el("button","snk-del","×");
+        dx.onclick=function(e2){e2.stopPropagation(); var _sd=S.snackPresets.filter(function(x){return x.id===sn.id;})[0]; if(_sd)_sd.hidden=true; var ix2=multiSnkChips.indexOf(sn.label); if(ix2>=0)multiSnkChips.splice(ix2,1); try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e3){} buildMSnkChips();};
+        c.appendChild(dx);
+      }
+      mSnkChipRow.appendChild(c);
     });
+    var addBtn=el("button","snk-chip snk-chip-add","＋ 追加");
+    addBtn.onclick=function(){ var isOpen=mSnkAddRow.style.display==="flex"; mSnkAddRow.style.display=isOpen?"none":"flex"; mSnkAddRow.style.flexDirection=isOpen?"":"column"; if(!isOpen)mSnkAddInp.focus(); };
+    mSnkChipRow.appendChild(addBtn);
   }
-  buildMultiSnkChips();
+  buildMSnkChips();
+  var mSnkGRow=el("div","snk-g-row");
+  var snkGInp=el("input"); snkGInp.type="number"; snkGInp.inputMode="decimal"; snkGInp.placeholder="合計を入力";
+  snkGInp.style.cssText="flex:1;min-width:0;border:none;background:transparent;padding:11px 0;font-weight:800;font-size:17px;color:var(--ink);outline:none;font-family:inherit;";
+  mSnkGRow.appendChild(snkGInp); mSnkGRow.appendChild(el("span","u","g"));
+  var snkBox=el("div","foodbox"); snkBox.style.cssText="margin-bottom:12px;";
+  snkBox.appendChild(mSnkSelRow); snkBox.appendChild(mSnkStockSep); snkBox.appendChild(mSnkChipRow); snkBox.appendChild(mSnkAddRow); snkBox.appendChild(mSnkGRow);
   var snkLbl2=el("div"); snkLbl2.style.cssText="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:4px;"; snkLbl2.textContent="おやつ";
-  shareWrap.appendChild(snkLbl2); shareWrap.appendChild(snkSelRow); shareWrap.appendChild(snkChipRow);
-  var snkBox=el("div","foodbox"); snkBox.style.cssText="margin-bottom:12px;"; snkBox.appendChild(snkGRow); shareWrap.appendChild(snkBox);
+  shareWrap.appendChild(snkLbl2); shareWrap.appendChild(snkBox);
 
   // メモ
   var memoLbl2=el("div"); memoLbl2.style.cssText="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:4px;"; memoLbl2.textContent="メモ";
