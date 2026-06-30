@@ -896,7 +896,7 @@
       </div>
 
     </div>
-    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.4.16-dev</p>
+    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.4.17-dev</p>
   </section>
 
   <button class="fab-multi" id="fabMulti"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 1px;"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="ft">まとめて</span></button>
@@ -1011,7 +1011,7 @@ var EMOJIS=["🐓","🐔","🐤","🐥","🦆","🕊️","🦃","🦜"];
 var COLORS=["#786D35","#C4866F","#844C33","#4D4320","#361B08","#9EA98B"];
 var MARKS=[{key:"egg",jp:"産卵",e:"🥚"},{key:"estrus",jp:"発情サイン",e:"❤️"}];
 var HEALTH=[
- {k:"stasis",l:"食滞"},{k:"swell",l:"膨羽"},{k:"comb",l:"とさかの不調",sub:true},
+ {k:"stasis",l:"食滞"},{k:"swell",l:"膨羽"},{k:"comb",l:"とさかの不調",sub:true},{k:"voice",l:"なき声の不調",sub:true},
  {k:"loose",l:"軟便・下痢"},{k:"vomit",l:"吐き戻し"},{k:"resp",l:"呼吸器"},
  {k:"weak",l:"元気がない"},{k:"appup",l:"食欲増加"},{k:"appdown",l:"食欲低下"},
  {k:"eggbound",l:"卵詰まり疑い",femaleOnly:true},{k:"softegg",l:"軟卵",femaleOnly:true},{k:"eateggs",l:"食卵"},
@@ -1019,6 +1019,8 @@ var HEALTH=[
 ];
 var COMB_SUB=[{v:"black",l:"黒っぽい"},{v:"white",l:"白っぽい"}];
 var COMB_SUB_L={black:"黒っぽい",white:"白っぽい"};
+var VOICE_SUB=[{v:"quiet",l:"声がちいさい"},{v:"hoarse",l:"枯れている"},{v:"silent",l:"鳴かない"},{v:"normal",l:"正常に戻った"}];
+var VOICE_SUB_L={quiet:"声がちいさい",hoarse:"枯れている",silent:"鳴かない",normal:"正常に戻った"};
 var HATCH_ICO="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='12' height='12' fill='currentColor' style='display:inline-block;vertical-align:middle;flex-shrink:0;opacity:.9'><path d='M436.094,282.012l-1.166-26.645l-36.376,35.064l-25.499-24.586c-3.086-14.887-6.747-28.837-10.301-41.298c-3.725-13.088-7.31-24.568-9.939-33.69c3.82-5.017,7.266-10.332,10.269-15.939c7.076-2.337,39.867-13.05,54.476-15.97c-9.066-24.175-36.167-37.225-40.475-39.17c0-0.291,0.02-0.577,0.02-0.874c0.006-16.382-3.332-32.055-9.351-46.29c-9.033-21.349-24.092-39.48-43.065-52.302C305.724,7.494,282.778-0.006,258.199,0c-16.389,0-32.056,3.326-46.291,9.35c-21.349,9.034-39.486,24.092-52.302,43.066c-12.822,18.961-20.323,41.9-20.316,66.486c-0.006,21.546,5.79,41.806,15.831,59.233L131.39,274.08l-16.953,16.345l-37.244-35.92l-1.235,26.55c-0.247,5.309-0.393,10.681-0.393,16.142c0,37.275,5.543,69.407,15.432,96.679c7.412,20.45,17.264,38.15,28.964,53.138c17.548,22.496,39.22,38.834,62.654,49.439C206.048,507.065,231.211,512,256,512c22.039,0,44.358-3.896,65.517-12.22c15.863-6.24,31.054-14.976,44.884-26.379c20.754-17.098,38.391-40.221,50.694-69.527c12.315-29.313,19.34-64.744,19.34-106.676C436.435,292.066,436.309,287.01,436.094,282.012z M178.142,169.736c-9.363-14.716-14.786-32.087-14.798-50.833c0.007-13.126,2.66-25.574,7.456-36.914c7.19-17.003,19.233-31.51,34.374-41.742c15.154-10.224,33.335-16.186,53.025-16.193c13.126,0.007,25.568,2.655,36.914,7.451c17.003,7.19,31.51,19.233,41.742,34.38c10.231,15.154,16.186,33.336,16.186,53.018c-0.006,23.49-8.508,44.866-22.635,61.463l-4.105,4.814l1.641,6.113c2.902,10.732,7.228,24.219,11.675,39.841c1.78,6.246,3.573,12.848,5.303,19.696l-41.076,39.594l-47.355-45.664l-47.354,45.664l-46.024-44.377l17.795-71.966L178.142,169.736z M398.381,385.679c-6.601,18.213-15.236,33.62-25.315,46.537c-15.128,19.372-33.525,33.215-53.608,42.318c-20.076,9.098-41.855,13.412-63.458,13.412c-19.202,0-38.556-3.408-56.712-10.548c-13.614-5.365-26.576-12.822-38.391-22.559c-17.706-14.621-32.904-34.362-43.813-60.285c-9.705-23.091-15.958-51.149-17.219-84.75l14.571,14.051l31.935-30.802l4.808,1.191l1.894-7.659l8.704-8.4l47.354,45.663l47.354-45.663l47.355,45.663l47.164-45.479c0.292,1.546,0.589,3.091,0.862,4.65l3.674-0.646l43.009,41.476l8.35-8.052l5.201-5.011C410.924,339.775,406.015,364.621,398.381,385.679z'/><path d='M265.484,135.906c12.074,0,21.862-9.788,21.862-21.862s-9.788-21.856-21.862-21.856c-12.069,0-21.862,9.781-21.862,21.856S253.415,135.906,265.484,135.906z'/></svg>";
 var FOODS=[{k:"m",e:"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='13' height='13' fill='currentColor' style='display:inline-block;vertical-align:middle;'><path d='M511.992,270.42H330.247c-1.409-39.835-34.061-71.726-74.239-71.726c-40.186,0-72.831,31.89-74.247,71.726L0.008,270.412L0,296.979h512L511.992,270.42z'/><rect x='245.105' y='71.593' width='21.79' height='77.57'/><rect x='135.868' y='121.285' transform='matrix(0.4999 0.8661 -0.8661 0.4999 201.8175 -85.1629)' width='77.569' height='21.779'/><polygon points='154.128,201.683 86.954,162.906 76.068,181.769 143.249,220.546'/><polygon points='368.751,220.554 435.924,181.769 425.038,162.914 357.864,201.691'/><polygon points='366.16,104.036 347.304,93.157 308.52,160.322 327.383,171.217'/><polygon points='86.853,363.382 86.846,379.319 136.253,379.319 136.245,363.382'/><polygon points='231.3,363.382 231.292,379.319 280.7,379.319 280.692,363.382'/><polygon points='375.747,363.382 375.74,379.319 425.147,379.319 425.139,363.382'/><polygon points='159.077,424.469 159.069,440.407 208.476,440.407 208.469,424.469'/><polygon points='303.524,424.469 303.516,440.407 352.923,440.407 352.915,424.469'/></svg>",l:"朝"},{k:"n",e:"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='13' height='13' fill='currentColor' style='display:inline-block;vertical-align:middle;'><path d='M458.503,298.25c-9.779-13.392-15.332-26.817-15.308-42.254c-0.024-15.445,5.529-28.846,15.308-42.246c9.803-13.232,23.727-26.343,41.031-36.87c-20.194,1.634-39.164-0.796-54.874-5.746c-15.784-5.078-28.146-12.693-37.192-25.144c-9.062-12.443-12.524-26.568-12.492-43.155c0.13-16.468,3.703-35.261,11.526-53.949c-15.372,13.191-32.146,22.358-47.784,27.558c-15.783,5.135-30.262,6.23-44.846,1.473c-14.616-4.724-25.674-14.117-35.437-27.534C268.842,36.999,260.648,19.71,255.996,0c-4.652,19.71-12.838,36.999-22.439,50.383c-9.755,13.416-20.829,22.81-35.437,27.534c-14.592,4.757-29.063,3.662-44.838-1.473c-15.638-5.2-32.411-14.358-47.784-27.558c7.823,18.688,11.389,37.481,11.518,53.949c0.024,16.588-3.428,30.712-12.491,43.155c-9.055,12.451-21.409,20.065-37.2,25.144c-15.694,4.95-34.665,7.38-54.858,5.746c17.304,10.528,31.228,23.638,41.024,36.87c9.787,13.4,15.332,26.801,15.316,42.246c0.016,15.437-5.529,28.862-15.316,42.254c-9.795,13.232-23.72,26.334-41.024,36.87c20.194-1.634,39.164,0.789,54.858,5.739c15.791,5.086,28.145,12.7,37.2,25.152c9.063,12.435,12.515,26.568,12.491,43.164c-0.129,16.475-3.695,35.252-11.518,53.94c15.373-13.2,32.145-22.359,47.784-27.558c15.774-5.134,30.246-6.229,44.838-1.473c14.608,4.725,25.682,14.117,35.437,27.534c9.602,13.392,17.787,30.672,22.439,50.382c4.652-19.71,12.846-36.99,22.439-50.382c9.763-13.417,20.822-22.81,35.437-27.534c14.592-4.756,29.063-3.662,44.846,1.473c15.638,5.2,32.412,14.358,47.784,27.558c-7.823-18.689-11.396-37.466-11.526-53.949c-0.032-16.588,3.429-30.72,12.492-43.155c9.054-12.452,21.408-20.065,37.192-25.152c15.71-4.95,34.68-7.372,54.874-5.739C482.229,324.585,468.305,311.482,458.503,298.25z M255.996,396.707c-77.7,0-140.702-63.003-140.702-140.711c0-77.708,63.003-140.702,140.702-140.702c77.716,0,140.702,62.994,140.702,140.702C396.699,333.704,333.712,396.707,255.996,396.707z'/></svg>",l:"昼"},{k:"e2",e:"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='13' height='13' fill='currentColor' style='display:inline-block;vertical-align:middle;'><path d='M403.469,395.031c-129.203,0-233.938-104.75-233.938-233.953c0-62.438,24.5-119.125,64.375-161.078C109.313,17.953,13.563,125.094,13.563,254.656C13.563,396.781,128.781,512,270.906,512c98.688,0,184.359-55.578,227.531-137.125C469.406,387.781,437.297,395.031,403.469,395.031z'/><path d='M349.641,179.328c1.047,1.016,1.516,2.484,1.266,3.922l-8.563,49.938c-0.281,1.672,0.406,3.344,1.766,4.344c1.359,0.984,3.156,1.109,4.656,0.328l44.859-23.578c1.281-0.688,2.813-0.688,4.109,0l44.859,23.578c1.484,0.781,3.297,0.656,4.656-0.328c1.359-1,2.031-2.672,1.75-4.344l-8.563-49.938c-0.25-1.438,0.219-2.906,1.266-3.922L478,143.969c1.203-1.172,1.641-2.938,1.125-4.531c-0.531-1.594-1.906-2.781-3.578-3.016l-50.141-7.297c-1.438-0.203-2.688-1.109-3.344-2.406l-22.422-45.453c-0.734-1.516-2.281-2.453-3.969-2.453c-1.672,0-3.219,0.938-3.953,2.453l-22.438,45.453c-0.641,1.297-1.891,2.203-3.328,2.406l-50.141,7.297c-1.672,0.234-3.063,1.422-3.578,3.016s-0.078,3.359,1.125,4.531L349.641,179.328z'/></svg>",l:"夕"}];
 var APPETITE=[{v:"high",l:"旺盛"},{v:"normal",l:"普通"},{v:"low",l:"少ない"},{v:"none",l:"食べない"}];
@@ -1809,7 +1811,7 @@ $("sheetFab").onclick=function(){ saveDaySheet(); };
 
 /* ===== day sheet ===== */
 var daySheet={p:null,date:null,local:null};
-function snapLocal(L){ return JSON.stringify({egg:L.egg||0,estrus:!!L.estrus,weight:L.weight,food:L.food,health:L.health,combDetail:L.combDetail||"",appetite:L.appetite||"",poopC:L.poopC||"",poopF:L.poopF||"",behavior:L.behavior||"",memo:(L.memo||"").trim(),clinic:L.clinic}); }
+function snapLocal(L){ return JSON.stringify({egg:L.egg||0,estrus:!!L.estrus,weight:L.weight,food:L.food,health:L.health,combDetail:L.combDetail||"",voiceDetail:L.voiceDetail||"",appetite:L.appetite||"",poopC:L.poopC||"",poopF:L.poopF||"",behavior:L.behavior||"",memo:(L.memo||"").trim(),clinic:L.clinic}); }
 function commitDay(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local; if(!p||!L)return;
   var rec=ensureRec(p.id,date);
   rec.egg=L.egg||0; rec.estrus=L.estrus;
@@ -1817,6 +1819,7 @@ function commitDay(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local; if(!
   rec.food={t:+L.food.t||0,m:+L.food.m||0,n:+L.food.n||0,e2:+L.food.e2||0,s:+L.food.s||0,sm:L.food.sm||"",n1:L.food.n1||"",xtra:(L.food.xtra||[]).map(function(ex){return {name:ex.name||"",g:ex.g||"",m:+ex.m||0,n:+ex.n||0,e2:+ex.e2||0};})};
   rec.health={}; HEALTH.forEach(function(h){ if(L.health[h.k])rec.health[h.k]=true; });
   rec.combDetail=(L.health.comb&&L.combDetail)?L.combDetail:"";
+  rec.voiceDetail=(L.health.voice&&L.voiceDetail)?L.voiceDetail:"";
   rec.appetite=L.appetite||""; rec.poopC=L.poopC||""; rec.poopF=L.poopF||""; rec.behavior=L.behavior||"";
   rec.customs=(function(){var o={}; (S.customStamps||[]).forEach(function(cs){if(L.customs&&L.customs[cs.id])o[cs.id]=true;}); return o;})();
   rec.memo=(L.memo||"").trim();
@@ -1834,6 +1837,7 @@ function openDaySheet(date,keepTab){ var p=activePet(); if(!p){toast("先にに�
           m:r.food&&r.food.m||"",n:r.food&&r.food.n||"",e2:r.food&&r.food.e2||"",s:r.food&&r.food.s||"",sm:r.food&&r.food.sm||"",snacks:(function(){var sm=r.food&&r.food.sm||"";return sm?sm.split("・").map(function(x){return x.trim();}).filter(Boolean):[];})(),n1:r.food&&r.food.n1||"",xtra:r.food&&r.food.xtra?JSON.parse(JSON.stringify(r.food.xtra)).map(function(ex){return{name:ex.name||"",g:ex.g||"",m:ex.m||0,n:ex.n||0,e2:ex.e2||0};}):[]},
     health:(function(){var o={}; if(r.health)HEALTH.forEach(function(h){if(r.health[h.k])o[h.k]=true;}); return o;})(),
     combDetail:r.combDetail||"",
+    voiceDetail:r.voiceDetail||"",
     appetite:r.appetite||"",poopC:r.poopC||"",poopF:r.poopF||"",behavior:r.behavior||"",
     memo:r.memo||"",
     allMemo:(S.records['_all|'+date]||{}).memo||"",
@@ -1964,18 +1968,25 @@ function buildDaySheet(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local;
   // ===== 体調タブ =====
   var hf=el("div","field"); hf.appendChild(el("label",null,"体調マーク"));
   var hg=el("div","health-grid");
-  var combSubWrap=null;
+  var combSubWrap=null, voiceSubWrap=null;
   function renderCombSub(){ if(!combSubWrap)return; combSubWrap.style.display=L.health.comb?"grid":"none";
     Array.prototype.forEach.call(combSubWrap.children,function(x,i){ x.className="chip mini"+(L.combDetail===COMB_SUB[i].v?" on":""); }); }
+  function renderVoiceSub(){ if(!voiceSubWrap)return; voiceSubWrap.style.display=L.health.voice?"grid":"none";
+    Array.prototype.forEach.call(voiceSubWrap.children,function(x,i){ x.className="chip mini"+(L.voiceDetail===VOICE_SUB[i].v?" on":""); }); }
   HEALTH.filter(function(h){ return (female || !h.femaleOnly) && (!h.maleOnly || !female) && (S.hiddenHealth||[]).indexOf(h.k)<0; }).forEach(function(h){ var on=L.health[h.k]; var b=el("button","mt health"+(on?" on":"")); b.dataset.k=h.k;
     b.innerHTML=(h.e?'<span class="e">'+h.e+'</span>':'')+'<span class="l">'+h.l+'</span><span class="hc-chk">'+(on?'✓':'')+'</span>';
     b.onclick=function(){ if(L.health[h.k])delete L.health[h.k]; else L.health[h.k]=true; b.className="mt health"+(L.health[h.k]?" on":""); var chk=b.querySelector(".hc-chk"); if(chk)chk.textContent=L.health[h.k]?"✓":"";
-      if(h.k==="comb"){ if(!L.health.comb)L.combDetail=""; renderCombSub(); } }; hg.appendChild(b); });
+      if(h.k==="comb"){ if(!L.health.comb)L.combDetail=""; renderCombSub(); }
+      if(h.k==="voice"){ if(!L.health.voice)L.voiceDetail=""; renderVoiceSub(); } }; hg.appendChild(b); });
   hf.appendChild(hg);
   combSubWrap=el("div","chiprow sub2"); combSubWrap.style.marginTop="8px"; combSubWrap.style.display="none";
   COMB_SUB.forEach(function(o){ var b=el("button","chip mini"); b.innerHTML='<span class="cl">とさかが '+o.l+'</span>';
     b.onclick=function(){ L.combDetail=(L.combDetail===o.v)?"":o.v; renderCombSub(); }; combSubWrap.appendChild(b); });
-  hf.appendChild(combSubWrap); appendTo("health",hf); renderCombSub();
+  hf.appendChild(combSubWrap);
+  voiceSubWrap=el("div","chiprow sub2"); voiceSubWrap.style.marginTop="8px"; voiceSubWrap.style.display="none";
+  VOICE_SUB.forEach(function(o){ var b=el("button","chip mini"); b.innerHTML='<span class="cl">'+o.l+'</span>';
+    b.onclick=function(){ L.voiceDetail=(L.voiceDetail===o.v)?"":o.v; renderVoiceSub(); }; voiceSubWrap.appendChild(b); });
+  hf.appendChild(voiceSubWrap); appendTo("health",hf); renderCombSub(); renderVoiceSub();
 
   function chipRow(labelText, options, curKey, tabId){
     var f=el("div","field"); f.appendChild(el("label",null,labelText));
