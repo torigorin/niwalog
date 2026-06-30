@@ -896,7 +896,7 @@
       </div>
 
     </div>
-    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.4.8-dev</p>
+    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.4.9-dev</p>
   </section>
 
   <button class="fab-multi" id="fabMulti"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 1px;"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="ft">まとめて</span></button>
@@ -1253,9 +1253,9 @@ function snackIcon(label,presets){
   }
   return "";
 }
-var _defaultSnacks5=[{id:"sp1",label:"小松菜",emoji:""},{id:"sp2",label:"ミルワーム",emoji:""},{id:"sp3",label:"とうもろこし",emoji:""},{id:"sp4",label:"トマト",emoji:""},{id:"sp5",label:"スイカ",emoji:""}];
+var _defaultSnacks2=[{id:"sp1",label:"小松菜",emoji:""},{id:"sp2",label:"ミルワーム",emoji:""}];
 var _origIds=["sp1","sp2","sp3","sp4","sp5","sp6","sp7","sp8","sp9","sp10","sp11","sp12","sp13","sp14","sp15","sp16","sp17","sp18","sp19","sp20","sp21","sp22","sp23","sp24","sp25","sp26","sp27"];
-if(!S.snackPresets||( S.snackPresets.length===27 && S.snackPresets.every(function(x,i){return x.id===_origIds[i];}) )){S.snackPresets=_defaultSnacks5;}
+if(!S.snackPresets||( S.snackPresets.length===27 && S.snackPresets.every(function(x,i){return x.id===_origIds[i];}) )||( S.snackPresets.length===5 && S.snackPresets.every(function(x,i){return ["sp1","sp2","sp3","sp4","sp5"][i]===x.id;}) )){S.snackPresets=_defaultSnacks2;}
 S.pets.forEach(function(p,i){ if(p.broodDays==null)p.broodDays=21; if(p.clutchGap==null)p.clutchGap=3; if(p.showHatch==null)p.showHatch=false;
   if(p.order==null)p.order=i; if(p.photo==null)p.photo=false; if(p.sex==null)p.sex="female"; if(p.birth==null)p.birth=""; if(p.welcome==null)p.welcome="";
   if(typeof p.name==="string")p.name=p.name.replace(/^([0-9０-９]+)わ目$/,"$1羽目"); });
