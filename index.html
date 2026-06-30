@@ -896,7 +896,7 @@
       </div>
 
     </div>
-    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.4.17-dev</p>
+    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.4.18-dev</p>
   </section>
 
   <button class="fab-multi" id="fabMulti"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 1px;"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="ft">まとめて</span></button>
@@ -1013,12 +1013,14 @@ var MARKS=[{key:"egg",jp:"産卵",e:"🥚"},{key:"estrus",jp:"発情サイン",e
 var HEALTH=[
  {k:"stasis",l:"食滞"},{k:"swell",l:"膨羽"},{k:"comb",l:"とさかの不調",sub:true},{k:"voice",l:"なき声の不調",sub:true},
  {k:"loose",l:"軟便・下痢"},{k:"vomit",l:"吐き戻し"},{k:"resp",l:"呼吸器"},
- {k:"weak",l:"元気がない"},{k:"appup",l:"食欲増加"},{k:"appdown",l:"食欲低下"},
- {k:"eggbound",l:"卵詰まり疑い",femaleOnly:true},{k:"softegg",l:"軟卵",femaleOnly:true},{k:"eateggs",l:"食卵"},
+ {k:"weak",l:"元気がない"},{k:"appup",l:"食欲増加"},{k:"appdown",l:"食欲低下"},{k:"colorskin",l:"色体"},
+ {k:"eggsub",l:"たまごの不調",femaleOnly:true,sub:true},
  {k:"crow",l:"鳴き声の調子が悪い",maleOnly:true},{k:"med",l:"投薬"},{k:"vet",l:"通院"}
 ];
-var COMB_SUB=[{v:"black",l:"黒っぽい"},{v:"white",l:"白っぽい"}];
-var COMB_SUB_L={black:"黒っぽい",white:"白っぽい"};
+var COMB_SUB=[{v:"black",l:"黒っぽい"},{v:"white",l:"白っぽい"},{v:"purple",l:"紫っぽい"},{v:"dry",l:"カサカサ"},{v:"wound",l:"傷あり"},{v:"limp",l:"しなしな"},{v:"swell",l:"腫れている"}];
+var COMB_SUB_L={black:"黒っぽい",white:"白っぽい",purple:"紫っぽい",dry:"カサカサ",wound:"傷あり",limp:"しなしな",swell:"腫れている"};
+var EGG_SUB=[{v:"eateggs",l:"食卵"},{v:"softegg",l:"軟卵"},{v:"eggbound",l:"卵詰まり疑い"}];
+var EGG_SUB_L={eateggs:"食卵",softegg:"軟卵",eggbound:"卵詰まり疑い"};
 var VOICE_SUB=[{v:"quiet",l:"声がちいさい"},{v:"hoarse",l:"枯れている"},{v:"silent",l:"鳴かない"},{v:"normal",l:"正常に戻った"}];
 var VOICE_SUB_L={quiet:"声がちいさい",hoarse:"枯れている",silent:"鳴かない",normal:"正常に戻った"};
 var HATCH_ICO="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='12' height='12' fill='currentColor' style='display:inline-block;vertical-align:middle;flex-shrink:0;opacity:.9'><path d='M436.094,282.012l-1.166-26.645l-36.376,35.064l-25.499-24.586c-3.086-14.887-6.747-28.837-10.301-41.298c-3.725-13.088-7.31-24.568-9.939-33.69c3.82-5.017,7.266-10.332,10.269-15.939c7.076-2.337,39.867-13.05,54.476-15.97c-9.066-24.175-36.167-37.225-40.475-39.17c0-0.291,0.02-0.577,0.02-0.874c0.006-16.382-3.332-32.055-9.351-46.29c-9.033-21.349-24.092-39.48-43.065-52.302C305.724,7.494,282.778-0.006,258.199,0c-16.389,0-32.056,3.326-46.291,9.35c-21.349,9.034-39.486,24.092-52.302,43.066c-12.822,18.961-20.323,41.9-20.316,66.486c-0.006,21.546,5.79,41.806,15.831,59.233L131.39,274.08l-16.953,16.345l-37.244-35.92l-1.235,26.55c-0.247,5.309-0.393,10.681-0.393,16.142c0,37.275,5.543,69.407,15.432,96.679c7.412,20.45,17.264,38.15,28.964,53.138c17.548,22.496,39.22,38.834,62.654,49.439C206.048,507.065,231.211,512,256,512c22.039,0,44.358-3.896,65.517-12.22c15.863-6.24,31.054-14.976,44.884-26.379c20.754-17.098,38.391-40.221,50.694-69.527c12.315-29.313,19.34-64.744,19.34-106.676C436.435,292.066,436.309,287.01,436.094,282.012z M178.142,169.736c-9.363-14.716-14.786-32.087-14.798-50.833c0.007-13.126,2.66-25.574,7.456-36.914c7.19-17.003,19.233-31.51,34.374-41.742c15.154-10.224,33.335-16.186,53.025-16.193c13.126,0.007,25.568,2.655,36.914,7.451c17.003,7.19,31.51,19.233,41.742,34.38c10.231,15.154,16.186,33.336,16.186,53.018c-0.006,23.49-8.508,44.866-22.635,61.463l-4.105,4.814l1.641,6.113c2.902,10.732,7.228,24.219,11.675,39.841c1.78,6.246,3.573,12.848,5.303,19.696l-41.076,39.594l-47.355-45.664l-47.354,45.664l-46.024-44.377l17.795-71.966L178.142,169.736z M398.381,385.679c-6.601,18.213-15.236,33.62-25.315,46.537c-15.128,19.372-33.525,33.215-53.608,42.318c-20.076,9.098-41.855,13.412-63.458,13.412c-19.202,0-38.556-3.408-56.712-10.548c-13.614-5.365-26.576-12.822-38.391-22.559c-17.706-14.621-32.904-34.362-43.813-60.285c-9.705-23.091-15.958-51.149-17.219-84.75l14.571,14.051l31.935-30.802l4.808,1.191l1.894-7.659l8.704-8.4l47.354,45.663l47.354-45.663l47.355,45.663l47.164-45.479c0.292,1.546,0.589,3.091,0.862,4.65l3.674-0.646l43.009,41.476l8.35-8.052l5.201-5.011C410.924,339.775,406.015,364.621,398.381,385.679z'/><path d='M265.484,135.906c12.074,0,21.862-9.788,21.862-21.862s-9.788-21.856-21.862-21.856c-12.069,0-21.862,9.781-21.862,21.856S253.415,135.906,265.484,135.906z'/></svg>";
@@ -1811,7 +1813,7 @@ $("sheetFab").onclick=function(){ saveDaySheet(); };
 
 /* ===== day sheet ===== */
 var daySheet={p:null,date:null,local:null};
-function snapLocal(L){ return JSON.stringify({egg:L.egg||0,estrus:!!L.estrus,weight:L.weight,food:L.food,health:L.health,combDetail:L.combDetail||"",voiceDetail:L.voiceDetail||"",appetite:L.appetite||"",poopC:L.poopC||"",poopF:L.poopF||"",behavior:L.behavior||"",memo:(L.memo||"").trim(),clinic:L.clinic}); }
+function snapLocal(L){ return JSON.stringify({egg:L.egg||0,estrus:!!L.estrus,weight:L.weight,food:L.food,health:L.health,combDetail:L.combDetail||"",voiceDetail:L.voiceDetail||"",eggDetail:L.eggDetail||[],appetite:L.appetite||"",poopC:L.poopC||"",poopF:L.poopF||"",behavior:L.behavior||"",memo:(L.memo||"").trim(),clinic:L.clinic}); }
 function commitDay(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local; if(!p||!L)return;
   var rec=ensureRec(p.id,date);
   rec.egg=L.egg||0; rec.estrus=L.estrus;
@@ -1820,6 +1822,7 @@ function commitDay(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local; if(!
   rec.health={}; HEALTH.forEach(function(h){ if(L.health[h.k])rec.health[h.k]=true; });
   rec.combDetail=(L.health.comb&&L.combDetail)?L.combDetail:"";
   rec.voiceDetail=(L.health.voice&&L.voiceDetail)?L.voiceDetail:"";
+  rec.eggDetail=(L.health.eggsub&&L.eggDetail&&L.eggDetail.length)?L.eggDetail.join(","):"";
   rec.appetite=L.appetite||""; rec.poopC=L.poopC||""; rec.poopF=L.poopF||""; rec.behavior=L.behavior||"";
   rec.customs=(function(){var o={}; (S.customStamps||[]).forEach(function(cs){if(L.customs&&L.customs[cs.id])o[cs.id]=true;}); return o;})();
   rec.memo=(L.memo||"").trim();
@@ -1838,6 +1841,7 @@ function openDaySheet(date,keepTab){ var p=activePet(); if(!p){toast("先にに�
     health:(function(){var o={}; if(r.health)HEALTH.forEach(function(h){if(r.health[h.k])o[h.k]=true;}); return o;})(),
     combDetail:r.combDetail||"",
     voiceDetail:r.voiceDetail||"",
+    eggDetail:r.eggDetail?r.eggDetail.split(",").filter(Boolean):[],
     appetite:r.appetite||"",poopC:r.poopC||"",poopF:r.poopF||"",behavior:r.behavior||"",
     memo:r.memo||"",
     allMemo:(S.records['_all|'+date]||{}).memo||"",
@@ -1968,16 +1972,19 @@ function buildDaySheet(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local;
   // ===== 体調タブ =====
   var hf=el("div","field"); hf.appendChild(el("label",null,"体調マーク"));
   var hg=el("div","health-grid");
-  var combSubWrap=null, voiceSubWrap=null;
+  var combSubWrap=null, voiceSubWrap=null, eggSubWrap=null;
   function renderCombSub(){ if(!combSubWrap)return; combSubWrap.style.display=L.health.comb?"grid":"none";
     Array.prototype.forEach.call(combSubWrap.children,function(x,i){ x.className="chip mini"+(L.combDetail===COMB_SUB[i].v?" on":""); }); }
   function renderVoiceSub(){ if(!voiceSubWrap)return; voiceSubWrap.style.display=L.health.voice?"grid":"none";
     Array.prototype.forEach.call(voiceSubWrap.children,function(x,i){ x.className="chip mini"+(L.voiceDetail===VOICE_SUB[i].v?" on":""); }); }
+  function renderEggSub(){ if(!eggSubWrap)return; eggSubWrap.style.display=L.health.eggsub?"grid":"none";
+    Array.prototype.forEach.call(eggSubWrap.children,function(x,i){ x.className="chip mini"+((L.eggDetail||[]).indexOf(EGG_SUB[i].v)>=0?" on":""); }); }
   HEALTH.filter(function(h){ return (female || !h.femaleOnly) && (!h.maleOnly || !female) && (S.hiddenHealth||[]).indexOf(h.k)<0; }).forEach(function(h){ var on=L.health[h.k]; var b=el("button","mt health"+(on?" on":"")); b.dataset.k=h.k;
     b.innerHTML=(h.e?'<span class="e">'+h.e+'</span>':'')+'<span class="l">'+h.l+'</span><span class="hc-chk">'+(on?'✓':'')+'</span>';
     b.onclick=function(){ if(L.health[h.k])delete L.health[h.k]; else L.health[h.k]=true; b.className="mt health"+(L.health[h.k]?" on":""); var chk=b.querySelector(".hc-chk"); if(chk)chk.textContent=L.health[h.k]?"✓":"";
       if(h.k==="comb"){ if(!L.health.comb)L.combDetail=""; renderCombSub(); }
-      if(h.k==="voice"){ if(!L.health.voice)L.voiceDetail=""; renderVoiceSub(); } }; hg.appendChild(b); });
+      if(h.k==="voice"){ if(!L.health.voice)L.voiceDetail=""; renderVoiceSub(); }
+      if(h.k==="eggsub"){ if(!L.health.eggsub)L.eggDetail=[]; renderEggSub(); } }; hg.appendChild(b); });
   hf.appendChild(hg);
   combSubWrap=el("div","chiprow sub2"); combSubWrap.style.marginTop="8px"; combSubWrap.style.display="none";
   COMB_SUB.forEach(function(o){ var b=el("button","chip mini"); b.innerHTML='<span class="cl">とさかが '+o.l+'</span>';
@@ -1986,7 +1993,11 @@ function buildDaySheet(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local;
   voiceSubWrap=el("div","chiprow sub2"); voiceSubWrap.style.marginTop="8px"; voiceSubWrap.style.display="none";
   VOICE_SUB.forEach(function(o){ var b=el("button","chip mini"); b.innerHTML='<span class="cl">'+o.l+'</span>';
     b.onclick=function(){ L.voiceDetail=(L.voiceDetail===o.v)?"":o.v; renderVoiceSub(); }; voiceSubWrap.appendChild(b); });
-  hf.appendChild(voiceSubWrap); appendTo("health",hf); renderCombSub(); renderVoiceSub();
+  hf.appendChild(voiceSubWrap);
+  eggSubWrap=el("div","chiprow sub2"); eggSubWrap.style.marginTop="8px"; eggSubWrap.style.display="none";
+  EGG_SUB.forEach(function(o){ var b=el("button","chip mini"); b.innerHTML='<span class="cl">'+o.l+'</span>';
+    b.onclick=function(){ if(!L.eggDetail)L.eggDetail=[]; var ix=L.eggDetail.indexOf(o.v); if(ix>=0)L.eggDetail.splice(ix,1); else L.eggDetail.push(o.v); renderEggSub(); }; eggSubWrap.appendChild(b); });
+  hf.appendChild(eggSubWrap); appendTo("health",hf); renderCombSub(); renderVoiceSub(); renderEggSub();
 
   function chipRow(labelText, options, curKey, tabId){
     var f=el("div","field"); f.appendChild(el("label",null,labelText));
