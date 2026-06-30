@@ -4093,13 +4093,13 @@ $("importFile").onchange=function(e){
   e.target.value="";
 };
 window.addEventListener("resize",function(){ if(!$("view-weight").hidden)renderWeight(); });
-/* ===== SW update notification ===== */
+/* ===== SW update notification [dev: 自動リロード] ===== */
 (function(){
   if(!('serviceWorker' in navigator)) return;
   var _swReady=false; setTimeout(function(){_swReady=true;},3000);
   navigator.serviceWorker.addEventListener('controllerchange',function(){
     if(!_swReady) return;
-    $("bannerUpdate").style.display="block";
+    window.location.reload();
   });
   $("bannerUpdateReload").onclick=function(){ window.location.reload(); };
   $("bannerUpdateClose").onclick=function(){ $("bannerUpdate").style.display="none"; };
@@ -4177,41 +4177,21 @@ openIDB().then(function(){
 <script>
 if('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js').then(function(reg) {
-    // 新しいSWが見つかった時
+    // dev: confirmなし・SW install時にskipWaitingが呼ばれるため待機状態にならない
+    // controllerchangeで自動リロードされる（上のSW update notificationブロック参照）
     reg.addEventListener('updatefound', function() {
       var newSW = reg.installing;
       newSW.addEventListener('statechange', function() {
         if(newSW.state === 'installed' && navigator.serviceWorker.controller) {
-          // 新しいバージョンが「待機中」になった → ユーザーに確認
-          if(confirm('niwaLog.の新しいバージョンが利用可能です。更新しますか？')) {
-            // 待機中のSWにSKIP_WAITINGを送る。実際の切り替え完了は
-            // controllerchangeイベントで検知してからreloadする（早すぎるreload防止）
-            var _reloaded=false;
-            navigator.serviceWorker.addEventListener('controllerchange', function(){
-              if(_reloaded) return; _reloaded=true;
-              window.location.reload();
-            });
-            newSW.postMessage({type: 'SKIP_WAITING'});
-            // 万一controllerchangeが発火しない端末向けの保険（3秒後に強制リロード）
-            setTimeout(function(){ if(!_reloaded){ _reloaded=true; window.location.reload(); } }, 3000);
-          }
+          newSW.postMessage({type: 'SKIP_WAITING'});
         }
       });
     });
-    // ページを開いた時点で既に新しいSWが待機中だった場合（confirmを出し損ねた場合）の保険
     if(reg.waiting && navigator.serviceWorker.controller) {
-      if(confirm('niwaLog.の新しいバージョンが利用可能です。更新しますか？')) {
-        var _reloaded2=false;
-        navigator.serviceWorker.addEventListener('controllerchange', function(){
-          if(_reloaded2) return; _reloaded2=true;
-          window.location.reload();
-        });
-        reg.waiting.postMessage({type:'SKIP_WAITING'});
-        setTimeout(function(){ if(!_reloaded2){ _reloaded2=true; window.location.reload(); } }, 3000);
-      }
+      reg.waiting.postMessage({type:'SKIP_WAITING'});
     }
-    // 一定間隔でSWの更新有無をチェック（タブを開いたままでも更新を検知できるように）
-    setInterval(function(){ reg.update(); }, 60*60*1000);
+    // 30秒ごとに更新チェック（dev用）
+    setInterval(function(){ reg.update(); }, 30*1000);
   });
 }
 </script>
