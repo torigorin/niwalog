@@ -902,7 +902,7 @@
       </div>
 
     </div>
-    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.3.27</p>
+    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.3.28-dev</p>
   </section>
 
   <button class="fab-multi" id="fabMulti"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 1px;"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="ft">まとめて</span></button>
@@ -1982,11 +1982,11 @@ function buildDaySheet(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local;
   var hf=el("div","field"); hf.appendChild(el("label",null,"体調マーク"));
   var hg=el("div","health-grid");
   var combSubWrap=null, voiceSubWrap=null, eggSubWrap=null;
-  function renderCombSub(){ if(!combSubWrap)return; combSubWrap.style.display=L.health.comb?"grid":"none";
+  function renderCombSub(){ if(!combSubWrap)return; var _cs=L.health.comb; combSubWrap.style.display=_cs?"grid":"none"; if(_cs){combSubWrap.style.rowGap="3px";combSubWrap.style.columnGap="3px";}
     Array.prototype.forEach.call(combSubWrap.children,function(x,i){ x.className="chip sub"+(L.combDetail===COMB_SUB[i].v?" on":""); }); }
-  function renderVoiceSub(){ if(!voiceSubWrap)return; voiceSubWrap.style.display=L.health.voice?"grid":"none";
+  function renderVoiceSub(){ if(!voiceSubWrap)return; var _vs=L.health.voice; voiceSubWrap.style.display=_vs?"grid":"none"; if(_vs){voiceSubWrap.style.rowGap="3px";voiceSubWrap.style.columnGap="3px";}
     Array.prototype.forEach.call(voiceSubWrap.children,function(x,i){ x.className="chip sub"+(L.voiceDetail===VOICE_SUB[i].v?" on":""); }); }
-  function renderEggSub(){ if(!eggSubWrap)return; eggSubWrap.style.display=L.health.eggsub?"grid":"none";
+  function renderEggSub(){ if(!eggSubWrap)return; var _es=L.health.eggsub; eggSubWrap.style.display=_es?"grid":"none"; if(_es){eggSubWrap.style.rowGap="3px";eggSubWrap.style.columnGap="3px";}
     Array.prototype.forEach.call(eggSubWrap.children,function(x,i){ x.className="chip sub"+((L.eggDetail||[]).indexOf(EGG_SUB[i].v)>=0?" on":""); }); }
   HEALTH.filter(function(h){ return (female || !h.femaleOnly) && (!h.maleOnly || !female) && (S.hiddenHealth||[]).indexOf(h.k)<0; }).forEach(function(h){ var on=L.health[h.k]; var b=el("button","mt health"+(on?" on":"")); b.dataset.k=h.k;
     b.innerHTML=(h.e?'<span class="e">'+h.e+'</span>':'')+'<span class="l">'+h.l+'</span><span class="hc-chk">'+(on?'✓':'')+'</span>';
