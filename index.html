@@ -385,7 +385,7 @@
   .scrim.show{opacity:1; pointer-events:auto;}
   .sheet{position:fixed; left:0; right:0; bottom:0; z-index:60; max-width:430px; margin:0 auto; background:var(--bg);
     border-radius:24px 24px 0 0; box-shadow:var(--shadow-lg); transform:translateY(105%); transition:transform .26s cubic-bezier(.2,.8,.25,1);
-    max-height:92vh; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; padding:8px 18px calc(env(safe-area-inset-bottom) + 24px);}
+    max-height:82vh; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; padding:8px 18px calc(env(safe-area-inset-bottom) + 24px);}
   .sheet.diary-sheet{height:80vh; height:80dvh; max-height:none;}
   .sheet.show{transform:translateY(0);}
   .grab{width:40px; height:5px; border-radius:3px; background:var(--line); margin:8px auto 12px;}
@@ -896,7 +896,7 @@
       </div>
 
     </div>
-    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.4.6-dev</p>
+    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.4.7-dev</p>
   </section>
 
   <button class="fab-multi" id="fabMulti"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 1px;"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="ft">まとめて</span></button>
@@ -3794,28 +3794,39 @@ function openMultiSheet(){
   var snkLbl2=el("div"); snkLbl2.style.cssText="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:4px;"; snkLbl2.textContent="おやつ";
   shareWrap.appendChild(snkLbl2); shareWrap.appendChild(snkBox);
 
-  // メモ
-  var memoLbl2=el("div"); memoLbl2.style.cssText="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:4px;"; memoLbl2.textContent="メモ";
-  var memoInp=el("textarea"); memoInp.placeholder="全員のメモに追記"; memoInp.rows=2;
-  memoInp.style.cssText="width:100%;box-sizing:border-box;border:1.5px solid var(--line);border-radius:8px;padding:6px 8px;font-size:13px;font-weight:600;background:var(--bg2);color:var(--ink);font-family:inherit;resize:none;margin-bottom:12px;";
-  shareWrap.appendChild(memoLbl2); shareWrap.appendChild(memoInp);
-
-  // 写真
-  var photoLbl=el("div"); photoLbl.style.cssText="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:4px;"; photoLbl.textContent="写真（全員分）";
-  var prow=el("div","photo-row"); prow.style.paddingLeft="0";
-  var thumbHost=el("div"); prow.appendChild(thumbHost);
+  // 写真（個人編集のメモタブと同じ構造）
+  var SVG_IMG_BTN='<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 512 512\' width=\'13\' height=\'13\' fill=\'currentColor\' style=\'display:inline-block;vertical-align:middle;margin-right:3px;flex-shrink:0\'><path d=\'M0,0v512h512V0H0z M465.975,465.975H46.025V46.025h419.95V465.975z\'/><path d=\'M75.693,385.429h360.614c3.604,0,6.912-1.978,8.619-5.15c1.708-3.163,1.537-7.019-0.449-10.022L332.573,200.709c-4.53-6.867-12.205-10.992-20.437-10.992c-8.224,0.018-15.899,4.152-20.419,11.036l-78.83,119.965l-43.508-49.314c-5.051-5.716-12.475-8.762-20.078-8.214c-7.612,0.539-14.533,4.602-18.712,10.973l-63.074,96.112c-1.977,3.01-2.139,6.848-0.43,10.012C68.79,383.461,72.098,385.429,75.693,385.429z\'/><path d=\'M167.589,225.793c27.404,0,49.612-22.208,49.612-49.611c0-27.403-22.208-49.612-49.612-49.612c-27.402,0-49.62,22.208-49.62,49.612C117.97,203.585,140.187,225.793,167.589,225.793z\'/></svg>';
+  var photoFld=el("div","field");
+  photoFld.appendChild(el("label","field-section-lbl","写真"));
+  var photoCard=el("div","card"); photoCard.style.cssText="padding:0;overflow:hidden;";
+  var prow=el("div","photo-row");
+  var thumbHost=el("div"); thumbHost.style.cursor="pointer"; prow.appendChild(thumbHost);
   var pbtns=el("div","photo-btns");
-  var selBtn=el("button"); selBtn.style.cssText="background:none;border:none;padding:0;font-size:13px;font-weight:700;color:var(--ink-soft);cursor:pointer;text-align:left;font-family:inherit;"; selBtn.textContent="📷 写真を選ぶ";
-  var delBtn=el("button","link-danger","写真を削除"); delBtn.style.cssText="display:none;font-size:13px;padding:0;background:none;border:none;cursor:pointer;color:var(--rose);font-family:inherit;font-weight:700;";
+  var selBtn=el("button"); selBtn.style.cssText="background:none;border:none;padding:0;font-size:13px;font-weight:700;color:var(--ink-soft);cursor:pointer;text-align:left;font-family:inherit;"; selBtn.innerHTML=SVG_IMG_BTN+"写真を選ぶ";
+  var delBtn=el("button","link-danger"); delBtn.innerHTML=SVG_IMG_BTN+"写真を削除"; delBtn.style.cssText="display:none;font-size:13px;padding:0 0 0 0;background:none;border:none;cursor:pointer;font-family:inherit;font-weight:700;color:var(--rose);";
   var fileIn=el("input"); fileIn.type="file"; fileIn.accept="image/*"; fileIn.hidden=true;
   pbtns.appendChild(selBtn); pbtns.appendChild(fileIn); pbtns.appendChild(delBtn); prow.appendChild(pbtns);
   var multiPhotoBlob=null;
-  function showMThumb(blob){ multiPhotoBlob=blob; thumbHost.innerHTML=""; if(blob){ var img=el("img","photo-thumb"); img.src=URL.createObjectURL(blob); thumbHost.appendChild(img); delBtn.style.display="block"; selBtn.textContent="📷 写真を変える"; } else { thumbHost.innerHTML='<div class="photo-empty" style="font-size:22px;color:var(--ink-faint);">📷</div>'; delBtn.style.display="none"; selBtn.textContent="📷 写真を選ぶ"; } }
+  function showMThumb(blob){
+    multiPhotoBlob=blob; thumbHost.innerHTML="";
+    if(blob){ var img=el("img","photo-thumb"); img.src=URL.createObjectURL(blob); thumbHost.appendChild(img); delBtn.style.display="block"; selBtn.innerHTML=SVG_IMG_BTN+"写真を変える"; }
+    else { thumbHost.innerHTML='<div class="photo-empty"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="36" height="36" fill="currentColor"><path d="M256,233.109c-28.5,0-51.594,23.297-51.594,52.047c0,28.766,23.094,52.047,51.594,52.047s51.594-23.281,51.594-52.047C307.594,256.406,284.5,233.109,256,233.109z"/><path d="M497.375,140.297c-8.984-9.094-21.641-14.813-35.453-14.813h-54.203c-4.359,0.016-8.438-2.594-10.313-6.813l-16.234-36.344c-8.031-18.016-25.891-29.734-45.703-29.734H176.531c-19.813,0-37.672,11.719-45.719,29.719v0.016l-16.219,36.344c-1.875,4.219-5.953,6.828-10.313,6.813H50.078c-13.813,0-26.484,5.719-35.484,14.813C5.594,149.359,0,162.031,0,175.828v233.25c0,13.797,5.594,26.469,14.594,35.531c9,9.094,21.672,14.813,35.484,14.797h411.844c13.813,0.016,26.469-5.703,35.453-14.797c9.031-9.063,14.625-21.734,14.625-35.531v-233.25C512,162.031,506.406,149.344,497.375,140.297z M473.281,409.078c0,3.313-1.281,6.125-3.375,8.281c-2.156,2.109-4.844,3.328-7.984,3.344H50.078c-3.156-0.016-5.859-1.234-7.984-3.344c-2.094-2.156-3.375-4.969-3.375-8.281v-233.25c0-3.313,1.281-6.125,3.375-8.281c2.125-2.125,4.828-3.328,7.984-3.344h54.203c19.781,0,37.656-11.734,45.688-29.766l16.188-36.328c1.906-4.203,5.969-6.813,10.375-6.813h158.938c4.406,0,8.469,2.609,10.359,6.797l16.219,36.359c8.016,18.016,25.891,29.75,45.672,29.75h54.203c3.141,0.016,5.828,1.219,7.984,3.344c2.094,2.156,3.375,4.984,3.375,8.281V409.078z"/><path d="M256,170.938c-31.313-0.016-59.75,12.844-80.203,33.5c-20.484,20.656-33.172,49.266-33.156,80.719c-0.016,31.453,12.672,60.094,33.156,80.719c20.453,20.672,48.891,33.516,80.203,33.516c31.297,0,59.75-12.844,80.203-33.516c20.484-20.625,33.172-49.266,33.156-80.719c0.016-31.453-12.672-60.063-33.156-80.719C315.75,183.781,287.297,170.922,256,170.938z M315.031,344.891c-15.172,15.297-35.953,24.688-59.031,24.688c-23.094,0-43.859-9.391-59.047-24.688c-15.141-15.297-24.5-36.328-24.516-59.734c0.016-23.391,9.375-44.422,24.516-59.734c15.188-15.297,35.953-24.672,59.047-24.688c23.078,0.016,43.859,9.391,59.031,24.688c15.156,15.313,24.516,36.344,24.531,59.734C339.547,308.563,330.188,329.594,315.031,344.891z"/><rect x="392.188" y="197.656" width="34.406" height="34.406"/></svg></div>'; delBtn.style.display="none"; selBtn.innerHTML=SVG_IMG_BTN+"写真を選ぶ"; }
+  }
   showMThumb(null);
+  thumbHost.onclick=function(){ fileIn.click(); };
   selBtn.onclick=function(){ fileIn.click(); };
   fileIn.onchange=function(){ var f=fileIn.files[0]; if(!f)return; resizeImage(f,1000,0.82).then(function(blob){ if(!blob){toast("この端末では写真を保存できません"); return;} showMThumb(blob); }); };
   delBtn.onclick=function(){ showMThumb(null); };
-  shareWrap.appendChild(photoLbl); shareWrap.appendChild(prow);
+  photoCard.appendChild(prow); photoCard.appendChild(delBtn); delBtn.style.padding="0 14px 12px";
+  photoFld.appendChild(photoCard); shareWrap.appendChild(photoFld);
+
+  // メモ（個人編集のメモタブと同じ構造）
+  var SVG_MEMO_LBL='<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 512 512\' width=\'14\' height=\'14\' fill=\'currentColor\' style=\'display:inline-block;vertical-align:middle;margin-right:3px;flex-shrink:0\'><g><path d=\'M508.248,70.39c-4.907-9.166-13.991-15.347-24.323-16.54l-32.442-3.741l-63.947,129.587l-38.842-32.624l-63.766,20.782l63.948-129.586L228.783,24.411c-32.842-3.786-64.584,13.208-79.649,42.638L13.166,332.741c-6.709,13.108-6.572,28.673,0.382,41.654c6.945,12.99,19.825,21.737,34.454,23.431l232.767,28.201c6.617,0.819,11.596,6.444,11.596,13.117v2.267c0,3.786-1.62,7.391-4.46,9.904c-2.831,2.503-6.609,3.678-10.358,3.213L48.003,426.718c-19.052-2.103-35.829-12.981-44.877-29.12c-9.321,16.312,1.848,59.414,38.35,63.291l232.594,26.835c24.178,2.804,47.544-9.767,58.55-31.486L508.52,99.792C513.254,90.544,513.153,79.557,508.248,70.39z\'></path></g></svg>';
+  var memoFld=el("div","field");
+  memoFld.appendChild(el("label","field-section-lbl",SVG_MEMO_LBL+" メモ・日記"));
+  var memoInp=el("textarea","memo"); memoInp.placeholder="全員のメモに追記"; memoInp.rows=3;
+  memoFld.appendChild(memoInp);
+  shareWrap.appendChild(memoFld);
   body.appendChild(shareWrap);
 
   var act=el("div","sheet-actions");
