@@ -896,7 +896,7 @@
       </div>
 
     </div>
-    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.4.13-dev</p>
+    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.4.14-dev</p>
   </section>
 
   <button class="fab-multi" id="fabMulti"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 1px;"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="ft">まとめて</span></button>
@@ -3676,7 +3676,12 @@ function openMultiSheet(){
   // ヘッダー行
   var hdr=el("div"); hdr.style.cssText="display:flex;align-items:center;"+GAP+"padding:8px 0 4px;border-bottom:2px solid var(--line);";
   function mh(css,txt){ var d=el("div"); d.style.cssText=css+"font-size:11px;font-weight:700;color:var(--ink-soft);text-align:center;flex-shrink:0;"; d.textContent=txt; return d; }
-  hdr.appendChild(mh(NW,"名前")); hdr.appendChild(mh(CW,"体重(g)")); hdr.appendChild(mh(CW,"ごはん(g)")); hdr.appendChild(mh(TW,"たまご")); hdr.appendChild(mh(TW,"発情"));
+  var foodHdrCell=el("div"); foodHdrCell.style.cssText=CW+"display:flex;flex-direction:column;align-items:center;gap:2px;flex-shrink:0;";
+  var foodHdrLbl=el("div"); foodHdrLbl.style.cssText="font-size:11px;font-weight:700;color:var(--ink-soft);"; foodHdrLbl.textContent="ごはん(g)";
+  var copyAllBtn=el("button"); copyAllBtn.textContent="↓全員"; copyAllBtn.style.cssText="font-size:10px;font-weight:700;color:var(--amber-dk,#7a6520);background:var(--amber-soft);border:none;border-radius:999px;padding:1px 7px;cursor:pointer;font-family:inherit;line-height:1.6;";
+  copyAllBtn.onclick=function(){ var src=rowData[0]&&rowData[0].fi.value; if(!src)return; rowData.forEach(function(rd){ if(!rd.fi.value)rd.fi.value=src; }); };
+  foodHdrCell.appendChild(foodHdrLbl); foodHdrCell.appendChild(copyAllBtn);
+  hdr.appendChild(mh(NW,"名前")); hdr.appendChild(mh(CW,"体重(g)")); hdr.appendChild(foodHdrCell); hdr.appendChild(mh(TW,"たまご")); hdr.appendChild(mh(TW,"発情"));
   body.appendChild(hdr);
   var rowData=[];
   function mkInputCell(value,flexCss){
@@ -3712,14 +3717,6 @@ function openMultiSheet(){
     var wc=mkInputCell(rec.weight,CW); row.appendChild(wc.wrap);
     var ftotal=rec.food?(parseFloat(rec.food.t||0)+parseFloat(rec.food.m||0)+parseFloat(rec.food.n||0)+parseFloat(rec.food.e2||0)||""):"";
     var fc=mkInputCell(ftotal,CW); row.appendChild(fc.wrap);
-    if(rowData.length>0&&!ftotal){
-      fc.inp.placeholder="↓コピー";
-      fc.inp.addEventListener("click",function(){
-        if(fc.inp.value!=="")return;
-        var above=rowData[rowData.length-1].fi.value;
-        if(above){fc.inp.value=above;}
-      });
-    }
     var eggCell, estCell;
     if(p.sex!=="male"){
       eggCell=mkToggleCell(!!rec.egg,"egg",TW); row.appendChild(eggCell.wrap);
