@@ -2931,7 +2931,7 @@ function renderWeight(){
   var tdCol=mkd("position:absolute;left:"+(todayIdx*DAY_W)+"px;top:0;bottom:0;width:"+DAY_W+"px;background:rgba(229,185,100,.18);pointer-events:none;z-index:0;");
   inner.appendChild(tdCol);
   // タップ移動カーソル列（innerに配置しコンテンツと一緒にスクロール→日付に追従）
-  var _cursorEl=mkd("position:absolute;top:0;bottom:0;width:"+DAY_W+"px;background:rgba(229,185,100,.10);pointer-events:none;z-index:10;");
+  var _cursorEl=mkd("position:absolute;top:0;bottom:0;width:"+DAY_W+"px;background:rgba(229,185,100,.22);pointer-events:none;z-index:10;");
   _cursorEl.style.left="-999px";
   inner.appendChild(_cursorEl);
   function _setCursor(colIdx){
@@ -3128,9 +3128,10 @@ function renderWeight(){
         if(hasCus){var cu=mkd("position:absolute;left:"+((i+0.5)*DAY_W-3)+"px;top:50%;margin-top:-3px;width:6px;height:6px;border-radius:50%;background:var(--plum);opacity:.8;"); rd.appendChild(cu);}
       });
     } else if(row.key.indexOf("custom_")===0){
-      (function(_csId){ dates.forEach(function(d,i){var r=recMap[d]; if(!r||!r.customs||!r.customs[_csId])return;
-        var cu=mkd("position:absolute;left:"+((i+0.5)*DAY_W-3)+"px;top:50%;margin-top:-3px;width:6px;height:6px;border-radius:50%;background:var(--plum);opacity:.8;"); rd.appendChild(cu);
-      });})(row.key.slice(7));
+      (function(_csId,_icon){ dates.forEach(function(d,i){var r=recMap[d]; if(!r||!r.customs||!r.customs[_csId])return;
+        var cu=mkd("position:absolute;left:"+((i+0.5)*DAY_W)+"px;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;pointer-events:none;");
+        cu.innerHTML=_icon; rd.appendChild(cu);
+      });})(row.key.slice(7),row.icon);
     } else if(row.key==="memo"){
       dates.forEach(function(d,i){var r=recMap[d]; if(r&&r.memo){
         var m=mkd("position:absolute;left:"+((i+0.5)*DAY_W)+"px;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;");
