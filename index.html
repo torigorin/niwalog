@@ -4435,7 +4435,6 @@ function openMultiSheet(){
 }
 Array.prototype.forEach.call($("tabs").children,function(b){b.onclick=function(){switchTab(b.dataset.tab);};});
 (function(){
-  var VIEW_ORDER=["cal","weight","summary","notes","settings"];
   var _vx0=null,_vy0=null,_vmode=null;
   document.addEventListener("touchstart",function(e){
     if($("sheet").classList.contains("show"))return;
@@ -4450,10 +4449,23 @@ Array.prototype.forEach.call($("tabs").children,function(b){b.onclick=function()
     if($("sheet").classList.contains("show")||_vx0===null||_vmode!=="h"){_vx0=null;return;}
     var dx=e.changedTouches[0].clientX-_vx0; _vx0=null;
     if(Math.abs(dx)<60)return;
-    var cur=VIEW_ORDER.find(function(x){return !$("view-"+x).hidden;})||"cal";
-    var idx=VIEW_ORDER.indexOf(cur);
-    var next=dx<0?VIEW_ORDER[idx+1]:VIEW_ORDER[idx-1];
-    if(next)switchTab(next);
+    var cur=["cal","weight","summary","notes","settings"].find(function(x){return !$("view-"+x).hidden;})||"cal";
+    if(cur==="cal"){
+      if(dx<0){calM++; if(calM>11){calM=0;calY++;}} else {calM--; if(calM<0){calM=11;calY--;}}
+      renderCalendar();
+    } else if(cur==="notes"){
+      if(dx<0){notesMonth++; if(notesMonth>11){notesMonth=0;notesYear++;}} else {notesMonth--; if(notesMonth<0){notesMonth=11;notesYear--;}}
+      renderNotes();
+    } else if(cur==="summary"){
+      var ranges=[30,90,180,365];
+      var ridx=ranges.indexOf(sumRange);
+      if(dx<0){ if(ridx<ranges.length-1)sumRange=ranges[ridx+1]; }
+      else { if(ridx>0)sumRange=ranges[ridx-1]; }
+      sumCustomStart=null; sumCustomEnd=null;
+      Array.prototype.forEach.call($("sumSeg").children,function(x){x.classList.toggle("on",+x.dataset.range===sumRange);});
+      renderSummary();
+    }
+    // グラフ(weight)・設定(settings)はスワイプ無効
   },{passive:true});
 })();
 Array.prototype.forEach.call($("wSeg").children,function(b){b.onclick=function(){wRange=+b.dataset.range; Array.prototype.forEach.call($("wSeg").children,function(x){x.classList.toggle("on",x===b);}); renderWeight();};});
