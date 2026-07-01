@@ -2805,7 +2805,13 @@ function renderWeight(){
   // ── 高さ配分（体重/食事を可変、収まらない時は最小固定＋縦スクロール）──
   var _hdrEl=document.querySelector('.app > header');
   var _hdrH=_hdrEl?_hdrEl.offsetHeight:110;
-  var _tabH=64;
+  // safe-area-inset-bottom をJSで取得（iPhone ホームインジケーター分）
+  var _saEl=document.createElement('div');
+  _saEl.style.cssText='position:fixed;bottom:0;padding-bottom:env(safe-area-inset-bottom,0px);pointer-events:none;visibility:hidden;width:1px;height:0;';
+  document.body.appendChild(_saEl);
+  var _saib=parseFloat(getComputedStyle(_saEl).paddingBottom)||0;
+  document.body.removeChild(_saEl);
+  var _tabH=64+_saib;
   var _Havail=window.innerHeight-_hdrH-_tabH;
   var _midMax=_Havail-DATE_H*2-TOPPAD;          // 上下日付バーを除いた中央の枠
   var _rowsH=ROW_H*visROWS.length;
