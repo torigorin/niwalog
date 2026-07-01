@@ -2930,6 +2930,18 @@ function renderWeight(){
   // Today column highlight
   var tdCol=mkd("position:absolute;left:"+(todayIdx*DAY_W)+"px;top:0;bottom:0;width:"+DAY_W+"px;background:rgba(229,185,100,.18);pointer-events:none;z-index:0;");
   inner.appendChild(tdCol);
+  // Hover column highlight
+  var hoverCol=mkd("position:absolute;left:0;top:0;bottom:0;width:"+DAY_W+"px;background:rgba(229,185,100,.10);pointer-events:none;z-index:1;display:none;");
+  inner.appendChild(hoverCol);
+  function _setHoverCol(clientX){
+    var rect=sc.getBoundingClientRect();
+    var col=Math.floor((clientX-rect.left+sc.scrollLeft)/DAY_W);
+    if(col>=0&&col<TOTAL){hoverCol.style.left=(col*DAY_W)+"px";hoverCol.style.display="block";}
+  }
+  sc.addEventListener("mousemove",function(e){_setHoverCol(e.clientX);});
+  sc.addEventListener("mouseleave",function(){hoverCol.style.display="none";});
+  sc.addEventListener("touchmove",function(e){if(e.touches.length===1)_setHoverCol(e.touches[0].clientX);},{passive:true});
+  sc.addEventListener("touchend",function(){hoverCol.style.display="none";},{passive:true});
 
   // Date header
   var dhRow=mkd("height:"+DATE_H+"px;position:relative;overflow:hidden;");
