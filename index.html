@@ -2930,12 +2930,12 @@ function renderWeight(){
   // Today column highlight
   var tdCol=mkd("position:absolute;left:"+(todayIdx*DAY_W)+"px;top:0;bottom:0;width:"+DAY_W+"px;background:rgba(229,185,100,.18);pointer-events:none;z-index:0;");
   inner.appendChild(tdCol);
-  // タップ移動カーソル列（outerに配置しスクロール領域外で固定）
-  var _cursorEl=mkd("position:absolute;top:"+TOPPAD+"px;bottom:0;width:"+DAY_W+"px;background:rgba(229,185,100,.10);pointer-events:none;z-index:10;");
+  // タップ移動カーソル列（innerに配置しコンテンツと一緒にスクロール→日付に追従）
+  var _cursorEl=mkd("position:absolute;top:0;bottom:0;width:"+DAY_W+"px;background:rgba(229,185,100,.10);pointer-events:none;z-index:10;");
   _cursorEl.style.left="-999px";
-  outer.appendChild(_cursorEl);
+  inner.appendChild(_cursorEl);
   function _setCursor(colIdx){
-    _cursorEl.style.left=(LEFT_W+colIdx*DAY_W-sc.scrollLeft)+"px";
+    _cursorEl.style.left=(colIdx*DAY_W)+"px";
   }
   // タップした列にカーソルを移動（キャプチャフェーズで全タップを捕捉）
   sc.addEventListener("click",function(e){
@@ -2993,10 +2993,10 @@ function renderWeight(){
     pop.style.display="flex";
     var pw=pop.offsetWidth||80; var ph=pop.offsetHeight||70;
     // 右に余裕があれば右、なければ左
-    var rightX=px+10;
-    var leftX=px-pw-10;
+    var rightX=px+24;
+    var leftX=px-pw-24;
     var finalX=(rightX+pw<rect.width-4)?rightX:Math.max(2,leftX);
-    var finalY=Math.max(4,Math.min(py-ph/2,rect.height-ph-4));
+    var finalY=Math.max(4,Math.min(py-ph/2-20,rect.height-ph-4));
     pop.style.left=finalX+"px";
     pop.style.top=finalY+"px";
   }
@@ -3139,8 +3139,10 @@ function renderWeight(){
       }});
     }
     (function(rk){ rd.addEventListener("click",function(e){ e.stopPropagation();
-      var d=dateFromEvt(e); if(!d){dayPop.style.display="none";dayFullPop.style.display="none";return;}
-      if(!_hasRowData(rk,d)){dayPop.style.display="none";dayFullPop.style.display="none";return;}
+      dayPop.style.display="none"; dayFullPop.style.display="none";
+      if(rk!=="hcheck"&&rk!=="memo")return;
+      var d=dateFromEvt(e); if(!d)return;
+      if(!_hasRowData(rk,d))return;
       var r=recMap[d];
       var extra=null, small=false;
       if(rk==="memo"){extra=r&&r.memo?r.memo:null; small=true;}
@@ -3184,12 +3186,11 @@ function renderWeight(){
     chSvg.appendChild(dotEl);
     var hit=svgE("circle",{cx:pt.x,cy:pt.y,r:"9",fill:"transparent"});
     hit.style.cursor="pointer";
-    (function(ppt,pi){hit.addEventListener("click",function(e){
+    (function(pi){hit.addEventListener("click",function(e){
       e.stopPropagation();
       _dotEls.forEach(function(de){de.dot.style.display="";de.ring.style.display="none";});
       _dotEls[pi].dot.style.display="none"; _dotEls[pi].ring.style.display="";
-      showDayPop(ppt.date,"today",e.clientX,e.clientY,fmtW(ppt.w)+"g");
-    });})(pt,_dotEls.length-1);
+    });}(_dotEls.length-1));
     chSvg.appendChild(hit);
   });
   chDiv.appendChild(chSvg); inner.appendChild(chDiv);
