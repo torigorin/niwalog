@@ -3228,14 +3228,14 @@ function renderWeight(){
   // Today button — FABと同じ下揃え、左側にフロート固定
   var todayBtn=mkd("position:fixed;right:calc(max(0px,(100vw - 430px)/2) + 14px);bottom:calc(var(--tab-h) + env(safe-area-inset-bottom) + 36px);z-index:44;background:var(--ink);color:var(--bg);font-size:11px;font-weight:700;padding:6px 14px;border-radius:999px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25);border:none;");
   todayBtn.textContent="Today";
-  todayBtn.onclick=function(){sc.scrollLeft=(todayIdx+0.5)*DAY_W-(sc.clientWidth*0.33); _syncX();};
+  todayBtn.onclick=function(){sc.scrollLeft=(todayIdx+0.5)*DAY_W-(sc.clientWidth*0.5); _syncX();};
   document.body.appendChild(todayBtn);
   // weight view を離れたら削除
   var _todayBtnObs=new IntersectionObserver(function(entries){todayBtn.style.display=entries[0].isIntersecting?"":"none";});
   _todayBtnObs.observe(outer);
   outer.style.position="relative";
 
-  setTimeout(function(){sc.scrollLeft=(todayIdx+0.5)*DAY_W-(sc.clientWidth*0.33); _syncX();},50);
+  setTimeout(function(){sc.scrollLeft=(todayIdx+0.5)*DAY_W-(sc.clientWidth*0.5); _syncX();},50);
 }
 function fmtW(v){ var r=Math.round(v*10)/10; return r===Math.round(r)?Math.round(r)+"":r+""; }
 function niceTick(mn,mx,n){ var raw=(mx-mn)/n; var mag=Math.pow(10,Math.floor(Math.log10(raw))); var step=raw/mag; var nice=step<1.5?1:step<3?2:step<7?5:10; return nice*mag; }
