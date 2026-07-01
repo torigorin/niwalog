@@ -32,8 +32,9 @@ self.addEventListener('message', (e) => {
 self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET') return;
 
+  // dev: no-cacheでCDNキャッシュをバイパスし常に最新を取得
   e.respondWith(
-    fetch(e.request).then((res) => {
+    fetch(new Request(e.request, {cache: 'no-cache'})).then((res) => {
       const clone = res.clone();
       caches.open(CACHE_NAME).then((c) => c.put(e.request, clone));
       return res;

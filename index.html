@@ -1435,7 +1435,7 @@ function getStateInfo(pet){ var b=activeBrood(pet.id);
   return {phase:"休産期",color:"var(--sage)",clutch:c}; }
 
 /* ===== toast ===== */
-var _tt; function toast(m){var t=$("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(_tt); _tt=setTimeout(function(){t.classList.remove("show");},1700);}
+var _tt; function toast(m){var t=$("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(_tt); _tt=setTimeout(function(){t.classList.remove("show");},1100);}
 var _confirmCb=null;
 var _confirmNoCb=null;
 function confirmAsk(msg,onYes,opt){ opt=opt||{}; $("confirmMsg").textContent=msg;
@@ -4679,7 +4679,7 @@ if(navigator.storage && navigator.storage.persist){
 // ===== 1つ前に戻す =====
 var _undoSnap=null, _undoTimer=null;
 var _lastSaved=JSON.parse(JSON.stringify(S));
-function showUndo(msg){ var f=$("undoFab"); if(!f)return; var m=f.querySelector(".undo-msg"); if(m)m.textContent=msg||"保存しました"; f.classList.add("show"); clearTimeout(_undoTimer); _undoTimer=setTimeout(function(){f.classList.remove("show");},9000); }
+function showUndo(msg){ var f=$("undoFab"); if(!f)return; var m=f.querySelector(".undo-msg"); if(m)m.textContent=msg||"保存しました"; f.classList.add("show"); clearTimeout(_undoTimer); _undoTimer=setTimeout(function(){f.classList.remove("show");},3500); }
 (function(){ var _op=persist; persist=function(){ _undoSnap=_lastSaved; _op(); _lastSaved=JSON.parse(JSON.stringify(S)); }; })();
 $("undoBtn").onclick=function(){ if(!_undoSnap)return; S=JSON.parse(JSON.stringify(_undoSnap)); _undoSnap=null; clearTimeout(_undoTimer); try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){} _lastSaved=JSON.parse(JSON.stringify(S)); var f=$("undoFab"); if(f)f.classList.remove("show"); renderAll(); toast("元に戻しました"); };
 
