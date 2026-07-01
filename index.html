@@ -1177,9 +1177,24 @@ function openVetShareSheet(p,cutoff){
   var printBtn=el('button','btn ghost','印刷 / PDF保存');
   printBtn.style.marginTop='8px';
   printBtn.onclick=function(){
-    var pa=$('printArea'); pa.textContent=txta.value; pa.style.display='block';
-    window.print();
-    setTimeout(function(){pa.style.display='none'; pa.textContent='';},500);
+    var text=txta.value;
+    // 新しいウィンドウで印刷（iOS PWA制限を回避・白紙防止）
+    var html='<!DOCTYPE html><html><head><meta charset="utf-8"><title>受診前要約</title>'
+      +'<style>body{font-family:sans-serif;font-size:14px;line-height:1.9;padding:24px 32px;white-space:pre-wrap;color:#000;}</style>'
+      +'</head><body>'+text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</body></html>';
+    var blob=new Blob([html],{type:'text/html'});
+    var url=URL.createObjectURL(blob);
+    var w=window.open(url,'_blank');
+    if(w){
+      w.addEventListener('load',function(){ w.print(); URL.revokeObjectURL(url); });
+    } else {
+      // ポップアップブロック時はページ内で印刷
+      URL.revokeObjectURL(url);
+      var pa=$('printArea'); pa.textContent=text; pa.style.display='block';
+      var _h=function(){ pa.style.display='none'; pa.textContent=''; window.removeEventListener('afterprint',_h); };
+      window.addEventListener('afterprint',_h);
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){ window.print(); }); });
+    }
   };
   var shareBtn=el('button','btn primary','共有（LINE・メール等）');
   shareBtn.style.marginTop='8px';
