@@ -1831,7 +1831,14 @@ function openBackupExplainSheet(onProceed){
   laterBtn.onclick=closeSheet;
   act.appendChild(okBtn); act.appendChild(laterBtn); body.appendChild(act); openSheet();
 }
-function closeSheet(){if(daySheet&&daySheet._tab)daySheet._lastTab=daySheet._tab; $("scrim").classList.remove("show"); var _sh=$("sheet"); _sh.style.transform=""; _sh.style.transition=""; _sh.classList.remove("show","diary-sheet"); $("sheetFab").classList.remove("show");}
+function closeSheet(){
+  if(daySheet&&daySheet._tab)daySheet._lastTab=daySheet._tab;
+  var _unsaved=$("sheet").classList.contains("diary-sheet")&&daySheet.local&&daySheet._snap!==undefined&&snapLocal(daySheet.local)!==daySheet._snap;
+  if(_unsaved)commitDay();
+  $("scrim").classList.remove("show");
+  var _sh=$("sheet"); _sh.style.transform=""; _sh.style.transition=""; _sh.classList.remove("show","diary-sheet"); $("sheetFab").classList.remove("show");
+  if(_unsaved)setTimeout(function(){renderAll();showUndo();},50);
+}
 $("scrim").onclick=closeSheet;
 var _msT;
 function miniSaved(){ var m=$("miniSaved"); m.classList.add("show"); clearTimeout(_msT); _msT=setTimeout(function(){m.classList.remove("show");},1100); }
@@ -1859,6 +1866,7 @@ function commitDay(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local; if(!
   if(am){ if(!S.records['_all|'+date])S.records['_all|'+date]={}; S.records['_all|'+date].memo=am; }
   else { delete S.records['_all|'+date]; }
   cleanRec(p.id,date); persist();
+  daySheet._snap=snapLocal(daySheet.local);
 }
 function openDaySheet(date,keepTab){ var p=activePet(); if(!p){toast("先ににわとりを追加してね"); return;} $("sheet").classList.add("diary-sheet");
   var r=getRec(p.id,date)||{};
