@@ -3147,6 +3147,23 @@ function renderWeight(){
       var r=recMap[d];
       var extra=null, small=false;
       if(rk==="memo"){extra=r&&r.memo?r.memo:null; small=true;}
+      if(rk==="hcheck"){
+        var _lines=[];
+        HEALTH.filter(function(h){return h.k!=="med"&&h.k!=="vet";}).forEach(function(h){
+          if(r.health&&r.health[h.k]){
+            var _line=h.l;
+            if(h.k==="comb"&&r.combDetail&&COMB_SUB_L[r.combDetail])_line+="（"+COMB_SUB_L[r.combDetail]+"）";
+            else if(h.k==="voice"&&r.voiceDetail&&VOICE_SUB_L[r.voiceDetail])_line+="（"+VOICE_SUB_L[r.voiceDetail]+"）";
+            else if(h.k==="eggsub"&&r.eggDetail){var _es=r.eggDetail.split(",").map(function(v){return EGG_SUB_L[v];}).filter(Boolean);if(_es.length)_line+="（"+_es.join("・")+"）";}
+            _lines.push(_line);
+          }
+        });
+        if(r.appetite&&r.appetite!=="good"&&r.appetite!=="normal")_lines.push("食欲 "+(APPETITE_L[r.appetite]||""));
+        if(r.poopC&&r.poopC!=="normal")_lines.push("うんち色 "+(POOPC_L[r.poopC]||""));
+        if(r.poopF&&r.poopF!=="normal")_lines.push("うんち形 "+(POOPF_L[r.poopF]||""));
+        if(r.behavior&&r.behavior!=="active"&&r.behavior!=="normal")_lines.push("ようす "+(BEHAVIOR_L[r.behavior]||""));
+        extra=_lines.join("\n"); small=true;
+      }
       showDayPop(d,keyTab[rk]||"today",e.clientX,e.clientY,extra,small);
     });})(row.key);
     inner.appendChild(rd);
