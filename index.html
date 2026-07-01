@@ -2896,8 +2896,8 @@ function renderWeight(){
   if(wRowPanelOpen)rowTogPanel.style.display="block"; // 再描画後もパネルを開いたまま維持
 
   // トグルボタン: 日付バー上に浮かせる
-  var togBtn=mkd("position:absolute;right:8px;top:8px;background:var(--bg2);border:none;border-radius:6px;padding:4px 7px;font-size:10px;font-weight:700;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;gap:3px;");
-  togBtn.innerHTML='<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="3" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="3" cy="18" r="1.5" fill="currentColor" stroke="none"/></svg>行';
+  var togBtn=mkd("position:absolute;right:8px;top:8px;background:var(--bg2);border:none;border-radius:6px;padding:5px 9px;font-size:12px;font-weight:700;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;gap:4px;");
+  togBtn.innerHTML='<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="3" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="3" cy="18" r="1.5" fill="currentColor" stroke="none"/></svg>行';
   togBtn.onclick=function(e){ e.stopPropagation(); var op=rowTogPanel.style.display==="none"; rowTogPanel.style.display=op?"block":"none"; wRowPanelOpen=op; };
   document.addEventListener("click",function _gwClose(e){
     if(rowTogPanel.style.display!=="none"&&!rowTogPanel.contains(e.target)&&e.target!==togBtn&&!togBtn.contains(e.target)){
@@ -2992,11 +2992,11 @@ function renderWeight(){
 
   // 統一ポップアップ (outer に配置)
   var _dpDate2="", _dpTab2="today";
-  var dayPop=mkd("display:none;position:absolute;z-index:25;background:#4A3A30;color:var(--bg);border-radius:10px;padding:10px 14px;font-size:12px;font-weight:700;white-space:nowrap;box-shadow:0 2px 12px rgba(0,0,0,.3);flex-direction:column;align-items:flex-start;gap:3px;min-width:60px;");
-  var dpLbl=mkd(""); dpLbl.style.cssText="font-size:11px;font-weight:600;opacity:.7;letter-spacing:.03em;";
+  var dayPop=mkd("display:none;position:absolute;z-index:25;background:var(--bg);color:var(--ink);border:1px solid var(--line-soft);border-radius:10px;padding:10px 14px;font-size:12px;font-weight:700;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.15);flex-direction:column;align-items:flex-start;gap:3px;min-width:60px;");
+  var dpLbl=mkd(""); dpLbl.style.cssText="font-size:11px;font-weight:600;color:var(--ink-soft);letter-spacing:.03em;";
   var dpExtra=mkd(""); dpExtra.style.cssText="font-size:14px;font-weight:800;white-space:pre-wrap;max-width:180px;word-break:break-all;line-height:1.45;display:none;";
   var dpPen=mkd("display:flex;align-items:center;cursor:pointer;margin-top:2px;opacity:.75;");
-  dpPen.innerHTML='<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="var(--bg)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 0 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>';
+  dpPen.innerHTML='<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 0 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>';
   dayPop.appendChild(dpLbl); dayPop.appendChild(dpExtra); dayPop.appendChild(dpPen);
   outer.appendChild(dayPop);
   dpPen.addEventListener("click",function(e){ e.stopPropagation(); dayPop.style.display="none"; openDaySheet(_dpDate2,_dpTab2); });
@@ -3172,10 +3172,10 @@ function renderWeight(){
             _lines.push(_line);
           }
         });
-        if(r.appetite&&r.appetite!=="good"&&r.appetite!=="normal")_lines.push("食欲 "+(APPETITE_L[r.appetite]||""));
+        if(r.appetite&&(r.appetite==="low"||r.appetite==="none"))_lines.push("食欲 "+(APPETITE_L[r.appetite]||""));
         if(r.poopC&&r.poopC!=="normal")_lines.push("うんち色 "+(POOPC_L[r.poopC]||""));
         if(r.poopF&&r.poopF!=="normal")_lines.push("うんち形 "+(POOPF_L[r.poopF]||""));
-        if(r.behavior&&r.behavior!=="active"&&r.behavior!=="normal")_lines.push("ようす "+(BEHAVIOR_L[r.behavior]||""));
+        if(r.behavior&&(r.behavior==="quiet"||r.behavior==="weak"))_lines.push("ようす "+(BEHAVIOR_L[r.behavior]||""));
         extra=_lines.join("\n"); small=true;
       }
       showDayPop(d,keyTab[rk]||"today",e.clientX,e.clientY,extra,small);
