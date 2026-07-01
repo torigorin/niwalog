@@ -2930,11 +2930,20 @@ function renderWeight(){
   // Today column highlight
   var tdCol=mkd("position:absolute;left:"+(todayIdx*DAY_W)+"px;top:0;bottom:0;width:"+DAY_W+"px;background:rgba(229,185,100,.18);pointer-events:none;z-index:0;");
   inner.appendChild(tdCol);
-  // 画面中央固定カーソル列（スクロールしても動かない）
-  // outer(position:relative)の子として配置することでスクロール領域外に固定される
+  // タップ移動カーソル列（outerに配置しスクロール領域外で固定）
   var _cursorEl=mkd("position:absolute;top:"+TOPPAD+"px;bottom:0;width:"+DAY_W+"px;background:rgba(229,185,100,.10);pointer-events:none;z-index:10;");
-  _cursorEl.style.left="calc("+LEFT_W+"px + (100% - "+LEFT_W+"px)/2 - "+(DAY_W/2)+"px)";
+  _cursorEl.style.left="-999px";
   outer.appendChild(_cursorEl);
+  function _setCursor(colIdx){
+    _cursorEl.style.left=(LEFT_W+colIdx*DAY_W-sc.scrollLeft)+"px";
+  }
+  // タップした列にカーソルを移動（キャプチャフェーズで全タップを捕捉）
+  sc.addEventListener("click",function(e){
+    var scRect=sc.getBoundingClientRect();
+    var relX=e.clientX-scRect.left+sc.scrollLeft;
+    var colIdx=Math.floor(relX/DAY_W);
+    if(colIdx>=0&&colIdx<TOTAL)_setCursor(colIdx);
+  },true);
 
   // Date header
   var dhRow=mkd("height:"+DATE_H+"px;position:relative;overflow:hidden;");
@@ -3165,15 +3174,23 @@ function renderWeight(){
     chSvg.appendChild(svgE("path",{d:areaD,fill:"url(#"+gradId+")",stroke:"none"}));
     var pd=pd2; chSvg.appendChild(svgE("path",{d:pd,fill:"none",stroke:p.color||"var(--amber)","stroke-width":"2","stroke-linecap":"round","stroke-linejoin":"round"}));
   }
+  var _dotEls=[];
   pts.forEach(function(pt){
+    var dotEl=svgE("circle",{cx:pt.x,cy:pt.y,r:"3",fill:p.color||"var(--amber)"});
+    var ringEl=svgE("circle",{cx:pt.x,cy:pt.y,r:"5.5",fill:"white",stroke:p.color||"var(--amber)","stroke-width":"1.5"});
+    ringEl.style.display="none";
+    _dotEls.push({dot:dotEl,ring:ringEl});
+    chSvg.appendChild(ringEl);
+    chSvg.appendChild(dotEl);
     var hit=svgE("circle",{cx:pt.x,cy:pt.y,r:"9",fill:"transparent"});
     hit.style.cursor="pointer";
-    (function(ppt){hit.addEventListener("click",function(e){
+    (function(ppt,pi){hit.addEventListener("click",function(e){
       e.stopPropagation();
+      _dotEls.forEach(function(de){de.dot.style.display="";de.ring.style.display="none";});
+      _dotEls[pi].dot.style.display="none"; _dotEls[pi].ring.style.display="";
       showDayPop(ppt.date,"today",e.clientX,e.clientY,fmtW(ppt.w)+"g");
-    });})(pt);
+    });})(pt,_dotEls.length-1);
     chSvg.appendChild(hit);
-    chSvg.appendChild(svgE("circle",{cx:pt.x,cy:pt.y,r:"3",fill:p.color||"var(--amber)"}));
   });
   chDiv.appendChild(chSvg); inner.appendChild(chDiv);
 
@@ -3228,14 +3245,14 @@ function renderWeight(){
   // Today button — FABと同じ下揃え、左側にフロート固定
   var todayBtn=mkd("position:fixed;right:calc(max(0px,(100vw - 430px)/2) + 14px);bottom:calc(var(--tab-h) + env(safe-area-inset-bottom) + 36px);z-index:44;background:var(--ink);color:var(--bg);font-size:11px;font-weight:700;padding:6px 14px;border-radius:999px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25);border:none;");
   todayBtn.textContent="Today";
-  todayBtn.onclick=function(){sc.scrollLeft=(todayIdx+0.5)*DAY_W-(sc.clientWidth*0.5); _syncX();};
+  todayBtn.onclick=function(){sc.scrollLeft=(todayIdx+0.5)*DAY_W-(sc.clientWidth*0.5); _syncX(); _setCursor(todayIdx);};
   document.body.appendChild(todayBtn);
   // weight view を離れたら削除
   var _todayBtnObs=new IntersectionObserver(function(entries){todayBtn.style.display=entries[0].isIntersecting?"":"none";});
   _todayBtnObs.observe(outer);
   outer.style.position="relative";
 
-  setTimeout(function(){sc.scrollLeft=(todayIdx+0.5)*DAY_W-(sc.clientWidth*0.5); _syncX();},50);
+  setTimeout(function(){sc.scrollLeft=(todayIdx+0.5)*DAY_W-(sc.clientWidth*0.5); _syncX(); _setCursor(todayIdx);},50);
 }
 function fmtW(v){ var r=Math.round(v*10)/10; return r===Math.round(r)?Math.round(r)+"":r+""; }
 function niceTick(mn,mx,n){ var raw=(mx-mn)/n; var mag=Math.pow(10,Math.floor(Math.log10(raw))); var step=raw/mag; var nice=step<1.5?1:step<3?2:step<7?5:10; return nice*mag; }
