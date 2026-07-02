@@ -2723,12 +2723,15 @@ function openBroodEditSheet(broodId){
 }
 
 /* ===== weight: single ===== */
+var _wGS={petId:null,scroll:null,cursor:null};
 function petWeights(petId){ var a=[]; Object.keys(S.records).forEach(function(k){ if(k.indexOf(petId+"|")===0){var d=k.split("|")[1]; var r=S.records[k]; var wv=parseFloat(r.weight); if(r.weight&&!isNaN(wv))a.push({date:d,w:wv});} }); a.sort(function(x,y){return x.date<y.date?-1:1;}); return a; }
 function renderWeight(){
   if(wMode==="multi"){renderWeightMulti(); return;}
   var ws=$("weightSingle"); if(!ws)return;
   var p=activePet();
   if(!p){ws.innerHTML='<div class="empty" style="padding:40px 0;"><p style="color:var(--ink-soft);font-size:13px;text-align:center;">にわとりを追加してね</p></div>'; return;}
+  var _oldSc=$("gwScroll");
+  if(_oldSc&&_wGS.petId===p.id){_wGS.scroll=_oldSc.scrollLeft;}else{_wGS={petId:p.id,scroll:null,cursor:null};}
   ws.innerHTML="";
 
   var DAY_W=13, DAYS_FWD=60;
@@ -2951,6 +2954,7 @@ function renderWeight(){
   inner.appendChild(_cursorEl);
   function _setCursor(colIdx){
     _cursorEl.style.left=(colIdx*DAY_W)+"px";
+    _wGS.cursor=colIdx;
   }
   // タップした列にカーソルを移動（キャプチャフェーズで全タップを捕捉）
   sc.addEventListener("click",function(e){
@@ -3252,7 +3256,7 @@ function renderWeight(){
         if(_snks.length>0){
           var _si=snackIcon(_snks[0]);
           if(_si){
-            var _iconEl=mkd("position:absolute;left:"+((i+0.5)*DAY_W)+"px;bottom:"+(bh+2)+"px;transform:translateX(-50%);width:11px;height:11px;display:flex;align-items:center;justify-content:center;z-index:2;cursor:pointer;");
+            var _iconEl=mkd("position:absolute;left:"+((i+0.5)*DAY_W)+"px;bottom:"+(bh+6)+"px;transform:translateX(-50%);width:11px;height:11px;display:flex;align-items:center;justify-content:center;z-index:2;cursor:pointer;");
             _iconEl.innerHTML=_si;
             var _sv=_iconEl.querySelector("svg"); if(_sv){_sv.setAttribute("width","11");_sv.setAttribute("height","11");}
             (function(_d2,_sn2){_iconEl.addEventListener("click",function(e){
@@ -3315,7 +3319,10 @@ function renderWeight(){
   _todayBtnObs.observe(outer);
   outer.style.position="relative";
 
-  setTimeout(function(){sc.scrollLeft=(todayIdx+0.5)*DAY_W-(sc.clientWidth*0.5); _syncX(); _setCursor(todayIdx);},50);
+  setTimeout(function(){
+    if(_wGS.scroll!==null){sc.scrollLeft=_wGS.scroll; _syncX(); _setCursor(_wGS.cursor!==null?_wGS.cursor:todayIdx);}
+    else{sc.scrollLeft=(todayIdx+0.5)*DAY_W-(sc.clientWidth*0.5); _syncX(); _setCursor(todayIdx);}
+  },50);
 }
 function fmtW(v){ var r=Math.round(v*10)/10; return r===Math.round(r)?Math.round(r)+"":r+""; }
 function niceTick(mn,mx,n){ var raw=(mx-mn)/n; var mag=Math.pow(10,Math.floor(Math.log10(raw))); var step=raw/mag; var nice=step<1.5?1:step<3?2:step<7?5:10; return nice*mag; }
