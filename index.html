@@ -1837,12 +1837,12 @@ function closeSheet(){
   if(_unsaved)commitDay();
   $("scrim").classList.remove("show");
   var _sh=$("sheet"); _sh.style.transform=""; _sh.style.transition=""; _sh.classList.remove("show","diary-sheet"); $("sheetFab").classList.remove("show");
-  if(_unsaved)setTimeout(function(){renderAll();showUndo();},50);
+  if(_unsaved)setTimeout(function(){renderAll();showUndo();},350);
 }
 $("scrim").onclick=closeSheet;
 var _msT;
 function miniSaved(){ var m=$("miniSaved"); m.classList.add("show"); clearTimeout(_msT); _msT=setTimeout(function(){m.classList.remove("show");},1100); }
-function saveDaySheet(){ var sn=daySheet._snap; commitDay(); var changed=!sn||(sn!==snapLocal(daySheet.local)); closeSheet(); renderAll(); if(changed)showUndo(); }
+function saveDaySheet(){ var sn=daySheet._snap; commitDay(); var changed=!sn||(sn!==snapLocal(daySheet.local)); closeSheet(); setTimeout(function(){renderAll(); if(changed)showUndo();},350); }
 function saveDayStay(){ var before=daySheet._snap; commitDay(); renderAll(); if(before && before!==snapLocal(daySheet.local))miniSaved(); else if(!before)miniSaved(); }
 $("sheetFab").onclick=function(){ saveDaySheet(); };
 
