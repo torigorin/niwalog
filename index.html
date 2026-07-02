@@ -373,7 +373,8 @@
   .setrow .reorder .rbtn{width:26px; height:20px; border-radius:0; background:transparent; color:var(--ink-faint); font-size:11px; display:grid; place-items:center; padding:0;}
   .setrow .reorder .rbtn.off{opacity:.3;}
   .si-age{font-size:13px; font-weight:600; color:var(--ink-soft); display:block; margin-top:1px;}
-  .si-sub{font-size:11px; font-weight:600; color:var(--ink-faint); display:block; margin-top:1px;}
+  .si-lbl{font-size:10px; font-weight:600; color:var(--ink-faint); display:block; margin-top:4px; letter-spacing:.03em;}
+  .si-sub{font-size:11px; font-weight:700; color:var(--ink-soft); display:block; margin-top:1px; white-space:nowrap;}
   .setrow .reorder .rbtn:active{transform:scale(.9);}
 
   nav.tabs{position:fixed; left:0; right:0; bottom:0; z-index:40; background:rgba(247,239,218,.92); -webkit-transform:translateZ(0); transform:translateZ(0); will-change:transform;
@@ -3941,8 +3942,8 @@ function renderSettings(){ var pl=$("petList"); pl.innerHTML=""; sortPets();
     var setAge=ageText(p); var setSex={female:"♀",male:"♂",unknown:""}[p.sex||"unknown"];
     var infoLines=[];
     if(setAge||setSex) infoLines.push('<span class="si-age">'+(setSex?setSex+" ":"")+setAge+'</span>');
-    if(p.birth) infoLines.push('<span class="si-sub">誕生日｜'+p.birth.replace(/(\d{4})-(\d{2})-(\d{2})/,"$1年$2月$3日")+'</span>');
-    if(p.welcome) infoLines.push('<span class="si-sub">お迎え｜'+p.welcome.replace(/(\d{4})-(\d{2})-(\d{2})/,"$1年$2月$3日")+'</span>');
+    if(p.birth) infoLines.push('<span class="si-lbl">誕生日</span><span class="si-sub">'+p.birth.replace(/(\d{4})-(\d{2})-(\d{2})/,"$1年$2月$3日")+'</span>');
+    if(p.welcome) infoLines.push('<span class="si-lbl">お迎え</span><span class="si-sub">'+p.welcome.replace(/(\d{4})-(\d{2})-(\d{2})/,"$1年$2月$3日")+'</span>');
     var _st=null;
     if(p.sex==="female"){
       var _si=getStateInfo(p);
