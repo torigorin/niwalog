@@ -3082,10 +3082,10 @@ function renderWeight(){
     if(key==="vet")return !!(r.health&&r.health.vet);
     if(key==="hcheck"){
       if(r.health)for(var _k in r.health){if(_k!=="med"&&_k!=="vet"&&r.health[_k])return true;}
-      if(r.appetite&&r.appetite!=="good"&&r.appetite!=="normal")return true;
+      if(r.appetite==="low"||r.appetite==="none")return true;
       if(r.poopC&&r.poopC!=="normal")return true;
       if(r.poopF&&r.poopF!=="normal")return true;
-      if(r.behavior&&r.behavior!=="active"&&r.behavior!=="normal")return true;
+      if(r.behavior==="quiet"||r.behavior==="weak")return true;
       return false;
     }
     if(key==="custom")return !!(r.customs&&Object.keys(r.customs).some(function(k){return r.customs[k];}));
@@ -3119,9 +3119,15 @@ function renderWeight(){
     } else if(row.key==="molt"){
       periodBar(rd,moltPers,"var(--phase-molt)");
     } else if(row.key==="med"){
-      dates.forEach(function(d,i){var r=recMap[d]; if(r&&r.health&&r.health.med)dot(rd,i,"var(--plum)",6);});
+      dates.forEach(function(d,i){var r=recMap[d]; if(!r||!r.health||!r.health.med)return;
+        var cu=mkd("position:absolute;left:"+((i+0.5)*DAY_W)+"px;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;pointer-events:none;");
+        cu.innerHTML=row.icon; rd.appendChild(cu);
+      });
     } else if(row.key==="vet"){
-      dates.forEach(function(d,i){var r=recMap[d]; if(r&&r.health&&r.health.vet)dot(rd,i,"var(--rust)",6);});
+      dates.forEach(function(d,i){var r=recMap[d]; if(!r||!r.health||!r.health.vet)return;
+        var cu=mkd("position:absolute;left:"+((i+0.5)*DAY_W)+"px;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;pointer-events:none;");
+        cu.innerHTML=row.icon.replace('fill="var(--rust)"','fill="#4A3A30"'); rd.appendChild(cu);
+      });
     } else if(row.key==="estrus"){
       dates.forEach(function(d,i){var r=recMap[d]; if(r&&r.estrus){
         var h=mkd("position:absolute;left:"+((i+0.5)*DAY_W)+"px;top:50%;transform:translate(-50%,-50%);font-size:11px;line-height:1;color:var(--rust);"); h.textContent="♥"; rd.appendChild(h);
@@ -3130,10 +3136,10 @@ function renderWeight(){
       dates.forEach(function(d,i){var r=recMap[d]; if(!r)return;
         var ab=false;
         if(r.health)Object.keys(r.health).forEach(function(k){if(k!=="med"&&k!=="vet"&&r.health[k])ab=true;});
-        if(r.appetite&&r.appetite!=="good"&&r.appetite!=="normal")ab=true;
+        if(r.appetite==="low"||r.appetite==="none")ab=true;
         if(r.poopC&&r.poopC!=="normal")ab=true;
         if(r.poopF&&r.poopF!=="normal")ab=true;
-        if(r.behavior&&r.behavior!=="active"&&r.behavior!=="normal")ab=true;
+        if(r.behavior==="quiet"||r.behavior==="weak")ab=true;
         if(ab){var tri=mkd("position:absolute;left:"+((i+0.5)*DAY_W)+"px;top:50%;transform:translate(-50%,-50%);font-size:9px;line-height:1;color:var(--rust);"); tri.textContent="▲"; rd.appendChild(tri);}
       });
     } else if(row.key==="custom"){
@@ -3234,6 +3240,23 @@ function renderWeight(){
       var bh=Math.max(2,Math.round((ft/maxFood)*(FOOD_H-4)));
       var b=mkd("position:absolute;left:"+(i*DAY_W+1)+"px;width:"+(DAY_W-2)+"px;bottom:1px;height:"+bh+"px;background:var(--teal);opacity:.6;border-radius:1px 1px 0 0;");
       foodChDiv.appendChild(b);
+      if(r.food&&r.food.sm){
+        var _snks=r.food.sm.split("・").filter(Boolean);
+        if(_snks.length>0){
+          var _si=snackIcon(_snks[0]);
+          if(_si){
+            var _iconEl=mkd("position:absolute;left:"+((i+0.5)*DAY_W)+"px;bottom:"+(bh+2)+"px;transform:translateX(-50%);width:11px;height:11px;display:flex;align-items:center;justify-content:center;z-index:2;cursor:pointer;");
+            _iconEl.innerHTML=_si;
+            var _sv=_iconEl.querySelector("svg"); if(_sv){_sv.setAttribute("width","11");_sv.setAttribute("height","11");}
+            (function(_d2,_sn2){_iconEl.addEventListener("click",function(e){
+              e.stopPropagation();
+              var _r2=recMap[_d2]; var _sg=snackG(_r2);
+              showDayPop(_d2,"food",e.clientX,e.clientY,_sn2.join("・")+(_sg?"\n"+_sg+"g":""),true);
+            });})(d,_snks);
+            foodChDiv.appendChild(_iconEl);
+          }
+        }
+      }
     });
   }
   if(maxFood>0){
@@ -3242,7 +3265,7 @@ function renderWeight(){
     var mfT=document.createElementNS(mfNS,"text"); mfT.setAttribute("x","2"); mfT.setAttribute("y","10"); mfT.setAttribute("fill","var(--ink-faint)"); mfT.setAttribute("font-size","8"); mfT.setAttribute("font-family","inherit"); mfT.textContent=Math.round(maxFood)+"g"; mfSvg.appendChild(mfT);
     foodChDiv.appendChild(mfSvg);
   }
-  foodChDiv.addEventListener("click",function(e){ e.stopPropagation(); var d=dateFromEvt(e); if(!d){dayPop.style.display="none";return;} var r=recMap[d]; if(r&&foodTotal(r))showDayPop(d,"food",e.clientX,e.clientY); else dayPop.style.display="none"; });
+  foodChDiv.addEventListener("click",function(e){ e.stopPropagation(); var d=dateFromEvt(e); if(!d){dayPop.style.display="none";return;} var r=recMap[d]; var _ft=r?foodTotal(r):0; if(_ft)showDayPop(d,"food",e.clientX,e.clientY,_ft+"g",false); else dayPop.style.display="none"; });
   inner.appendChild(foodChDiv);
 
   // Phase bar — 1本、優先順: 産卵>抱卵>換羽>休産
