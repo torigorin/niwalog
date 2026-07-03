@@ -3047,6 +3047,12 @@ function renderWeight(){
     var mon=dm?parseInt(dm[1]):0, day=dm?parseInt(dm[2]):0;
     var html='<div style="font-size:11px;font-weight:800;color:var(--ink);margin-bottom:3px;border-bottom:1px solid var(--line-soft);padding-bottom:4px;">'+mon+'/'+day+'</div>';
     var rows=[];
+    var _datePh=phOf(date);
+    if(_datePh==="lay"){
+      var _di=0; while(_di<dates.length&&dates[_di]!==date)_di++;
+      var _ls=_di; while(_ls>0&&phOf(dates[_ls-1])==="lay")_ls--;
+      rows.push('<div style="font-size:11px;padding:1px 0;color:var(--phase-lay);font-weight:700;">産卵期 '+(_di-_ls+1)+'日目</div>');
+    }
     if(r&&r.weight)rows.push('<div style="display:flex;justify-content:space-between;gap:8px;font-size:11px;padding:1px 0;"><span style="color:var(--ink-soft);font-weight:600;">体重</span><span style="font-weight:700;">'+fmtW(r.weight)+'g</span></div>');
     var ft=r?foodTotal(r):0;
     if(ft)rows.push('<div style="display:flex;justify-content:space-between;gap:8px;font-size:11px;padding:1px 0;"><span style="color:var(--ink-soft);font-weight:600;">食事</span><span style="font-weight:700;">'+Math.round(ft)+'g</span></div>');
@@ -3292,8 +3298,36 @@ function renderWeight(){
   function flushPh(ei){
     if(curPh===null||curPh==="rest")return;
     var w=(ei-phSt)*DAY_W; if(w<1)return;
-    var pb=mkd("position:absolute;left:"+(phSt*DAY_W)+"px;width:"+w+"px;top:0;height:"+PHASE_H+"px;background:"+PC[curPh]+";display:flex;align-items:center;justify-content:center;overflow:hidden;");
+    var pb=mkd("position:absolute;left:"+(phSt*DAY_W)+"px;width:"+w+"px;top:0;height:"+PHASE_H+"px;background:"+PC[curPh]+";display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;");
     if(w>36){var lb=mkd("font-size:8px;font-weight:700;color:#fff;white-space:nowrap;"); lb.textContent=PL[curPh]; pb.appendChild(lb);}
+    (function(_ph,_st,_ei){
+      pb.addEventListener("click",function(e){
+        e.stopPropagation();
+        dayPop.style.display="none";
+        var edIdx=Math.min(_ei,TOTAL)-1;
+        var sd=dates[_st], ed=dates[edIdx];
+        var days=_ei-_st;
+        var dm1=sd?sd.match(/\d{4}-(\d{2})-(\d{2})/):null;
+        var dm2=ed?ed.match(/\d{4}-(\d{2})-(\d{2})/):null;
+        var s1=dm1?(parseInt(dm1[1])+"/"+parseInt(dm1[2])):"";
+        var s2=(dm2&&sd!==ed)?"〜"+(parseInt(dm2[1])+"/"+parseInt(dm2[2])):"";
+        var html='<div style="font-size:11px;font-weight:800;color:'+PC[_ph]+';margin-bottom:3px;border-bottom:1px solid var(--line-soft);padding-bottom:4px;">'+PL[_ph]+'</div>';
+        html+='<div style="font-size:11px;padding:1px 0;display:flex;justify-content:space-between;gap:8px;"><span style="color:var(--ink-soft);font-weight:600;">期間</span><span style="font-weight:700;">'+s1+s2+'（'+days+'日間）</span></div>';
+        if(_ph==="lay"){
+          var eggCount=0;
+          for(var _k=_st;_k<_ei;_k++){var _r=recMap[dates[_k]]; if(_r&&_r.egg)eggCount+=_r.egg;}
+          if(eggCount)html+='<div style="font-size:11px;padding:1px 0;color:var(--phase-lay);font-weight:700;display:flex;align-items:center;gap:4px;"><span class="m-egg" style="display:inline-block;flex-shrink:0;"></span>'+eggCount+'個</div>';
+        }
+        dayFullPop.innerHTML=html;
+        dayFullPop.style.display="flex";
+        var rect=outer.getBoundingClientRect();
+        var px=e.clientX-rect.left; var py=e.clientY-rect.top;
+        var pw=dayFullPop.offsetWidth||160; var _ph2=dayFullPop.offsetHeight||80;
+        var rightX=px+10; var leftX=px-pw-10;
+        var finalX=(rightX+pw<rect.width-4)?rightX:Math.max(2,leftX);
+        dayFullPop.style.left=finalX+"px"; dayFullPop.style.top=Math.max(4,Math.min(py-10,rect.height-_ph2-4))+"px";
+      });
+    })(curPh,phSt,ei);
     phBar.appendChild(pb);
   }
   dates.forEach(function(d,i){var ph=phOf(d); if(ph!==curPh){flushPh(i);curPh=ph;phSt=i;}});
@@ -3311,7 +3345,7 @@ function renderWeight(){
     dl2.textContent=dayN; dhBot.appendChild(dl2);
   });
   dhBot.style.cursor="pointer";
-  dhBot.addEventListener("click",function(e){e.stopPropagation(); dayFullPop.style.display="none"; dayPop.style.display="none";});
+  dhBot.addEventListener("click",function(e){e.stopPropagation(); var d=dateFromEvt(e); if(!d||d>td){dayFullPop.style.display="none";dayPop.style.display="none";return;} showDaySummaryPop(d,e.clientX,e.clientY,true);});
   innerBot.appendChild(dhBot);
 
   // Today button — FABと同じ下揃え、左側にフロート固定
