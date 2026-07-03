@@ -3040,6 +3040,10 @@ function renderWeight(){
     if(!dayFullPop.contains(e.target))dayFullPop.style.display="none";
     if(!dayPop.contains(e.target))dayPop.style.display="none";
   });
+  document.addEventListener("touchstart",function(e){
+    if(dayFullPop.style.display!=="none"&&!dayFullPop.contains(e.target))dayFullPop.style.display="none";
+    if(dayPop.style.display!=="none"&&!dayPop.contains(e.target))dayPop.style.display="none";
+  },{passive:true});
 
   function showDaySummaryPop(date,ex,ey,forceAbove){
     dayPop.style.display="none"; // 通常ポップと相互排他
