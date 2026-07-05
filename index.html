@@ -1849,7 +1849,7 @@ $("sheetFab").onclick=function(){ saveDaySheet(); };
 
 /* ===== day sheet ===== */
 var daySheet={p:null,date:null,local:null};
-function snapLocal(L){ return JSON.stringify({egg:L.egg||0,estrus:!!L.estrus,weight:L.weight,food:L.food,health:L.health,combDetail:L.combDetail||"",voiceDetail:L.voiceDetail||"",eggDetail:L.eggDetail||[],appetite:L.appetite||"",poopC:L.poopC||"",poopF:L.poopF||"",behavior:L.behavior||"",memo:(L.memo||"").trim(),clinic:L.clinic}); }
+function snapLocal(L){ return JSON.stringify({egg:L.egg||0,estrus:!!L.estrus,weight:L.weight,food:L.food,health:L.health,combDetail:L.combDetail||"",voiceDetail:L.voiceDetail||"",eggDetail:L.eggDetail||[],appetite:L.appetite||"",poopC:L.poopC||"",poopF:L.poopF||"",behavior:L.behavior||"",customs:L.customs||{},memo:(L.memo||"").trim(),clinic:L.clinic}); }
 function commitDay(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local; if(!p||!L)return;
   var rec=ensureRec(p.id,date);
   rec.egg=L.egg||0; rec.estrus=L.estrus;
@@ -1879,6 +1879,7 @@ function openDaySheet(date,keepTab){ var p=activePet(); if(!p){toast("先にに�
     combDetail:r.combDetail||"",
     voiceDetail:r.voiceDetail||"",
     eggDetail:r.eggDetail?r.eggDetail.split(",").filter(Boolean):[],
+    customs:r.customs?JSON.parse(JSON.stringify(r.customs)):{},
     appetite:r.appetite||"",poopC:r.poopC||"",poopF:r.poopF||"",behavior:r.behavior||"",
     memo:r.memo||"",
     allMemo:(S.records['_all|'+date]||{}).memo||"",
