@@ -1,6 +1,6 @@
 // niwaLog. Service Worker [dev]
 // dev環境: install時に即skipWaiting → confirmなしで自動更新される
-const CACHE_VERSION = 'niwalog-dev-v11';
+const CACHE_VERSION = 'niwalog-dev-v12';
 const CACHE_NAME = CACHE_VERSION;
 
 const URLS = [
