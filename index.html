@@ -905,7 +905,7 @@
       </div>
 
     </div>
-    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.3.35</p>
+    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.3.36</p>
   </section>
 
   <button class="fab-multi" id="fabMulti"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 1px;"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="ft">まとめて</span></button>
@@ -1310,6 +1310,7 @@ function recPhotoKey(p,d){return "rec|"+p+"|"+d;}
 function CAMERA_ICON_SVG(size){ size=size||20; return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="'+size+'" height="'+size+'" fill="currentColor" style="display:block;flex-shrink:0;"><g> <path d="M256,233.109c-28.5,0-51.594,23.297-51.594,52.047c0,28.766,23.094,52.047,51.594,52.047 s51.594-23.281,51.594-52.047C307.594,256.406,284.5,233.109,256,233.109z"></path> <path d="M497.375,140.297c-8.984-9.094-21.641-14.813-35.453-14.813h-54.203c-4.359,0.016-8.438-2.594-10.313-6.813 l-16.234-36.344c-8.031-18.016-25.891-29.734-45.703-29.734H176.531c-19.813,0-37.672,11.719-45.719,29.719v0.016l-16.219,36.344 c-1.875,4.219-5.953,6.828-10.313,6.813H50.078c-13.813,0-26.484,5.719-35.484,14.813C5.594,149.359,0,162.031,0,175.828v233.25 c0,13.797,5.594,26.469,14.594,35.531c9,9.094,21.672,14.813,35.484,14.797h225.781h186.063 c13.813,0.016,26.469-5.703,35.453-14.797c9.031-9.063,14.625-21.734,14.625-35.531v-233.25 C512,162.031,506.406,149.344,497.375,140.297z M473.281,409.078c0,3.313-1.281,6.125-3.375,8.281 c-2.156,2.109-4.844,3.328-7.984,3.344H275.859H50.078c-3.156-0.016-5.859-1.234-7.984-3.344c-2.094-2.156-3.375-4.969-3.375-8.281 v-233.25c0-3.313,1.281-6.125,3.375-8.281c2.125-2.125,4.828-3.328,7.984-3.344h54.203c19.781,0,37.656-11.734,45.688-29.766 l16.188-36.328c1.906-4.203,5.969-6.813,10.375-6.813h158.938c4.406,0,8.469,2.609,10.359,6.797l16.219,36.359 c8.016,18.016,25.891,29.75,45.672,29.75h54.203c3.141,0.016,5.828,1.219,7.984,3.344c2.094,2.156,3.375,4.984,3.375,8.281V409.078 z"></path> <path d="M256,170.938c-31.313-0.016-59.75,12.844-80.203,33.5c-20.484,20.656-33.172,49.266-33.156,80.719 c-0.016,31.453,12.672,60.094,33.156,80.719c20.453,20.672,48.891,33.516,80.203,33.516c31.297,0,59.75-12.844,80.203-33.516 c20.484-20.625,33.172-49.266,33.156-80.719c0.016-31.453-12.672-60.063-33.156-80.719C315.75,183.781,287.297,170.922,256,170.938 z M315.031,344.891c-15.172,15.297-35.953,24.688-59.031,24.688c-23.094,0-43.859-9.391-59.047-24.688 c-15.141-15.297-24.5-36.328-24.516-59.734c0.016-23.391,9.375-44.422,24.516-59.734c15.188-15.297,35.953-24.672,59.047-24.688 c23.078,0.016,43.859,9.391,59.031,24.688c15.156,15.313,24.516,36.344,24.531,59.734 C339.547,308.563,330.188,329.594,315.031,344.891z"></path> <rect x="392.188" y="197.656" width="34.406" height="34.406"></rect> </g></svg>'; }
 function getRec(p,d){return S.records[recKey(p,d)]||null;}
 function ensureRec(p,d){var k=recKey(p,d); if(!S.records[k])S.records[k]={}; return S.records[k];}
+function hasRecordsAfter(petId,date){ return Object.keys(S.records).some(function(k){ return k.indexOf(petId+'|')===0&&k.split('|')[1]>date; }); }
 function anyHealth(r){ if(!r||!r.health)return false; for(var i=0;i<HEALTH.length;i++) if(r.health[HEALTH[i].k])return true; return false; }
 function foodTotal(r){ if(!r||!r.food)return 0; var f=r.food; var s=(+f.m||0)+(+f.n||0)+(+f.e2||0); if(s>0)return s; return +f.t||0; }
 function snackG(r){ return (r&&r.food&&+r.food.s)||0; }
@@ -1970,7 +1971,7 @@ function buildDaySheet(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local;
     function doStartNew(){
       var rec={id:uid(),petId:p.id,start:date,end:null}; var _ci=null; if(opts.arrName==="broods"){_ci=clutchInfo(p); rec.eggCount=0;}
       arr.push(rec); opts.cleanup(); persist(); buildDaySheet(); renderCalendar(); renderStateCard(); showUndo(fmtMd(date)+"から"+opts.word+"をはじめました");
-      if(date===todayStr()&&opts.arrName==="broods"&&_ci&&_ci.count>0) showPhasePop("今回の産卵は合計 "+_ci.count+"個でした！");
+      if(!hasRecordsAfter(p.id,date)&&opts.arrName==="broods"&&_ci&&_ci.count>0) showPhasePop("今回の産卵は合計 "+_ci.count+"個でした！");
     }
     startBtn.onclick=function(){
       if(startedToday){
@@ -2001,7 +2002,7 @@ function buildDaySheet(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local;
       if(endedToday){ cover.end=null; opts.cleanup(); persist(); buildDaySheet(); renderCalendar(); renderStateCard(); return; }
       if(!canEnd){ toast("この日は"+opts.word+"していません"); return; }
       var _cs=cover.start; cover.end=date; if(cover.end<cover.start)cover.end=cover.start; opts.cleanup(); persist(); buildDaySheet(); renderCalendar(); renderStateCard();
-      if(date===todayStr()){ var _d=diffDays(_cs,cover.end)+1; showPhasePop(opts.isBrood?"今回の抱卵は "+_d+"日間でした！":"今回の換羽は "+_d+"日間でした！"); } };
+      if(!hasRecordsAfter(p.id,date)){ var _d=diffDays(_cs,cover.end)+1; showPhasePop(opts.isBrood?"今回の抱卵は "+_d+"日間でした！":"今回の換羽は "+_d+"日間でした！"); } };
     brow.appendChild(startBtn); brow.appendChild(endBtn);
     fhd.appendChild(lbl); bf.appendChild(fhd); bf.appendChild(statusEl); bf.appendChild(brow);
     var manage=el("button","brood-adjust",opts.word+'の記録を管理 <span class="chev-r"></span>'); manage.onclick=function(){ commitDay(); opts.openList(p, true); }; bf.appendChild(manage);

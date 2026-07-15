@@ -1,5 +1,5 @@
 // niwaLog. Service Worker
-const CACHE_VERSION = 'niwalog-v4.3.35';
+const CACHE_VERSION = 'niwalog-v4.3.36';
 const CACHE_NAME = CACHE_VERSION;
 
 const URLS = [
