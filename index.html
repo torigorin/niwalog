@@ -905,7 +905,7 @@
       </div>
 
     </div>
-    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.3.32</p>
+    <p class="faint" style="font-size:11px; text-align:center; margin-top:18px;">niwaLog. v4.3.33</p>
   </section>
 
   <button class="fab-multi" id="fabMulti"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 1px;"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="ft">まとめて</span></button>
@@ -1477,7 +1477,7 @@ function startBroodToday(p){ // 今日から抱卵開始（入れ子防止）
   cleanupBroods(); persist(); renderAll(); showUndo("抱卵をはじめました"); }
 function endBroodToday(p){ var b=activeBrood(p.id); if(!b){ toast("抱卵中ではありません"); return; }
   confirmAsk("抱卵を「今日で」おわりにしますか？\n（日付はカードの「日付を調整」で直せます）",function(){
-    b.end=todayStr(); if(b.end<b.start)b.end=b.start; cleanupBroods(); persist(); renderAll(); showUndo("抱卵をおわりにしました"); },{yes:"おわる",safe:true}); }
+    var _bs=b.start; b.end=todayStr(); if(b.end<b.start)b.end=b.start; cleanupBroods(); persist(); renderAll(); showUndo("抱卵をおわりにしました"); showPhasePop("今回の抱卵は "+(diffDays(_bs,b.end)+1)+"日間でした！"); },{yes:"おわる",safe:true}); }
 function quickToggleToday(p,key){ var rec=ensureRec(p.id,todayStr());
   if(key==="egg"){ rec.egg=rec.egg>0?0:1; toast(rec.egg?"産卵を記録しました":"産卵を取り消しました"); }
   else { rec[key]=!rec[key]; toast(rec[key]?"記録しました":"取り消しました"); }
@@ -1508,7 +1508,7 @@ function svgIcon(type){
   return s; }
 function svgBtnContent(type,label){ var wrap=document.createElement("span"); wrap.style.cssText="display:inline-flex;align-items:center;gap:6px;vertical-align:middle;"; var ic=svgIcon(type); wrap.appendChild(ic); var t=document.createElement("span"); t.textContent=label; wrap.appendChild(t); return wrap; }
 function eggBtnHtml(label){ return '<span class="scap-egg"></span><span>'+label+'</span>'; }
-function startBroodTodayCard(p){ if(activeBrood(p.id)){toast("すでに抱卵中です");return;} S.broods.push({id:uid(),petId:p.id,start:todayStr(),end:null,eggCount:0}); cleanupBroods(); persist(); renderAll(); showUndo("抱卵をはじめました"); }
+function startBroodTodayCard(p){ if(activeBrood(p.id)){toast("すでに抱卵中です");return;} var _ci=clutchInfo(p); S.broods.push({id:uid(),petId:p.id,start:todayStr(),end:null,eggCount:0}); cleanupBroods(); persist(); renderAll(); showUndo("抱卵をはじめました"); if(_ci&&_ci.count>0) showPhasePop("今回の産卵は合計 "+_ci.count+"個でした！"); }
 function cardHeader(p,phase){ // 共通ヘッダー: バッジ上・名前・体重
   var a=ageText(p)||""; var w=avgWeight(p.id,30); var si=sexIcon(p);
   return '<div class="ch-top">'+
@@ -1612,7 +1612,7 @@ function renderMoltCard(host,p,molt){
   bandM.appendChild(mkCellM("換羽開始日",fmtMd(molt.start),'〜 継続中'));
   card.appendChild(bandM);
   var arow=el("div","state-actions");
-  var endb=el("button","scap"); endb.appendChild(svgBtnContent("feather","換羽が終わった")); endb.onclick=function(){ molt.end=todayStr(); if(molt.end<molt.start)molt.end=molt.start; cleanupMolts(); persist(); renderAll(); showUndo("換羽をおわりにしました"); };
+  var endb=el("button","scap"); endb.appendChild(svgBtnContent("feather","換羽が終わった")); endb.onclick=function(){ var _ms=molt.start; molt.end=todayStr(); if(molt.end<molt.start)molt.end=molt.start; cleanupMolts(); persist(); renderAll(); showUndo("換羽をおわりにしました"); showPhasePop("今回の換羽は "+(diffDays(_ms,molt.end)+1)+"日間でした！"); };
   var editb=el("button","scap ghost"); editb.appendChild(svgBtnContent("calendar","換羽日を調整")); editb.onclick=function(){ openMoltEditSheet(molt.id); };
   arow.appendChild(endb); arow.appendChild(editb); card.appendChild(arow);
   attachPetPhoto(p,card); host.appendChild(card);
@@ -1968,8 +1968,9 @@ function buildDaySheet(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local;
       if(!canEnd) endBtn.classList.add("disabled"); else endBtn.classList.add("active");
     }
     function doStartNew(){
-      var rec={id:uid(),petId:p.id,start:date,end:null}; if(opts.arrName==="broods"){var c=clutchInfo(p); rec.eggCount=0;}
+      var rec={id:uid(),petId:p.id,start:date,end:null}; var _ci=null; if(opts.arrName==="broods"){_ci=clutchInfo(p); rec.eggCount=0;}
       arr.push(rec); opts.cleanup(); persist(); buildDaySheet(); renderCalendar(); renderStateCard(); showUndo(fmtMd(date)+"から"+opts.word+"をはじめました");
+      if(date===todayStr()&&opts.arrName==="broods"&&_ci&&_ci.count>0) showPhasePop("今回の産卵は合計 "+_ci.count+"個でした！");
     }
     startBtn.onclick=function(){
       if(startedToday){
@@ -1999,7 +2000,8 @@ function buildDaySheet(){ var p=daySheet.p,date=daySheet.date,L=daySheet.local;
     endBtn.onclick=function(){
       if(endedToday){ cover.end=null; opts.cleanup(); persist(); buildDaySheet(); renderCalendar(); renderStateCard(); return; }
       if(!canEnd){ toast("この日は"+opts.word+"していません"); return; }
-      cover.end=date; if(cover.end<cover.start)cover.end=cover.start; opts.cleanup(); persist(); buildDaySheet(); renderCalendar(); renderStateCard(); };
+      var _cs=cover.start; cover.end=date; if(cover.end<cover.start)cover.end=cover.start; opts.cleanup(); persist(); buildDaySheet(); renderCalendar(); renderStateCard();
+      if(date===todayStr()){ var _d=diffDays(_cs,cover.end)+1; showPhasePop(opts.isBrood?"今回の抱卵は "+_d+"日間でした！":"今回の換羽は "+_d+"日間でした！"); } };
     brow.appendChild(startBtn); brow.appendChild(endBtn);
     fhd.appendChild(lbl); bf.appendChild(fhd); bf.appendChild(statusEl); bf.appendChild(brow);
     var manage=el("button","brood-adjust",opts.word+'の記録を管理 <span class="chev-r"></span>'); manage.onclick=function(){ commitDay(); opts.openList(p, true); }; bf.appendChild(manage);
@@ -4832,6 +4834,13 @@ if(navigator.storage && navigator.storage.persist){
 var _undoSnap=null, _undoTimer=null;
 var _lastSaved=JSON.parse(JSON.stringify(S));
 function showUndo(msg){ var f=$("undoFab"); if(!f)return; var m=f.querySelector(".undo-msg"); if(m)m.textContent=msg||"保存しました"; f.classList.add("show"); clearTimeout(_undoTimer); _undoTimer=setTimeout(function(){f.classList.remove("show");},3500); }
+function showPhasePop(msg){
+  var ov=document.createElement("div");
+  ov.style.cssText="position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;pointer-events:none;";
+  ov.innerHTML='<div style="background:var(--bg);border-radius:20px;padding:24px 28px;box-shadow:0 8px 40px rgba(77,67,32,.25);text-align:center;font-size:16px;font-weight:800;color:var(--ink);max-width:280px;line-height:1.6;border:1.5px solid var(--line-soft);">'+escapeHtml(msg)+'</div>';
+  document.body.appendChild(ov);
+  setTimeout(function(){ ov.style.transition="opacity .4s"; ov.style.opacity="0"; setTimeout(function(){ ov.remove(); },400); },2500);
+}
 (function(){ var _op=persist; persist=function(){ _undoSnap=_lastSaved; _op(); _lastSaved=JSON.parse(JSON.stringify(S)); }; })();
 $("undoBtn").onclick=function(){ if(!_undoSnap)return; S=JSON.parse(JSON.stringify(_undoSnap)); _undoSnap=null; clearTimeout(_undoTimer); try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){} _lastSaved=JSON.parse(JSON.stringify(S)); var f=$("undoFab"); if(f)f.classList.remove("show"); renderAll(); toast("元に戻しました"); };
 
