@@ -4825,6 +4825,12 @@ window.addEventListener("resize",function(){ if(!$("view-weight").hidden)renderW
   var _swReady=false; setTimeout(function(){_swReady=true;},3000);
   navigator.serviceWorker.addEventListener('controllerchange',function(){
     if(!_swReady) return;
+    if($("sheet").classList.contains("show")){
+      // 記録シート（まとめて記入など）が開いている間は自動リロードで入力中データを失わせない。
+      // 閉じてから手動で更新できるよう、バナーだけ出す。
+      $("bannerUpdate").style.display="block";
+      return;
+    }
     window.location.reload();
   });
   $("bannerUpdateReload").onclick=function(){ window.location.reload(); };
