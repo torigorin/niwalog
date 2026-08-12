@@ -3560,15 +3560,18 @@ function paceLastYear(petId){ // 直近365日の産卵日数。ただし初産�
   var days=0,laid=0; Object.keys(S.records).forEach(function(k){ if(k.indexOf(petId+"|")!==0)return; var date=k.split("|")[1]; if(date<startRef)return; if(S.records[k].egg)laid++; });
   var span=diffDays(startRef,todayStr())+1; if(span<1)span=1;
   return Math.round(laid/span*365); }
-function prevClutchResult(p){ // 直近で「終了した」産卵期（クラッチ）の結果。現在進行中の手前のもの
+function prevClutchResult(p){ // 直近で「終了した」産卵期（クラッチ）の結果。今も産卵中ならその前の完了済みクラッチ。
   var days=eggDays(p.id); if(days.length<1)return null; var gap=p.clutchGap||3;
   // クラッチに分割
   var clutches=[]; var cur=[days[0]];
   for(var i=1;i<days.length;i++){ var br=false; S.broods.forEach(function(b){if(b.petId===p.id&&b.end&&b.end>=days[i-1].d&&b.end<days[i].d)br=true;});
     if(!br && diffDays(days[i-1].d,days[i].d)<=gap){ cur.push(days[i]); } else { clutches.push(cur); cur=[days[i]]; } }
   clutches.push(cur);
-  if(clutches.length<2)return null; // 前回がない
-  var prev=clutches[clutches.length-2];
+  var last=clutches[clutches.length-1];
+  // 最後のクラッチが「まだ産卵中（進行中）」なら除外し、その一つ前を前回とする。既に終わっていれば最後のクラッチ自体が前回。
+  var ongoing=!activeBrood(p.id) && diffDays(last[last.length-1].d,todayStr())<=gap;
+  var prev=ongoing?clutches[clutches.length-2]:last;
+  if(!prev)return null; // 前回がない
   var cnt=prev.reduce(function(a,b){return a+b.n;},0);
   var dur=diffDays(prev[0].d,prev[prev.length-1].d)+1;
   return {count:cnt,days:dur,start:prev[0].d,end:prev[prev.length-1].d}; }
@@ -3590,7 +3593,10 @@ function eggCycleHistory(p){ // 産卵期の周期履歴（クラッチ単位）
   for(var i=1;i<days.length;i++){ var br=false; S.broods.forEach(function(b){if(b.petId===p.id&&b.end&&b.end>=days[i-1].d&&b.end<days[i].d)br=true;});
     if(!br&&diffDays(days[i-1].d,days[i].d)<=gap){cur.push(days[i]);}else{clutches.push(cur);cur=[days[i]];} }
   clutches.push(cur);
-  var finished=clutches.slice(0,-1); // 最後は進行中の可能性があるので除外
+  var last=clutches[clutches.length-1];
+  // 最後のクラッチがまだ産卵中（進行中）の場合だけ除外。既に終わっていれば履歴に含める。
+  var ongoing=!activeBrood(p.id) && diffDays(last[last.length-1].d,todayStr())<=gap;
+  var finished=ongoing?clutches.slice(0,-1):clutches;
   if(!finished.length)return {avg:null,avgDays:null,items:[]};
   var avgDays=Math.round(finished.reduce(function(s,c){return s+(diffDays(c[0].d,c[c.length-1].d)+1);},0)/finished.length);
   var intervals=[]; for(var i=1;i<finished.length;i++)intervals.push(diffDays(finished[i-1][0].d,finished[i][0].d));
