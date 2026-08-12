@@ -1833,7 +1833,13 @@ function openBackupExplainSheet(onProceed){
   laterBtn.onclick=closeSheet;
   act.appendChild(okBtn); act.appendChild(laterBtn); body.appendChild(act); openSheet();
 }
+// バックグラウンド遷移（画面ロック・カメラ起動・アプリ切替等）でOSにページを破棄され、
+// まとめて記入中の未保存入力が消えるのを防ぐための保険。ページが隠れた瞬間に暫定保存する。
+var _multiSilentSave=null;
+document.addEventListener("visibilitychange",function(){ if(document.hidden&&_multiSilentSave)_multiSilentSave(); });
+window.addEventListener("pagehide",function(){ if(_multiSilentSave)_multiSilentSave(); });
 function closeSheet(){
+  _multiSilentSave=null;
   if(daySheet&&daySheet._tab)daySheet._lastTab=daySheet._tab;
   var _unsaved=$("sheet").classList.contains("diary-sheet")&&daySheet.local&&daySheet._snap!==undefined&&snapLocal(daySheet.local)!==daySheet._snap;
   if(_unsaved)commitDay();
@@ -4386,6 +4392,7 @@ function openMultiSheet(date){
     persist();
   }
   function navTo(newDate){ silentSave(); openMultiSheet(newDate); }
+  _multiSilentSave=silentSave;
 
   // date nav (same style as day sheet)
   var nav=el("div","daynav"); nav.dataset.multinav="1";
