@@ -3553,13 +3553,6 @@ function drawChartMulti(svg,series,cutoff,range,forceW){ svg.innerHTML=""; var W
 /* ===== summary ===== */
 function periodDaysInRange(arr,petId,cutoff){ var n=0; arr.forEach(function(b){ if(b.petId!==petId)return; var s=b.start, e=b.end?b.end:todayStr();
   if(e<cutoff)return; var from=s<cutoff?cutoff:s; n+=diffDays(from,e)+1; }); return n; }
-function firstEggDate(petId){ var days=eggDays(petId); return days.length?days[0].d:null; }
-function paceLastYear(petId){ // 直近365日の産卵日数。ただし初産が1年以内ならその日から日数を数える
-  var c=ymd(new Date(Date.now()-365*86400000)); var fe=firstEggDate(petId);
-  var startRef = (fe && fe>c) ? fe : c;
-  var days=0,laid=0; Object.keys(S.records).forEach(function(k){ if(k.indexOf(petId+"|")!==0)return; var date=k.split("|")[1]; if(date<startRef)return; if(S.records[k].egg)laid++; });
-  var span=diffDays(startRef,todayStr())+1; if(span<1)span=1;
-  return Math.round(laid/span*365); }
 function prevClutchResult(p){ // 直近で「終了した」産卵期（クラッチ）の結果。今も産卵中ならその前の完了済みクラッチ。
   var days=eggDays(p.id); if(days.length<1)return null; var gap=p.clutchGap||3;
   // クラッチに分割
@@ -3621,7 +3614,7 @@ function collectSummary(p,cutoff){ var eggs=0,estrus=0,ws=[],memos=[],latestW=nu
   memos.sort(function(a,b){return a.date>b.date?-1:1;});
   var spanDays=diffDays(cutoff,todayStr())+1; var eggDayCount=Object.keys(days).length;
   var molt=periodDaysInRange(S.molts,p.id,cutoff);
-  var pace=paceLastYear(p.id); var rate=spanDays>0?Math.round(eggDayCount/spanDays*100):0;
+  var pace=spanDays>0?Math.round(eggDayCount/spanDays*365):0; var rate=spanDays>0?Math.round(eggDayCount/spanDays*100):0;
   var broodText=""; var bs=S.broods.filter(function(b){return b.petId===p.id && (b.end?b.end:todayStr())>=cutoff;});
   if(bs.length)broodText=bs.map(function(b){var days2=(b.end?diffDays(b.start,b.end):diffDays(b.start,todayStr()))+1; return fmtMd(b.start)+(b.end?"〜"+fmtMd(b.end):"〜（継続中）")+" "+days2+"日";}).join(" / ");
   return {eggs:eggs,estrus:estrus,molt:molt,minW:ws.length?Math.min.apply(null,ws):null,maxW:ws.length?Math.max.apply(null,ws):null,latestW:latestW,memos:memos,health:health,pace:pace,rate:rate,broodText:broodText,appLow:appLow,poopAbn:poopAbn,behWeak:behWeak,prevClutch:prevClutchResult(p)}; }
