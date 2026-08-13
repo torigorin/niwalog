@@ -3571,14 +3571,17 @@ function prevClutchResult(p){ // 直近で「終了した」産卵期（クラ�
 function moltCycleHistory(petId){ // 換羽の周期履歴
   var done=S.molts.filter(function(m){return m.petId===petId&&m.end;}).slice().sort(function(a,b){return a.start<b.start?-1:1;});
   if(!done.length)return {avg:null,avgDays:null,items:[]};
-  var avgDays=Math.round(done.reduce(function(s,m){return s+diffDays(m.start,m.end)+1;},0)/done.length);
-  var intervals=[]; for(var i=1;i<done.length;i++)intervals.push(diffDays(done[i-1].start,done[i].start));
+  // 期間を指定している場合はその期間内だけ、指定していなければ直近5回分だけを平均の対象にする
+  var basis=sumCustomStart?done.filter(function(m){return m.start<=(sumCustomEnd||todayStr())&&m.end>=sumCustomStart;}):done.slice(-5);
+  if(!basis.length)return {avg:null,avgDays:null,items:[]};
+  var avgDays=Math.round(basis.reduce(function(s,m){return s+diffDays(m.start,m.end)+1;},0)/basis.length);
+  var intervals=[]; for(var i=1;i<basis.length;i++)intervals.push(diffDays(basis[i-1].start,basis[i].start));
   var avg=intervals.length?Math.round(intervals.reduce(function(a,b){return a+b;},0)/intervals.length):null;
-  var items=done.slice().reverse().map(function(m,i){
+  var items=basis.slice().reverse().map(function(m,i){
     var days=diffDays(m.start,m.end)+1;
     var nextInterval=i<intervals.length?intervals[intervals.length-1-i]:null;
     return {start:m.start,end:m.end,days:days,interval:nextInterval}; });
-  var nextStart=done.length>0&&avg?addDays(done[done.length-1].start,avg):null;
+  var nextStart=(!sumCustomStart&&basis.length>0&&avg)?addDays(basis[basis.length-1].start,avg):null;
   return {avg:avg,avgDays:avgDays,items:items,nextStart:nextStart,daysUntil:nextStart?diffDays(todayStr(),nextStart):null}; }
 function eggCycleHistory(p){ // 産卵期の周期履歴（クラッチ単位）
   var days=eggDays(p.id); if(!days.length)return {avg:null,avgDays:null,items:[]};
@@ -3591,15 +3594,18 @@ function eggCycleHistory(p){ // 産卵期の周期履歴（クラッチ単位）
   var ongoing=!activeBrood(p.id) && diffDays(last[last.length-1].d,todayStr())<=gap;
   var finished=ongoing?clutches.slice(0,-1):clutches;
   if(!finished.length)return {avg:null,avgDays:null,items:[]};
-  var avgDays=Math.round(finished.reduce(function(s,c){return s+(diffDays(c[0].d,c[c.length-1].d)+1);},0)/finished.length);
-  var intervals=[]; for(var i=1;i<finished.length;i++)intervals.push(diffDays(finished[i-1][0].d,finished[i][0].d));
+  // 期間を指定している場合はその期間内だけ、指定していなければ直近5回分だけを平均の対象にする
+  var basis=sumCustomStart?finished.filter(function(c){return c[0].d<=(sumCustomEnd||todayStr())&&c[c.length-1].d>=sumCustomStart;}):finished.slice(-5);
+  if(!basis.length)return {avg:null,avgDays:null,items:[]};
+  var avgDays=Math.round(basis.reduce(function(s,c){return s+(diffDays(c[0].d,c[c.length-1].d)+1);},0)/basis.length);
+  var intervals=[]; for(var i=1;i<basis.length;i++)intervals.push(diffDays(basis[i-1][0].d,basis[i][0].d));
   var avg=intervals.length?Math.round(intervals.reduce(function(a,b){return a+b;},0)/intervals.length):null;
-  var items=finished.slice().reverse().map(function(c,i){
+  var items=basis.slice().reverse().map(function(c,i){
     var cnt=c.reduce(function(s,d){return s+d.n;},0);
     var dur=diffDays(c[0].d,c[c.length-1].d)+1;
     var interval=i<intervals.length?intervals[intervals.length-1-i]:null;
     return {start:c[0].d,end:c[c.length-1].d,count:cnt,days:dur,interval:interval}; });
-  var nextStart=finished.length>0&&avg?addDays(finished[finished.length-1][0].d,avg):null;
+  var nextStart=(!sumCustomStart&&basis.length>0&&avg)?addDays(basis[basis.length-1][0].d,avg):null;
   return {avg:avg,avgDays:avgDays,items:items,nextStart:nextStart,daysUntil:nextStart?diffDays(todayStr(),nextStart):null}; }
 function collectSummary(p,cutoff){ var eggs=0,estrus=0,ws=[],memos=[],latestW=null,latestDate="",health={},days={};
   var appLow=0,poopAbn=0,behWeak=0;
@@ -3691,8 +3697,11 @@ function renderSummary(){ buildSumPetSeg(); var host=$("sumBody"); host.innerHTM
         var bDaysArr=bs2.filter(function(b){return b.end;}).map(function(b){return diffDays(b.start,b.end)+1;});
         if(bDaysArr.length){var bAvg=Math.round(bDaysArr.reduce(function(a,v){return a+v;},0)/bDaysArr.length); bsum.innerHTML+='<span class="cy-chip">平均 '+bAvg+'日間</span>';}
         if(bsum.innerHTML)bcard.appendChild(bsum);
+        var _bIdx=0;
         bs2.forEach(function(b){ var days=(b.end?diffDays(b.start,b.end):diffDays(b.start,todayStr()))+1;
-          var row=el("div","bh-row"); row.innerHTML='<span class="bh-range">'+fmtMd(b.start)+'〜'+(b.end?fmtMd(b.end):'継続中')+'</span><span class="bh-days">'+days+'日間</span>';
+          var idxLabel=b.end?(_bIdx===0?"前回":_bIdx+"回前"):"今回";
+          if(b.end)_bIdx++;
+          var row=el("div","bh-row"); row.innerHTML='<span class="cy-idx">'+idxLabel+'</span><span class="bh-range">'+fmtMd(b.start)+'〜'+(b.end?fmtMd(b.end):'継続中')+'</span><span class="bh-days">'+days+'日間</span>';
           bcard.appendChild(row); });
         host.appendChild(bcard); } }
     // 換羽期の記録
