@@ -3688,7 +3688,7 @@ function renderSummary(){ buildSumPetSeg(); var host=$("sumBody"); host.innerHTM
         if(ec.avg)esum.innerHTML+='<span class="cy-chip">周期 約'+ec.avg+'日</span>';
         if(ec.nextStart&&ec.daysUntil!==null)esum.innerHTML+='<span class="cy-chip cy-next">次の目安 '+fmtMd(ec.nextStart)+(ec.daysUntil>0?' (あと'+ec.daysUntil+'日)':'ごろ')+'</span>';
         eh.appendChild(esum);
-        ec.items.slice(0,5).forEach(function(m,i){ var row=el("div","cy-row"); row.innerHTML='<span class="cy-idx">'+(i===0?"前回":i+"回前")+'</span><span class="cy-range">'+fmtMd(m.start)+'〜'+fmtMd(m.end)+'</span><span class="cy-count">'+m.count+'個</span><span class="cy-days">'+m.days+'日</span>'+(m.interval?'<span class="cy-iv">周期'+m.interval+'日</span>':''); eh.appendChild(row); });
+        ec.items.slice(0,5).forEach(function(m,i){ var row=el("div","cy-row"); row.innerHTML='<span class="cy-idx">'+(i===0?"前回":(i+1)+"回前")+'</span><span class="cy-range">'+fmtMd(m.start)+'〜'+fmtMd(m.end)+'</span><span class="cy-count">'+m.count+'個</span><span class="cy-days">'+m.days+'日</span>'+(m.interval?'<span class="cy-iv">周期'+m.interval+'日</span>':''); eh.appendChild(row); });
         host.appendChild(eh); } }
     // 抱卵期の記録（メスのみ）
     if(female){ var bs2=S.broods.filter(function(b){return b.petId===p.id && (b.end?b.end:todayStr())>=cutoff;}).slice().sort(function(a,b2){return a.start>b2.start?-1:1;});
@@ -3699,7 +3699,7 @@ function renderSummary(){ buildSumPetSeg(); var host=$("sumBody"); host.innerHTM
         if(bsum.innerHTML)bcard.appendChild(bsum);
         var _bIdx=0;
         bs2.forEach(function(b){ var days=(b.end?diffDays(b.start,b.end):diffDays(b.start,todayStr()))+1;
-          var idxLabel=b.end?(_bIdx===0?"前回":_bIdx+"回前"):"今回";
+          var idxLabel=b.end?(_bIdx===0?"前回":(_bIdx+1)+"回前"):"今回";
           if(b.end)_bIdx++;
           var row=el("div","bh-row"); row.innerHTML='<span class="cy-idx">'+idxLabel+'</span><span class="bh-range">'+fmtMd(b.start)+'〜'+(b.end?fmtMd(b.end):'継続中')+'</span><span class="bh-days">'+days+'日間</span>';
           bcard.appendChild(row); });
@@ -3712,7 +3712,7 @@ function renderSummary(){ buildSumPetSeg(); var host=$("sumBody"); host.innerHTM
       if(mc.avg)msum.innerHTML+='<span class="cy-chip">周期 約'+mc.avg+'日</span>';
       if(mc.nextStart&&mc.daysUntil!==null)msum.innerHTML+='<span class="cy-chip cy-next">次の目安 '+fmtMd(mc.nextStart)+(mc.daysUntil>0?' (あと'+mc.daysUntil+'日)':'ごろ')+'</span>';
       mh.appendChild(msum);
-      mc.items.slice(0,5).forEach(function(m,i){ var row=el("div","cy-row"); row.innerHTML='<span class="cy-idx">'+(i===0?"前回":i+"回前")+'</span><span class="cy-range">'+fmtMd(m.start)+'〜'+fmtMd(m.end)+'</span><span class="cy-days">'+m.days+'日</span>'+(m.interval?'<span class="cy-iv">周期'+m.interval+'日</span>':''); mh.appendChild(row); });
+      mc.items.slice(0,5).forEach(function(m,i){ var row=el("div","cy-row"); row.innerHTML='<span class="cy-idx">'+(i===0?"前回":(i+1)+"回前")+'</span><span class="cy-range">'+fmtMd(m.start)+'〜'+fmtMd(m.end)+'</span><span class="cy-days">'+m.days+'日</span>'+(m.interval?'<span class="cy-iv">周期'+m.interval+'日</span>':''); mh.appendChild(row); });
       host.appendChild(mh); }
     // 写真・日記統合タイムライン（メモ + 写真）
     (function(){
