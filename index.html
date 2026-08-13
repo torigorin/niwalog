@@ -677,7 +677,7 @@
   </section>
 
   <section class="view" id="view-summary" hidden>
-    <div class="seg" id="sumSeg"><button data-range="30" class="on">30日</button><button data-range="90">90日</button><button data-range="180">半年</button><button data-range="365">1年</button></div>
+    <div class="seg" id="sumSeg"><button data-range="30">30日</button><button data-range="90">90日</button><button data-range="180">半年</button><button data-range="365" class="on">1年</button></div>
     <button id="sumDateRangeBtn" class="sum-date-range-btn"><span id="sumDateRangeLabel"></span><span class="chev-d" style="margin-left:4px;margin-top:-1px;"></span></button>
     <div id="sumBody"></div>
     <p class="faint" style="font-size:11px; text-align:center; margin-top:10px; line-height:1.6;">
@@ -1298,7 +1298,7 @@ function sortPets(){ S.pets.sort(function(a,b){return (a.order||0)-(b.order||0);
 sortPets();
 
 var calY,calM; (function(){var t=new Date(); calY=t.getFullYear(); calM=t.getMonth();})();
-var wRange=30, mRange=30, sumRange=30, wMode="single", sumFilterPet="active", wZoom=1.0;
+var wRange=30, mRange=30, sumRange=365, wMode="single", sumFilterPet="active", wZoom=1.0;
 var wRowPanelOpen=false;
 var sumCustomStart=null, sumCustomEnd=null;
 var vetGlobalCustomStart=null, vetGlobalCustomEnd=null, vetGlobalSelDays=7;
