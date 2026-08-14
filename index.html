@@ -3690,8 +3690,9 @@ function renderSummary(){ buildSumPetSeg(); var host=$("sumBody"); host.innerHTM
         eh.appendChild(esum);
         ec.items.slice(0,5).forEach(function(m,i){ var row=el("div","cy-row"); row.innerHTML='<span class="cy-idx">'+(i===0?"前回":(i+1)+"回前")+'</span><span class="cy-range">'+fmtMd(m.start)+'〜'+fmtMd(m.end)+'</span><span class="cy-count">'+m.count+'個</span><span class="cy-days">'+m.days+'日</span>'+(m.interval?'<span class="cy-iv">周期'+m.interval+'日</span>':''); eh.appendChild(row); });
         host.appendChild(eh); } }
-    // 抱卵期の記録（メスのみ）
-    if(female){ var bs2=S.broods.filter(function(b){return b.petId===p.id && (b.end?b.end:todayStr())>=cutoff;}).slice().sort(function(a,b2){return a.start>b2.start?-1:1;});
+    // 抱卵期の記録（メスのみ）：期間指定なしは直近5回分、指定していればその期間内だけを対象にする
+    if(female){ var _broodsAll=S.broods.filter(function(b){return b.petId===p.id;}).slice().sort(function(a,b2){return a.start>b2.start?-1:1;});
+      var bs2=sumCustomStart?_broodsAll.filter(function(b){return b.start<=(sumCustomEnd||todayStr())&&(b.end?b.end:todayStr())>=sumCustomStart;}):_broodsAll.slice(0,5);
       if(bs2.length){ var bcard=el("div","card"); bcard.style.cssText="margin-top:8px;"; bcard.innerHTML='<div class="cy-title" style="border-left:none;padding-left:0;color:var(--phase-brood);"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--phase-brood);margin-right:6px;vertical-align:middle;"></span>抱卵期の記録</div>';
         var bsum=el("div","cy-summary");
         var bDaysArr=bs2.filter(function(b){return b.end;}).map(function(b){return diffDays(b.start,b.end)+1;});
