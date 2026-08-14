@@ -3715,6 +3715,32 @@ function renderSummary(){ buildSumPetSeg(); var host=$("sumBody"); host.innerHTM
       mh.appendChild(msum);
       mc.items.slice(0,5).forEach(function(m,i){ var row=el("div","cy-row"); row.innerHTML='<span class="cy-idx">'+(i===0?"前回":(i+1)+"回前")+'</span><span class="cy-range">'+fmtMd(m.start)+'〜'+fmtMd(m.end)+'</span><span class="cy-days">'+m.days+'日</span>'+(m.interval?'<span class="cy-iv">周期'+m.interval+'日</span>':''); mh.appendChild(row); });
       host.appendChild(mh); }
+    // 体調サインの記録（食欲低下・うんち異常・元気なし・その他の健康メモ。選択した期間内で何日に何があったか）
+    (function(){
+      var signDays=[];
+      Object.keys(S.records).forEach(function(k){
+        if(k.indexOf(p.id+"|")!==0)return; var date=k.slice(p.id.length+1);
+        if(date<cutoff||date>rangeEnd)return;
+        var r=S.records[k]; var tags=[];
+        if(r.appetite==="low"||r.appetite==="none")tags.push("食欲低下");
+        if(r.poopC&&r.poopC!=="normal")tags.push("うんち異常（形）");
+        if(r.poopF&&r.poopF!=="normal")tags.push("うんち異常（色）");
+        if(r.behavior==="quiet"||r.behavior==="weak")tags.push("元気なし");
+        if(r.health)HEALTH.forEach(function(h){ if(r.health[h.k])tags.push((h.e?h.e+" ":"")+h.l); });
+        if(tags.length)signDays.push({date:date,tags:tags});
+      });
+      if(!signDays.length)return;
+      signDays.sort(function(a,b){return a.date<b.date?1:-1;});
+      var shcard=el("div","card"); shcard.style.cssText="margin-top:8px;";
+      shcard.innerHTML='<div class="cy-title" style="border-left:none;padding-left:0;color:var(--rose);"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--rose);margin-right:6px;vertical-align:middle;"></span>体調サインの記録</div>';
+      signDays.forEach(function(sd){
+        var row=el("div","dt-row");
+        var info=el("div","dt-info");
+        info.innerHTML='<span class="dt-date">'+fmtMd(sd.date)+'</span><span class="dt-memo">'+sd.tags.join('・')+'</span>';
+        row.appendChild(info); shcard.appendChild(row);
+      });
+      host.appendChild(shcard);
+    })();
     // 写真・日記統合タイムライン（メモ + 写真）
     (function(){
       var dItems=Object.keys(S.records).filter(function(k){
