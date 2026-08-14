@@ -4378,8 +4378,9 @@ function openMultiSheet(date){
   $("sheet").classList.add("diary-sheet");
   var body=$("sheetBody"); body.innerHTML="";
 
-  // silentSave: persist current data without closing (for navigation)
-  function silentSave(){
+  // silentSave: persist current data without closing (for navigation・誤って閉じたときの保険)
+  function silentSave(showToast){
+    var saved=0;
     var snackG=snkGInp?parseFloat(snkGInp.value):NaN;
     var snackSm=multiSnkChips?multiSnkChips.join("・"):"";
     var memoVal=(memoInp&&memoInp.value?memoInp.value:"").trim();
@@ -4396,12 +4397,13 @@ function openMultiSheet(date){
       if(hasSnack){if(!nr.food)nr.food={}; if(!isNaN(snackG))nr.food.s=snackG; if(snackSm)nr.food.sm=snackSm;}
       if(memoVal){nr.memo=nr.memo?(nr.memo+"\n"+memoVal):memoVal;}
       if(multiPhotoBlob){ nr.photo=true; idbPut(recPhotoKey(rd.p.id,date),multiPhotoBlob); }
-      cleanRec(rd.p.id,date);
+      cleanRec(rd.p.id,date); saved++;
     });
     persist();
+    if(showToast&&saved)showUndo(saved+"羽分を保存しました");
   }
   function navTo(newDate){ silentSave(); openMultiSheet(newDate); }
-  _multiSilentSave=silentSave;
+  _multiSilentSave=function(){ silentSave(true); };
 
   // date nav (same style as day sheet)
   var nav=el("div","daynav"); nav.dataset.multinav="1";
